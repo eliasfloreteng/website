@@ -1,0 +1,189 @@
+[
+  {
+    "title": "Antagningsstatistik för högskolor",
+    "description": "En enkel hemsida som visar detaljerade vyer av antagningsstatistik från olika högskolor i Sverige med grafer och tabeller",
+    "date": "2020-07-11T00:00:00",
+    "image": "https://i.imgur.com/2F97E36.png",
+    "buttons": { "Se hemsidan": "https://app.floreteng.se/statistik" }
+  },
+  {
+    "title": "Körkortstider",
+    "description": "En webapp som hittar de senaste tiderna för förarprov med uppdaterad information från trafikverket",
+    "date": "2020-06-23T00:00:00",
+    "image": "https://i.imgur.com/tdDTRT4.png",
+    "buttons": {
+      "Se hemsidan": "https://app.floreteng.se/körkort",
+      "Se källkoden": "https://drive.google.com/file/d/1-BXA0QFaCFklwQVNDnDQq7uYAzabqxmV"
+    }
+  },
+  {
+    "title": "Search Lyrics",
+    "description": "Ett python skript som letar efter låttexter från flera olika sidor samtidigt",
+    "date": "2020-05-15T00:00:00",
+    "image": "https://i.imgur.com/OqW0oYh.png",
+    "buttons": {
+      "Se källkoden": "https://drive.google.com/file/d/1y3mDJhNqTqGl6RcahFrhGVbZ4M_CNg-E"
+    }
+  },
+  {
+    "title": "Clean Temp Directory",
+    "description": "Ett python skript som ränsar gamla filer i Temp mappen i Windows",
+    "date": "2020-05-07T00:00:00",
+    "image": "https://i.imgur.com/KgHXOJU.png",
+    "buttons": {
+      "Se källkoden": "https://drive.google.com/file/d/1uFgok3I3y7JnmvU1A5OuEuXTza7cLMmQ"
+    }
+  },
+  {
+    "title": "Adobe Downloader",
+    "description": "En hemsida som laddar ner de senaste Adobe programmen från m0nkrus",
+    "date": "2020-05-01T00:00:00",
+    "image": "https://i.imgur.com/QeZ6Hqi.png",
+    "buttons": {
+      "Se hemsidan": "https://app.floreteng.se/adobe",
+      "Se källkoden": "https://glitch.com/~adobe-download"
+    }
+  },
+  {
+    "title": "Instagram Downloader",
+    "description": "En hemsida som kan ladda ner instagram inlägg, även privata",
+    "date": "2020-05-01T00:00:00",
+    "image": "https://i.imgur.com/qVy6zkN.png",
+    "buttons": {
+      "Se hemsidan": "https://app.floreteng.se/instagram",
+      "Se källkoden": "https://glitch.com/~instagram-downloader"
+    }
+  },
+  {
+    "title": "Java Kalkylator",
+    "description": "En kalkulator som evaluerar ett mattematiskt uttryck i textform",
+    "date": "2020-04-23T00:00:00",
+    "image": "https://i.imgur.com/3Rivdc4.png",
+    "buttons": {
+      "Ladda ner": "https://drive.google.com/uc?export=download&id=1OeoP3MK75tyQO5XCX51gT2tcqihXB0TS",
+      "Se källkoden": "https://drive.google.com/file/d/1SWLHrefAbUATgTO7lrfneO8snk2YcC03"
+    }
+  },
+  {
+    "title": "Always Bemanning",
+    "description": "En hemsida för bemanningsföretaget Always Bemanning AB",
+    "date": "2020-04-22T00:00:00",
+    "image": "https://i.imgur.com/nJvK6Lj.png",
+    "buttons": { "Se hemsidan": "https://alwaysbemanning.se" }
+  },
+  {
+    "title": "Gravity Simulation",
+    "description": "En p5.js sketch som simulerar gravitation till ett statiskt objekt",
+    "date": "2020-03-31T00:00:00",
+    "image": "https://i.imgur.com/1lMNfrS.png",
+    "buttons": {
+      "Se hemsidan": "https://0csl4.csb.app/",
+      "Se källkoden": "https://codesandbox.io/s/gravity-simulator-0csl4"
+    }
+  },
+  {
+    "title": "Räkna vokaler",
+    "description": "Ett python skript som räknar antal vokaler per rad",
+    "date": "2020-02-14T00:00:00",
+    "image": "https://i.imgur.com/wPoAlA4.png",
+    "buttons": { "Se projektet": "https://repl.it/@elias1233/Count-Syllables" }
+  },
+  {
+    "title": "Pythagoreisk trippel",
+    "description": "Ett python skript som räknar ut <a href='https://sv.wikipedia.org/wiki/Pythagoreisk_trippel' target='_blank'>pythagoreiska tripplar </a>",
+    "date": "2020-02-13T00:00:00",
+    "image": "https://i.imgur.com/iLjEOdV.png",
+    "buttons": { "Se projektet": "https://repl.it/@elias1233/Euler-Problem-9-Pythagorian-triplet" }
+  },
+  {
+    "title": "Monty Hall",
+    "description": "Simulering samt spelande av <a href='https://sv.wikipedia.org/wiki/Monty_Hall-problemet' target='_blank'>Monty Hall-problemet</a> kodat i Java",
+    "date": "2020-01-30T00:00:00",
+    "image": "https://i.imgur.com/jZXu4Cf.png?1",
+    "buttons": {
+      "Ladda ner": "https://drive.google.com/uc?export=download&id=1kDtaU9DQX1u1PUbGS0vCvWj0NrO-Z4BO",
+      "Se källkoden": "https://drive.google.com/drive/folders/14CellvsMRBM_Qi9F_SvnVZpgoiyFSZJC"
+    }
+  },
+  {
+    "title": "C++ Lifx Timer (Alpha-version)",
+    "description": "En server som kontrollerar en lifx lampa med en rörelsesensor kodad i C++",
+    "date": "2019-12-26T00:00:00",
+    "image": "https://i.imgur.com/w6ok3a5.png",
+    "buttons": { "Se källkoden": "https://pastebin.com/raw/BPB5Bv9V" }
+  },
+  {
+    "title": "ProductOfFirstNPrimes",
+    "description": "Ger produkten av de N första primtalen",
+    "date": "2019-12-14T00:00:00",
+    "image": "https://i.imgur.com/2co6nnL.png",
+    "buttons": { "Se projektet": "https://repl.it/@elias1233/ProductOfFirstNPrimes" }
+  },
+  {
+    "title": "YouTube Downloader",
+    "description": "Ett C++ program som enkelt kan ladda ner YouTube videor och sätter rätt metadata",
+    "date": "2019-11-15T00:00:00",
+    "image": "https://i.imgur.com/OJcrsMZ.png",
+    "buttons": {
+      "Ladda ner": "https://drive.google.com/uc?export=download&id=15UTn5H8ESYh8-Qn8SUq1x9fUBI4FcJBB",
+      "Se källkoden": "https://drive.google.com/drive/folders/1pEo6bT_ZekyOoVeV2JFcdZiGcp0hQ-UT"
+    }
+  },
+  {
+    "title": "VoxelBase",
+    "description": "En hemsida för det påhittade företaget VoxelBase",
+    "date": "2019-11-13T00:00:00",
+    "image": "https://i.imgur.com/QtseZby.png",
+    "buttons": { "Se hemsidan": "https://web.floreteng.se" }
+  },
+  {
+    "title": "Node.js Lifx Timer",
+    "description": "En server som kontrollerar en lifx lampa med en rörelsesensor kodad i Node.js",
+    "date": "2019-08-22T00:00:00",
+    "image": "https://i.imgur.com/Zr7NWsF.png",
+    "buttons": {
+      "Se källkoden": "https://gist.github.com/elias123tre/940b0a441293c11052a8e8149da8c16d"
+    }
+  },
+  {
+    "title": "Color Guess",
+    "description": "Ett spel där du gissar färgen som visas",
+    "date": "2019-07-17T00:00:00",
+    "image": "https://i.imgur.com/fjCkglv.png",
+    "buttons": {
+      "Spela spelet": "https://app.floreteng.se/colorguess",
+      "Se källkoden": "https://glitch.com/~color-guess"
+    }
+  },
+  {
+    "title": "Breakout",
+    "description": "Det klassiska arkadspelet kodat i p5.js. (Ej fungerande)",
+    "date": "2019-06-19T00:00:00",
+    "image": "https://i.imgur.com/HU1lvO0.png",
+    "buttons": { "Se spelet": "https://editor.p5js.org/elias1233official/sketches/a53Pw-Dg3" }
+  },
+  {
+    "title": "Dinosaur Game",
+    "description": "Google Chromes dinosauriespel kodat i p5.js",
+    "date": "2019-06-19T00:00:00",
+    "image": "https://tipsmake.com/data/thumbs/hack-the-dinosaur-game-of-google-chrome-to-make-your-trex-immortal-and-max-speed-thumb-4QovjTqzM.jpg",
+    "buttons": { "Se spelet": "https://editor.p5js.org/elias1233official/sketches/ZYE6yuzxK" }
+  },
+  {
+    "title": "YouTube trend finder",
+    "description": "En hemsida som hittar de mest visade videorna från en specifik YouTube kanal",
+    "date": "2019-05-29T00:00:00",
+    "image": "https://i.imgur.com/6yNTJ4a.png",
+    "buttons": {
+      "Se hemsidan": "https://app.floreteng.se/youtube",
+      "Se källkoden": "https://glitch.com/~youtube-latest"
+    }
+  },
+  {
+    "title": "Digitalt Skapande",
+    "description": "En hemsida som gjordes som del av kursen Digitalt Skapande 1",
+    "date": "2019-01-22T00:00:00",
+    "image": "https://i.imgur.com/LTb9I4k.png",
+    "buttons": { "Se hemsidan": "https://dig.floreteng.se" }
+  }
+]
