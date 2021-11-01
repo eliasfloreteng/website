@@ -8,7 +8,9 @@ export default function Navbar() {
     <Link href={href}>
       <a
         className={`${
-          router.asPath.startsWith(href) ? "text-gray-800 font-bold" : "text-gray-600"
+          router.asPath.startsWith(href)
+            ? "text-gray-800 font-bold"
+            : "text-gray-600"
         }`}
       >
         {children}
@@ -30,7 +32,9 @@ export default function Navbar() {
               </h1>
               <p className="text-gray-500">
                 Software developer styding at{" "}
-                <abbr title="Royal Institute of Technology in Stockholm">KTH</abbr>
+                <abbr title="Royal Institute of Technology in Stockholm">
+                  KTH
+                </abbr>
               </p>
             </a>
           </Link>
@@ -44,7 +48,10 @@ export default function Navbar() {
         </div>
 
         <div className="space-x-4 flex flex-row items-center">
-          <a href="https://github.com/elias123tre" className="text-gray-600 dark:text-gray-300">
+          <a
+            href="https://github.com/elias123tre"
+            className="text-gray-600 dark:text-gray-300"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="2 2 20 20"

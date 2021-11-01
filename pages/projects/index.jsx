@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import fs from "fs"
 import Layout from "@/components/Layout"
 import Link from "next/link"
 
@@ -10,7 +9,10 @@ export default function Projects({ projects }) {
         <div className="max-w-6xl mx-auto h-48">
           <h1 className="text-5xl lg:text-9xl font-bold py-20 text-center md:text-left">
             Projects
-            <span className="text-2xl md:text-4xl lg:text-6xl text-gray-300"> – a subset</span>
+            <span className="text-2xl md:text-4xl lg:text-6xl text-gray-300">
+              {" "}
+              – a subset
+            </span>
           </h1>
         </div>
         {/* Grid starts here */}
@@ -47,21 +49,16 @@ const ProjectCard = ({ pagename, title, image, number }) => (
   </Link>
 )
 
-export async function getStaticProps() {
-  const projectfiles = fs.readdirSync("./pages/projects")
-  const projectnames = projectfiles
-    .filter((e) => !e.startsWith("index") && (e.endsWith("jsx") || e.endsWith("js")))
-    .map((e) => e.replace(/\..+$/, ""))
+export const getStaticProps = async () => {
+  try {
+    // const props = await resolveNotionPage(domain)
 
-  let pages = []
-  projectnames.map(async (project) => {
-    let proj = await import(`./${project}`)
-    pages.push({ pagename: project, ...proj.meta })
-  })
+    return { props: { projects: [] }, revalidate: 10 }
+  } catch (err) {
+    console.error("page error", domain, err)
 
-  return {
-    props: {
-      projects: pages,
-    },
+    // we don't want to publish the error version of this page, so
+    // let next.js know explicitly that incremental SSG failed
+    throw err
   }
 }
