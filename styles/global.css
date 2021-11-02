@@ -1,0 +1,5 @@
+*,
+::before,
+::after {
+  scroll-behavior: smooth;
+}

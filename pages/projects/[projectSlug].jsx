@@ -1,82 +1,63 @@
-import Layout from "@/components/Layout"
-import { useRouter } from "next/router"
+import {
+  getPageTitle,
+  getPageProperty,
+  getBlockParentPage,
+  getCanonicalPageId,
+} from "notion-utils"
 import { NotionAPI } from "notion-client"
-import { getPageTitle, getAllPagesInSpace, getBlockTitle } from "notion-utils"
-import { ExtendedRecordMap } from "notion-types"
 import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
-import Head from "next/head"
+import Layout from "@/components/Layout"
+import ProjectPage from "@/components/ProjectPage"
+import { getAllPages } from "lib/notion"
+import { rootNotionPageId, homeId } from "config"
+
+const isDev = process.env.NODE_ENV === "development" || !process.env.NODE_ENV
 
 const notion = new NotionAPI()
 
-const getSlug = (id) => getPageInfo(id)?.title ?? "test"
-
-export default function Project({ recordMap }) {
-  const router = useRouter()
-  const { projectSlug } = router.query
-
-  if (!recordMap) {
-    return null
-  }
-
-  const pageInfo = getPageInfo(recordMap)
-  console.log(pageInfo)
-
-  return (
-    <>
-      <Head>
-        <title>{pageInfo.title}</title>
-      </Head>
-
-      <Layout>
-        <NotionRenderer
-          recordMap={recordMap}
-          fullPage={true}
-          darkMode={false}
-          mapPageUrl={(path) => "/projects/" + getSlug(path)}
-          components={{
-            collection: Collection,
-            collectionRow: CollectionRow,
-          }}
-        />
-      </Layout>
-    </>
-  )
-}
-
 export const getStaticProps = async (context) => {
-  const pageId = context.params.projectSlug
-  const recordMap = await notion.getPage("7030c8cf489d423693398ba0724ac02d")
+  try {
+    const pageId = context.params.projectSlug
+    const allPages = await getAllPages(notion)
+    console.log(allPages)
+    // const pageId = getCanonicalPageId(context.params.projectSlug, recordMap, {
+    //   uuid: false,
+    // })
+    const recordMap = await notion.getPage(pageId)
 
-  return {
-    props: {
-      recordMap,
-    },
-    revalidate: 10,
+    return {
+      props: {
+        recordMap,
+      },
+      revalidate: 10,
+    }
+  } catch (err) {
+    console.error("page error", err)
+    // we don't want to publish the error version of this page, so
+    // let next.js know explicitly that incremental SSG failed
+    throw err
   }
 }
 
-export const getStaticPaths = async () => {
-  if (process.env.NODE_ENV !== "production") {
+export async function getStaticPaths() {
+  if (isDev) {
     return {
       paths: [],
       fallback: true,
     }
   }
 
+  const recordMap = await notion.getPage(rootNotionPageId)
+
   // This crawls all public pages starting from the given root page in order
   // for next.js to pre-generate all pages via static site generation (SSG).
   // This is a useful optimization but not necessary; you could just as easily
   // set paths to an empty array to not pre-generate any pages at build time.
-  const pages = await getAllPagesInSpace(
-    "7030c8cf489d423693398ba0724ac02d", // rootNotionPageId
-    "7030c8cf489d423693398ba0724ac02d", // rootNotionSpaceId
-    notion.getPage.bind(notion),
-    {
-      traverseCollections: false,
-    }
+  const pages = await getAllPages(notion)
+
+  const paths = Object.keys(pages).map(
+    (pageId) => `/${getCanonicalPageId(pageId, recordMap, { uuid: false })}`
   )
-  const paths = Object.keys(pages).map((pageId) => `/projects/${pageId}`)
-  console.log(paths)
 
   return {
     paths,
@@ -84,43 +65,37 @@ export const getStaticPaths = async () => {
   }
 }
 
-/**
- * @param recordMap {ExtendedRecordMap}
- */
-function getPageInfo(recordMap) {
+export default function Project({ recordMap }) {
+  if (!recordMap) {
+    return null
+  }
+
   const title = getPageTitle(recordMap)
-  let description = ""
-  let pageIcon = ""
+  console.log("title:", title)
 
-  let isFirstPage = true
-  for (const k in recordMap.block) {
-    const v = recordMap.block[k]
-    const block = v.value
+  const keys = Object.keys(recordMap?.block || {})
+  const block = recordMap?.block?.[keys[0]]?.value
+  const description = getPageProperty("Description", block, recordMap)
+  console.log("description:", description)
 
-    if (block?.type === "page" && isFirstPage) {
-      isFirstPage = false
+  console.log(homeId)
 
-      // if (isEmoji(block?.format?.page_icon)) {
-      //   pageIcon = block?.format?.page_icon
-      // }
-    }
-
-    // if (isTextType(block)) {
-    //   const blockTitle = getBlockTitle(block, recordMap)
-    //   if (blockTitle) {
-    //     description += blockTitle
-    //     if (blockTitle[blockTitle.length - 1] !== ".") {
-    //       description += "."
-    //     }
-    //     description += " "
-    //   }
-    // }
-  }
-
-  return {
-    title,
-    description,
-    pageIcon,
-    titleWithIcon: pageIcon ? `${pageIcon} ${title}` : title,
-  }
+  return (
+    <>
+      <Layout title={title}>
+        <ProjectPage title={title} description={description}>
+          <NotionRenderer
+            recordMap={recordMap}
+            fullPage={true}
+            darkMode={false}
+            rootPageId={homeId}
+            components={{
+              collection: Collection,
+              collectionRow: CollectionRow,
+            }}
+          />
+        </ProjectPage>
+      </Layout>
+    </>
+  )
 }

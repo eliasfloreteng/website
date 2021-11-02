@@ -1,8 +1,37 @@
 /* eslint-disable @next/next/no-img-element */
 import Layout from "@/components/Layout"
+import { createMapPageUrl } from "lib/notion"
 import Link from "next/link"
+import { NotionAPI } from "notion-client"
+import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
+import { homeId } from "config"
 
-export default function Projects({ projects }) {
+const notion = new NotionAPI()
+
+export const getStaticProps = async (context) => {
+  try {
+    const recordMap = await notion.getPage(homeId)
+
+    return {
+      props: {
+        recordMap,
+      },
+      revalidate: 10,
+    }
+  } catch (err) {
+    console.error("page error", err)
+
+    // we don't want to publish the error version of this page, so
+    // let next.js know explicitly that incremental SSG failed
+    throw err
+  }
+}
+
+export default function Projects({ recordMap }) {
+  if (!recordMap) {
+    return null
+  }
+
   return (
     <Layout title="Projects" description="Projects made by Elias">
       <section className="w-full">
@@ -15,13 +44,18 @@ export default function Projects({ projects }) {
             </span>
           </h1>
         </div>
-        {/* Grid starts here */}
-        <div className="bg-[#F1F1F1] px-3 sm:px-8">
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 py-20 pb-40">
-            {projects.map((proj, idx) => (
-              <ProjectCard number={`${idx + 1}`} {...proj} key={idx} />
-            ))}
-          </div>
+
+        <div className="bg-white pt-8">
+          <NotionRenderer
+            recordMap={recordMap}
+            mapPageUrl={createMapPageUrl(recordMap)}
+            fullPage={false}
+            darkMode={false}
+            components={{
+              collection: Collection,
+              collectionRow: CollectionRow,
+            }}
+          />
         </div>
       </section>
     </Layout>
@@ -48,17 +82,3 @@ const ProjectCard = ({ pagename, title, image, number }) => (
     </a>
   </Link>
 )
-
-export const getStaticProps = async () => {
-  try {
-    // const props = await resolveNotionPage(domain)
-
-    return { props: { projects: [] }, revalidate: 10 }
-  } catch (err) {
-    console.error("page error", domain, err)
-
-    // we don't want to publish the error version of this page, so
-    // let next.js know explicitly that incremental SSG failed
-    throw err
-  }
-}

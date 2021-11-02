@@ -31,7 +31,10 @@ export default function Layout({ children, ...metaData }) {
         <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
         <meta content={fromJSX(meta.description)} name="description" />
-        <meta property="og:url" content={`https://elias1233.se${router.asPath}`} />
+        <meta
+          property="og:url"
+          content={`https://elias1233.se${router.asPath}`}
+        />
         <link rel="canonical" href={`https://elias1233.se${router.asPath}`} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Elias" />
@@ -42,13 +45,20 @@ export default function Layout({ children, ...metaData }) {
         <meta name="twitter:title" content={meta.title} />
         <meta name="twitter:description" content={fromJSX(meta.description)} />
         <meta name="twitter:image" content={meta.image} />
-        {meta.date && <meta property="article:published_time" content={meta.date} />}
+        {meta.date && (
+          <meta property="article:published_time" content={meta.date} />
+        )}
       </Head>
 
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Navbar />
 
-        <main className="flex flex-col items-center justify-center w-full flex-1">{children}</main>
+        <main
+          id="content"
+          className="flex flex-col items-center justify-center w-full flex-1"
+        >
+          {children}
+        </main>
 
         <Footer />
       </div>
