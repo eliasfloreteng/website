@@ -9,8 +9,8 @@ export default function Navbar() {
       <a
         className={`${
           router.asPath.startsWith(href)
-            ? "text-gray-800 font-bold"
-            : "text-gray-600"
+            ? "font-bold text-slate-800"
+            : "text-slate-600"
         }`}
       >
         {children}
@@ -19,18 +19,18 @@ export default function Navbar() {
   )
 
   return (
-    <nav className="max-w-6xl w-full mx-auto px-4 py-10 md:py-20">
-      <div className="flex flex-wrap justify-between items-center">
+    <nav className="mx-auto w-full max-w-6xl px-4 py-10 md:py-20">
+      <div className="flex flex-wrap items-center justify-between">
         <div className="flex flex-col">
           <Link href="/">
             <a className="group">
-              <h1 className="font-semibold text-xl">
+              <h1 className="text-xl font-semibold">
                 Elias
-                <span className="transition-opacity text-gray-200 opacity-0 group-hover:opacity-100">
+                <span className="text-slate-200 opacity-0 transition-opacity group-hover:opacity-100">
                   1233
                 </span>
               </h1>
-              <p className="text-gray-500">
+              <p className="text-slate-500">
                 Software developer styding at{" "}
                 <abbr title="Royal Institute of Technology in Stockholm">
                   KTH
@@ -40,30 +40,30 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="space-x-4 md:space-x-8 mt-4 md:mt-0 order-last md:order-none w-full md:w-auto text-center md:text-left">
+        <div className="order-last mt-4 w-full space-x-4 text-center md:order-none md:mt-0 md:w-auto md:space-x-8 md:text-left">
           <ActiveLink href="/about">About</ActiveLink>
           <ActiveLink href="/projects">Projects</ActiveLink>
           <ActiveLink href="/experience">Experience</ActiveLink>
           <ActiveLink href="/contact">Contact</ActiveLink>
         </div>
 
-        <div className="space-x-4 flex flex-row items-center">
+        <div className="flex flex-row items-center space-x-4">
           <a
             href="https://github.com/elias123tre"
-            className="text-gray-600 dark:text-gray-300"
+            className="text-slate-600 dark:text-slate-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="2 2 20 20"
               fill="currentColor"
-              className="w-5 h-5"
+              className="h-5 w-5"
             >
               <path d="M12 2C6.477 2 2 6.463 2 11.97c0 4.404 2.865 8.14 6.839 9.458.5.092.682-.216.682-.48 0-.236-.008-.864-.013-1.695-2.782.602-3.369-1.337-3.369-1.337-.454-1.151-1.11-1.458-1.11-1.458-.908-.618.069-.606.069-.606 1.003.07 1.531 1.027 1.531 1.027.892 1.524 2.341 1.084 2.91.828.092-.643.35-1.083.636-1.332-2.22-.251-4.555-1.107-4.555-4.927 0-1.088.39-1.979 1.029-2.675-.103-.252-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.606 9.606 0 0112 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.386.1 2.638.64.696 1.028 1.587 1.028 2.675 0 3.83-2.339 4.673-4.566 4.92.359.307.678.915.678 1.846 0 1.332-.012 2.407-.012 2.734 0 .267.18.577.688.48C19.137 20.107 22 16.373 22 11.969 22 6.463 17.522 2 12 2z"></path>
             </svg>
           </a>
           <a
             href="https://www.linkedin.com/in/eliasfloreteng/"
-            className="text-gray-600 dark:text-gray-300"
+            className="text-slate-600 dark:text-slate-300"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

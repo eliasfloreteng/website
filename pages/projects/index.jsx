@@ -35,10 +35,10 @@ export default function Projects({ recordMap }) {
   return (
     <Layout title="Projects" description="Projects made by Elias">
       <section className="w-full">
-        <div className="max-w-6xl mx-auto h-48">
-          <h1 className="text-5xl lg:text-9xl font-bold py-20 text-center md:text-left">
+        <div className="mx-auto h-48 max-w-6xl">
+          <h1 className="py-20 text-center text-5xl font-bold md:text-left lg:text-9xl">
             Projects
-            <span className="text-2xl md:text-4xl lg:text-6xl text-gray-300">
+            <span className="text-2xl text-slate-300 md:text-4xl lg:text-6xl">
               {" "}
               – a subset
             </span>
@@ -64,20 +64,20 @@ export default function Projects({ recordMap }) {
 
 const ProjectCard = ({ pagename, title, image, number }) => (
   <Link href={`/projects/${pagename}`}>
-    <a className="w-full grid shadow-2xl group overflow-hidden h-72">
-      <div className="bg-black bg-opacity-10 row-start-1 col-start-1 z-10"></div>
-      <div className="row-start-1 col-start-1 flex flex-col justify-between z-10">
-        <h1 className="text-gray-50 font-bold text-xl max-w-max bg-red-500 rounded-md m-10 py-1 px-2">
+    <a className="group grid h-72 w-full overflow-hidden shadow-2xl">
+      <div className="z-10 col-start-1 row-start-1 bg-black bg-opacity-10"></div>
+      <div className="z-10 col-start-1 row-start-1 flex flex-col justify-between">
+        <h1 className="m-10 max-w-max rounded-md bg-red-500 py-1 px-2 text-xl font-bold text-slate-50">
           {title}
         </h1>
-        <h1 className="text-gray-50 font-bold text-xl m-10">
+        <h1 className="m-10 text-xl font-bold text-slate-50">
           {number.length === 1 ? "0" + number : number}
         </h1>
       </div>
       <img
         src={image}
         alt="portfolio"
-        className="row-start-1 col-start-1 h-full w-full transform group-hover:scale-125 transition-transform duration-[2000ms] ease-out object-cover"
+        className="col-start-1 row-start-1 h-full w-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-125"
       />
     </a>
   </Link>

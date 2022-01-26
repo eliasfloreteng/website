@@ -50,12 +50,12 @@ export default function Layout({ children, ...metaData }) {
         )}
       </Head>
 
-      <div className="flex flex-col min-h-screen bg-gray-50">
+      <div className="flex min-h-screen flex-col bg-slate-50">
         <Navbar />
 
         <main
           id="content"
-          className="flex flex-col items-center justify-center w-full flex-1"
+          className="flex w-full flex-1 flex-col items-center justify-center"
         >
           {children}
         </main>
