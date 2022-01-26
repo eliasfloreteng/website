@@ -1,9 +1,4 @@
-import {
-  getPageTitle,
-  getPageProperty,
-  getBlockParentPage,
-  getCanonicalPageId,
-} from "notion-utils"
+import { getPageTitle, getPageProperty, getCanonicalPageId } from "notion-utils"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
 import Layout from "@/components/Layout"
@@ -17,12 +12,12 @@ const notion = new NotionAPI()
 
 export const getStaticProps = async (context) => {
   try {
-    const pageId = context.params.projectSlug
+    const projectSlug = context.params.projectSlug
     const allPages = await getAllPages(notion)
-    console.log(allPages)
-    // const pageId = getCanonicalPageId(context.params.projectSlug, recordMap, {
-    //   uuid: false,
-    // })
+    const pageId = allPages[projectSlug]
+    if (!pageId) {
+      return null
+    }
     const recordMap = await notion.getPage(pageId)
 
     return {
@@ -71,14 +66,10 @@ export default function Project({ recordMap }) {
   }
 
   const title = getPageTitle(recordMap)
-  console.log("title:", title)
 
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]]?.value
   const description = getPageProperty("Description", block, recordMap)
-  console.log("description:", description)
-
-  console.log(homeId)
 
   return (
     <>
