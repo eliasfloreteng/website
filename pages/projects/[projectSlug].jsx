@@ -48,7 +48,7 @@ export async function getStaticPaths() {
   // for next.js to pre-generate all pages via static site generation (SSG).
   // This is a useful optimization but not necessary; you could just as easily
   // set paths to an empty array to not pre-generate any pages at build time.
-  const pages = await getAllPages(notion)
+  const pages = await getAllPages(notion, { traverseCollections: true })
 
   const paths = Object.keys(pages).map(
     (pageId) => `/${getCanonicalPageId(pageId, recordMap, { uuid: false })}`
@@ -70,11 +70,12 @@ export default function Project({ recordMap }) {
   const keys = Object.keys(recordMap?.block || {})
   const block = recordMap?.block?.[keys[0]]?.value
   const description = getPageProperty("Description", block, recordMap)
+  const link = getPageProperty("Link", block, recordMap)
 
   return (
     <>
       <Layout title={title}>
-        <ProjectPage title={title} description={description}>
+        <ProjectPage title={title} description={description} link={link}>
           <NotionRenderer
             recordMap={recordMap}
             fullPage={true}
