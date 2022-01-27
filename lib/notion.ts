@@ -1,7 +1,14 @@
 import { uuidToId, getAllPagesInSpace, getCanonicalPageId } from "notion-utils"
 import { rootNotionPageId, rootNotionSpaceId } from "config"
+import { NotionAPI } from "notion-client"
 
-export const getAllPages = async (notion, options) => {
+export const getAllPages = async ({
+  notion,
+  options,
+}: {
+  notion: NotionAPI
+  options?: { traverseCollections?: boolean }
+}) => {
   const pageMap = await getAllPagesInSpace(
     rootNotionPageId,
     rootNotionSpaceId,

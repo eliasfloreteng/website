@@ -7,10 +7,19 @@ export default function ProjectPage({
   link,
   date,
   image,
-  children,
   className,
+  children,
   ...props
-}) {
+}: {
+  title: string,
+  description: string,
+  link: string,
+  date?: string,
+  image?: string,
+  className?: string,
+  children?: React.ReactNode,
+  props?: any[]
+}): JSX.Element {
   return (
     <div className="w-full">
       <div className="relative border-b-8 border-blue-600">
@@ -38,7 +47,6 @@ export default function ProjectPage({
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"
                     className="h-4"
-                    stroke={4}
                     strokeWidth={4}
                     viewBox="0 0 16 16"
                   >
