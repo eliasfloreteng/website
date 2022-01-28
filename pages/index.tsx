@@ -4,8 +4,11 @@ export default function Home() {
   return (
     <Layout title="Elias1233" description="Software developer studying at KTH">
       {/* link classes: text-blue-600 focus:underline hover:underline */}
-
       <h1 className="text-6xl font-bold">Hello and welcome!</h1>
+
+      <div className="prose">
+        <p className="lead">I make projects</p>
+      </div>
 
       <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
         <a
