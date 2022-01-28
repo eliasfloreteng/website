@@ -11,9 +11,8 @@ export default function Experience() {
         </div>
 
         <div className="bg-[#F1F1F1] px-3 sm:px-8">
-          <h2>My skills</h2>
-
-          <div className="prose">
+          <div className="prose mx-auto max-w-6xl">
+            <h2>My skills</h2>
             <h3>Programming languages</h3>
             <ul>
               <li>Python</li>

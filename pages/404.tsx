@@ -1,10 +1,14 @@
 import Layout from "@/components/Layout"
+import Image from "next/image"
+import notFoundImage from "../public/page_not_found.svg"
 
 export default function ErrorPage() {
   return (
     <Layout title="Page not found">
       <div className="flex flex-col items-center space-y-4">
-        <img src="/page_not_found.svg" alt="" className="max-w-xl" />
+        <div className="max-w-xl">
+          <Image src={notFoundImage} alt="404" />
+        </div>
 
         <div>
           The URL you have entered does not lead to a page. Sorry about that.
