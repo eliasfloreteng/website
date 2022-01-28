@@ -11,6 +11,17 @@ export default function Experience() {
         </div>
 
         <div className="bg-[#F1F1F1] px-3 sm:px-8">
+          <h2>My skills</h2>
+
+          <div className="prose">
+            <h3>Programming languages</h3>
+            <ul>
+              <li>Python</li>
+              <li>Rust</li>
+              <li>JavaScript</li>
+            </ul>
+          </div>
+
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 py-20 pb-40 md:grid-cols-2">
             <div>
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
