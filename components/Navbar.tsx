@@ -1,10 +1,17 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { ReactNode } from "react"
 
 export default function Navbar() {
   const router = useRouter()
 
-  const ActiveLink = ({ href, children }) => (
+  const ActiveLink = ({
+    href,
+    children,
+  }: {
+    href: string
+    children?: ReactNode
+  }) => (
     <Link href={href}>
       <a
         className={`${

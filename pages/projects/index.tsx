@@ -5,10 +5,12 @@ import Link from "next/link"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
 import { homeId } from "config"
+import { GetStaticProps } from "next"
+import { ExtendedRecordMap } from "notion-types"
 
 const notion = new NotionAPI()
 
-export const getStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   try {
     const recordMap = await notion.getPage(homeId)
 
@@ -27,7 +29,11 @@ export const getStaticProps = async (context) => {
   }
 }
 
-export default function Projects({ recordMap }) {
+export default function Projects({
+  recordMap,
+}: {
+  recordMap: ExtendedRecordMap
+}) {
   if (!recordMap) {
     return null
   }
@@ -62,7 +68,17 @@ export default function Projects({ recordMap }) {
   )
 }
 
-const ProjectCard = ({ pagename, title, image, number }) => (
+const ProjectCard = ({
+  pagename,
+  title,
+  image,
+  number,
+}: {
+  pagename: string
+  title: React.ReactNode
+  image: string
+  number: number
+}) => (
   <Link href={`/projects/${pagename}`}>
     <a className="group grid h-72 w-full overflow-hidden shadow-2xl">
       <div className="z-10 col-start-1 row-start-1 bg-black bg-opacity-10"></div>
@@ -71,7 +87,7 @@ const ProjectCard = ({ pagename, title, image, number }) => (
           {title}
         </h1>
         <h1 className="m-10 text-xl font-bold text-slate-50">
-          {number.length === 1 ? "0" + number : number}
+          {number.toString().padStart(2, "0")}
         </h1>
       </div>
       <img

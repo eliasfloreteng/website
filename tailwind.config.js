@@ -1,3 +1,4 @@
+// @ts-ignore
 const defaultTheme = require("tailwindcss/defaultTheme")
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
       },
     },
   },
+  // @ts-ignore
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
 }

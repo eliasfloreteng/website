@@ -12,7 +12,8 @@ import "katex/dist/katex.min.css"
 // custom global css
 import "styles/global.css"
 import "styles/notion.css"
+import { AppProps } from "next/app"
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return <Component {...pageProps} />
 }

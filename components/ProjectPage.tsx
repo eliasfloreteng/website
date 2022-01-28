@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link"
 
 export default function ProjectPage({
   title,
@@ -11,19 +10,19 @@ export default function ProjectPage({
   children,
   ...props
 }: {
-  title: string,
-  description: string,
-  link: string,
-  date?: string,
-  image?: string,
-  className?: string,
-  children?: React.ReactNode,
+  title: string
+  description?: string | null
+  link?: string | null
+  image?: string | null
+  date?: string | null
+  className?: string | null
+  children?: React.ReactNode
   props?: any[]
-}): JSX.Element {
+}) {
   return (
     <div className="w-full">
       <div className="relative border-b-8 border-blue-600">
-        <img className="h-96 w-full object-cover" src={image} alt="" />
+        <img className="h-96 w-full object-cover" src={image ?? ""} alt="" />
         <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40"></div>
       </div>
 
@@ -33,7 +32,9 @@ export default function ProjectPage({
             <h1 className="py-8 text-center text-3xl font-bold md:text-left md:text-7xl">
               {title}
             </h1>
-            <p className="mb-8 text-slate-700">{description}</p>
+            {description && (
+              <p className="mb-8 text-slate-700">{description}</p>
+            )}
             {link && (
               <div className="flex flex-wrap gap-y-4 gap-x-8">
                 <a

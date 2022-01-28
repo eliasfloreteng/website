@@ -80,6 +80,14 @@
 
 .notion-collection-card-cover img {
   border-radius: 16px;
+  text-align: center;
+  background: #f3f4f6;
+}
+
+.notion-collection-card-cover img::before {
+  display: inline-flex;
+  height: 100%;
+  align-items: center;
 }
 
 .notion-collection-card {

@@ -1,15 +1,15 @@
 import Layout from "@/components/Layout"
 
-export default function Expereince() {
+export default function Experience() {
   return (
-    <Layout title="Projects">
+    <Layout title="Experience" description="Software i work with">
       <section className="w-full">
         <div className="mx-auto h-48 max-w-6xl">
           <h1 className="py-20 text-center text-5xl font-bold md:text-left lg:text-9xl">
-            Projects
-            <span className="text-2xl text-slate-300 md:text-4xl lg:text-6xl">
+            Experience
+            <span className="text-2xl text-slate-300 md:text-4xl lg:text-5xl">
               {" "}
-              – a subset
+              – software i work with
             </span>
           </h1>
         </div>

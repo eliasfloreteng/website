@@ -2,15 +2,10 @@ import Layout from "@/components/Layout"
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout title="Elias1233" description="Software developer studying at KTH">
       {/* link classes: text-blue-600 focus:underline hover:underline */}
 
-      <h1 className="text-6xl font-bold">
-        Welcome to{" "}
-        <a className="text-blue-600" href="https://nextjs.org">
-          Next.js!
-        </a>
-      </h1>
+      <h1 className="text-6xl font-bold">Hello and welcome!</h1>
 
       <p className="mt-3 text-2xl">
         Get started by editing{" "}
