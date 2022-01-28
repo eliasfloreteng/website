@@ -1,11 +1,11 @@
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next"
-import { getPageTitle, getPageProperty, getCanonicalPageId } from "notion-utils"
+import { GetStaticProps, GetStaticPaths } from "next"
+import { getPageTitle, getPageProperty } from "notion-utils"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
 import Layout from "@/components/Layout"
 import ProjectPage from "@/components/ProjectPage"
 import { createMapPageUrl, getAllPages } from "lib/notion"
-import { rootNotionPageId, homeId } from "config"
+import { homeId } from "config"
 import { ExtendedRecordMap, PageBlock } from "notion-types"
 
 const isDev = process.env.NODE_ENV === "development" || !process.env.NODE_ENV
@@ -18,18 +18,21 @@ export const getStaticProps: GetStaticProps = async (context) => {
     if (projectSlug && !Array.isArray(projectSlug)) {
       const allPages = await getAllPages({ notion })
       const pageId = allPages[projectSlug]
+      if (!pageId) {
+        throw new Error(`Page id undefined for slug: ${projectSlug}`)
+      }
       const recordMap = await notion.getPage(pageId)
 
       return {
         props: {
           recordMap,
         },
-        revalidate: 10,
+        revalidate: isDev ? 10 : 300,
       }
     } else {
       return {
         props: {},
-        revalidate: 10,
+        revalidate: isDev ? 10 : 300,
       }
     }
   } catch (err) {
@@ -47,25 +50,22 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: true,
     }
   }
-
-  const recordMap = await notion.getPage(rootNotionPageId)
-
   // This crawls all public pages starting from the given root page in order
   // for next.js to pre-generate all pages via static site generation (SSG).
   // This is a useful optimization but not necessary; you could just as easily
   // set paths to an empty array to not pre-generate any pages at build time.
-  const pages = await getAllPages({
+  const allPages = await getAllPages({
     notion,
     options: { traverseCollections: true },
   })
 
-  const paths = Object.keys(pages).map(
-    (pageId) => `/${getCanonicalPageId(pageId, recordMap, { uuid: false })}`
-  )
+  const paths = Object.keys(allPages).map((projectSlug) => ({
+    params: { projectSlug },
+  }))
 
   return {
     paths,
-    fallback: true,
+    fallback: "blocking",
   }
 }
 
@@ -97,14 +97,14 @@ export default function Project({
         >
           <NotionRenderer
             recordMap={recordMap}
-            fullPage={true}
+            mapPageUrl={createMapPageUrl(recordMap)}
+            fullPage={false}
             darkMode={false}
             rootPageId={homeId}
             components={{
               collection: Collection,
               collectionRow: CollectionRow,
             }}
-            mapPageUrl={createMapPageUrl(recordMap)}
           />
         </ProjectPage>
       </Layout>

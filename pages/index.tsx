@@ -7,13 +7,6 @@ export default function Home() {
 
       <h1 className="text-6xl font-bold">Hello and welcome!</h1>
 
-      <p className="mt-3 text-2xl">
-        Get started by editing{" "}
-        <code className="rounded-md bg-slate-100 p-3 font-mono text-lg">
-          pages/index.js
-        </code>
-      </p>
-
       <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
         <a
           href="https://nextjs.org/docs"

@@ -7,23 +7,28 @@ export default function Navbar() {
 
   const ActiveLink = ({
     href,
+    exact,
     children,
   }: {
     href: string
+    exact?: boolean
     children?: ReactNode
-  }) => (
-    <Link href={href}>
-      <a
-        className={`${
-          router.asPath.startsWith(href)
-            ? "font-bold text-slate-800"
-            : "text-slate-600"
-        }`}
-      >
-        {children}
-      </a>
-    </Link>
-  )
+  }) => {
+    const isActive = exact
+      ? router.asPath == href
+      : router.asPath.startsWith(href)
+    return (
+      <Link href={href}>
+        <a
+          className={`${
+            isActive ? "font-bold text-slate-800" : "text-slate-600"
+          }`}
+        >
+          {children}
+        </a>
+      </Link>
+    )
+  }
 
   return (
     <nav className="mx-auto w-full max-w-6xl px-4 py-10 md:py-20">
@@ -48,10 +53,11 @@ export default function Navbar() {
         </div>
 
         <div className="order-last mt-4 w-full space-x-4 text-center md:order-none md:mt-0 md:w-auto md:space-x-8 md:text-left">
-          <ActiveLink href="/about">About</ActiveLink>
+          <ActiveLink href="/" exact>
+            Home
+          </ActiveLink>
           <ActiveLink href="/projects">Projects</ActiveLink>
           <ActiveLink href="/experience">Experience</ActiveLink>
-          <ActiveLink href="/contact">Contact</ActiveLink>
         </div>
 
         <div className="flex flex-row items-center space-x-4">

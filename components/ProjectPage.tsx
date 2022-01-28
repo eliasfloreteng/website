@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { useRouter } from "next/router"
 
 export default function ProjectPage({
   title,
@@ -19,6 +20,8 @@ export default function ProjectPage({
   children?: React.ReactNode
   props?: any[]
 }) {
+  const router = useRouter()
+
   return (
     <div className="w-full">
       <div className="relative border-b-8 border-blue-600">
@@ -27,7 +30,16 @@ export default function ProjectPage({
       </div>
 
       <div className="relative bottom-36 w-full px-4 sm:px-8 md:px-24 lg:w-auto">
-        <div className="relative mx-auto w-max rounded-lg bg-white shadow-md lg:max-w-6xl">
+        <div className="relative mx-auto max-w-max rounded-lg bg-white shadow-md lg:max-w-6xl">
+          <button
+            className="absolute left-0 right-0 m-4 rounded-xl px-6 py-3 text-center font-semibold ring-blue-400 hover:ring-2 focus:ring-2 md:left-auto"
+            onClick={() => {
+              router.back()
+            }}
+          >
+            &lt; Go back
+          </button>
+
           <div className="px-6 pb-8 pt-12 sm:px-12 md:pt-8">
             <h1 className="py-8 text-center text-3xl font-bold md:text-left md:text-7xl">
               {title}
@@ -43,7 +55,7 @@ export default function ProjectPage({
                   rel="noreferrer"
                   className="inline-flex flex-auto items-center justify-center space-x-2 rounded py-1 px-2 shadow hover:bg-slate-100 focus:bg-slate-100 sm:py-4 sm:px-6"
                 >
-                  <span>{link}</span>
+                  <span>{new URL(link).hostname}</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="currentColor"

@@ -3,7 +3,4 @@
         "node_modules": true,
         ".next": true,
     },
-    "files.watcherExclude": {
-        "jsconfig.json": true
-    }
 }

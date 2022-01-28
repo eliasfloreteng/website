@@ -34,10 +34,6 @@ export default function Projects({
 }: {
   recordMap: ExtendedRecordMap
 }) {
-  if (!recordMap) {
-    return null
-  }
-
   return (
     <Layout title="Projects" description="Projects made by Elias">
       <section className="w-full">
