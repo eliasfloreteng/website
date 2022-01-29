@@ -19,6 +19,23 @@ export default function Experience() {
               <li>Rust</li>
               <li>JavaScript</li>
             </ul>
+
+            <h3>Frameworks</h3>
+            <ul>
+              <li>Next.js</li>
+              <li>React</li>
+              <li>Vue</li>
+              <li>Flask</li>
+              <li>Express</li>
+              <li>jQuery</li>
+              <li>Vanilla JavaScript</li>
+            </ul>
+
+            <h3>Miscellaneous</h3>
+            <ul>
+              <li>Ubuntu, debian server programming</li>
+              <li>Custom IOT server for Raspberry Pi</li>
+            </ul>
           </div>
 
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 py-20 pb-40 md:grid-cols-2">

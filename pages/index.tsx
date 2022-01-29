@@ -9,7 +9,7 @@ export default function Home() {
 
       <div className="prose">
         <p className="lead">
-          I make projects. Mainly front-end web development, python scripts and
+          I make projects. Mainly full-stack web development, python scripts and
           IOT automation.
         </p>
       </div>
