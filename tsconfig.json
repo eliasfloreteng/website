@@ -7,6 +7,9 @@
     "paths": {
       "@/components/*": [
         "components/*"
+      ],
+      "@/public/*": [
+        "public/*"
       ]
     },
     "target": "es5",

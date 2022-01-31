@@ -18,6 +18,8 @@ export default function Experience() {
               <li>Python</li>
               <li>Rust</li>
               <li>JavaScript</li>
+              <li>TypeScript</li>
+              <li>PHP</li>
             </ul>
 
             <h3>Frameworks</h3>
