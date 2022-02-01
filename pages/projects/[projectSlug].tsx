@@ -35,11 +35,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
         revalidate: isDev ? 10 : 300,
       }
     }
-  } catch (err) {
-    console.error("page error", err)
-    // we don't want to publish the error version of this page, so
-    // let next.js know explicitly that incremental SSG failed
-    throw err
+  } catch (error) {
+    console.error("COULD NOT RENDER STATIC PAGE:", error)
+    return {
+      notFound: true,
+    }
   }
 }
 
