@@ -18,7 +18,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       props: {
         recordMap,
       },
-      revalidate: 10,
+      revalidate: 300,
     }
   } catch (err) {
     console.error("page error", err)

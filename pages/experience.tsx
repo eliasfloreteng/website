@@ -1,6 +1,26 @@
 import Layout from "@/components/Layout"
+import { GetStaticProps } from "next"
+import { NotionAPI } from "notion-client"
+import { ExtendedRecordMap } from "notion-types"
+import { NotionRenderer } from "react-notion-x"
 
-export default function Experience() {
+const notion = new NotionAPI()
+
+export const getStaticProps: GetStaticProps = async () => {
+  const recordMap = await notion.getPage("155db39d4a314bc6800d094e23fb535d")
+  return {
+    props: {
+      recordMap,
+    },
+    revalidate: 300,
+  }
+}
+
+export default function Experience({
+  recordMap,
+}: {
+  recordMap: ExtendedRecordMap
+}) {
   return (
     <Layout title="Experience" description="Software i know">
       <section className="w-full">
@@ -11,33 +31,8 @@ export default function Experience() {
         </div>
 
         <div className="bg-[#F1F1F1] px-3 sm:px-8">
-          <div className="prose mx-auto max-w-6xl">
-            <h2>My skills</h2>
-            <h3>Programming languages</h3>
-            <ul>
-              <li>Python</li>
-              <li>Rust</li>
-              <li>JavaScript</li>
-              <li>TypeScript</li>
-              <li>PHP</li>
-            </ul>
-
-            <h3>Frameworks</h3>
-            <ul>
-              <li>Next.js</li>
-              <li>React</li>
-              <li>Vue</li>
-              <li>Flask</li>
-              <li>Express</li>
-              <li>jQuery</li>
-              <li>Vanilla JavaScript</li>
-            </ul>
-
-            <h3>Miscellaneous</h3>
-            <ul>
-              <li>Ubuntu, debian server programming</li>
-              <li>Custom IOT server for Raspberry Pi</li>
-            </ul>
+          <div className="mx-auto max-w-6xl">
+            <NotionRenderer recordMap={recordMap}></NotionRenderer>
           </div>
 
           <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 py-20 pb-40 md:grid-cols-2">

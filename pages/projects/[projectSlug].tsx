@@ -27,16 +27,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
           recordMap,
         },
-        revalidate: isDev ? 10 : 300,
+        revalidate: 300,
       }
     } else {
       return {
         props: {},
-        revalidate: isDev ? 10 : 300,
+        revalidate: 300,
       }
     }
   } catch (error) {
-    console.error("COULD NOT RENDER STATIC PAGE:", error)
+    console.error("COULD NOT RENDER STATIC PAGE (try re-running build):", error)
     return {
       notFound: true,
     }
@@ -56,7 +56,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // set paths to an empty array to not pre-generate any pages at build time.
   const allPages = await getAllPages({
     notion,
-    options: { traverseCollections: true },
+    options: { traverseCollections: false }, // set to true to pre-generate all subpages
   })
 
   const paths = Object.keys(allPages).map((projectSlug) => ({
