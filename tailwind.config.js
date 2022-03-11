@@ -15,5 +15,12 @@ module.exports = {
     },
   },
   // @ts-ignore
-  plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
+  plugins: [
+    // @ts-ignore
+    require("@tailwindcss/typography"),
+    // @ts-ignore
+    require("@tailwindcss/forms")({
+      strategy: "class",
+    }),
+  ],
 }
