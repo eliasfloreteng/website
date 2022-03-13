@@ -1,4 +1,4 @@
-import useSWR, { Fetcher } from "swr"
+import useSWR from "swr"
 
 export function generateCalendarPath(user: number, icalendar: string) {
   return `social/user/${user}/icalendar/${icalendar}`
@@ -30,6 +30,7 @@ export function proxiedUrl(rawUrl: string) {
 }
 
 export interface Rule {
+  id: number
   title: string
   enabled: boolean
   type: "show" | "hide"
@@ -45,6 +46,7 @@ export interface Filter {
 
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
+export { fetcher }
 
 export function useCalendar(calendarUrl: string | null) {
   const cal = calendarUrl && parseCalendarPath(calendarUrl)

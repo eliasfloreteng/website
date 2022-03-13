@@ -65,7 +65,7 @@ export default function Ical() {
                   url && navigator.clipboard.writeText(url)
                 }}
               >
-                Copy calendar link
+                Copy Google calendar link
               </button>
             </p>
           )}
@@ -73,7 +73,7 @@ export default function Ical() {
 
         {kthUrl && (
           <section>
-            <h2 className="text-3xl font-semibold">Rules</h2>
+            <h2 className="mb-3 text-3xl font-semibold">Rules</h2>
             <RuleEditor kthUrl={kthUrl}></RuleEditor>
           </section>
         )}

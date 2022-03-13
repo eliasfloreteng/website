@@ -1,23 +1,5 @@
-import { useCalendar, Rule, Filter, proxiedUrl } from "lib/calendar"
-import produce from "immer"
+import { useCalendar, proxiedUrl, fetcher, Rule, Filter } from "lib/calendar"
 import SingleRule from "@/components/SingleRule"
-
-const RuleTag = (rule: Rule) => (
-  <div className="py-2">
-    <div className="flex items-baseline justify-between gap-2">
-      <div className="text-lg font-semibold">{rule.title}</div>
-      <div className="text-sm">{rule.enabled ? "enabled" : "disabled"}</div>
-    </div>
-    <div className="text-sm text-slate-600">Action:</div>
-    <div className="leading-none">${rule.type}</div>
-    {rule.filters.map((filter: Filter) => (
-      <div>
-        <div>{filter.property}</div>
-        <input type="text" value="{filter.regex}" />
-      </div>
-    ))}
-  </div>
-)
 
 export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
   const { rules, loading, error, mutate } = useCalendar(kthUrl)
@@ -28,43 +10,46 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
     return <div>Error!</div>
   }
 
-  async function updateRules(newRules: Rule[]) {
-    await mutate(newRules, false)
-    const proxy = kthUrl && proxiedUrl(kthUrl)
-    if (proxy) {
-      await fetch(`${proxy}/rules`, {
-        method: "POST",
-        body: JSON.stringify(newRules),
-      })
-      mutate()
-    }
-  }
-
   return (
     <div>
       <div className="flex flex-col gap-4">
         {!rules.length && <div>No rules configured</div>}
 
-        {rules.filter(Boolean).map((rule, idx) => (
+        {rules.map((rule) => (
           <SingleRule
             rule={rule}
-            key={idx + rule.title}
+            key={rule.id}
             updateRule={async (newRule) => {
-              const producer = produce((data) => {
-                if (newRule) {
-                  data[idx] = newRule
-                } else {
-                  delete data[idx]
-                }
-              })
-              mutate(producer, false)
+              const newRules: Rule[] = rules.map((e) =>
+                e.id == newRule.id ? newRule : e
+              )
+              await mutate(newRules, false)
               const proxy = kthUrl && proxiedUrl(kthUrl)
               if (proxy) {
-                await fetch(`${proxy}/rules`, {
-                  method: "POST",
-                  body: JSON.stringify(producer(rules)),
-                })
-                mutate()
+                mutate(
+                  fetcher(`${proxy}/rule`, {
+                    method: "PUT",
+                    body: JSON.stringify(newRule),
+                  })
+                )
+              }
+            }}
+            deleteRule={async () => {
+              await mutate(
+                rules
+                  .filter((e) => e.id != rule.id)
+                  // recalculate unique indexes (negative numbers)
+                  .map((e, idx) => ({ ...e, id: -idx - 1 })),
+                false
+              )
+              const proxy = kthUrl && proxiedUrl(kthUrl)
+              if (proxy) {
+                mutate(
+                  fetcher(`${proxy}/rule`, {
+                    method: "DELETE",
+                    body: JSON.stringify(rule),
+                  })
+                )
               }
             }}
           ></SingleRule>
@@ -73,17 +58,25 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
         <button
           className="flex items-center justify-center gap-2 rounded-lg bg-gray-100 py-2 px-4 shadow-lg"
           onClick={async () => {
-            const newRules: Rule[] = [
-              ...rules,
-              {
-                title: "Title",
-                enabled: true,
-                combine: "AND",
-                type: "hide",
-                filters: [],
-              },
-            ]
-            updateRules(newRules)
+            const newRule: Rule = {
+              id: rules.length,
+              title: "Title",
+              enabled: true,
+              combine: "AND",
+              type: "hide",
+              filters: [],
+            }
+            const newRules = [...rules, newRule]
+            await mutate(newRules, false)
+            const proxy = kthUrl && proxiedUrl(kthUrl)
+            if (proxy) {
+              mutate(
+                fetcher(`${proxy}/rule`, {
+                  method: "POST",
+                  body: JSON.stringify(newRule),
+                })
+              )
+            }
           }}
         >
           <svg

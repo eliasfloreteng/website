@@ -1,23 +1,26 @@
 import { Rule } from "lib/calendar"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import SingleFilter from "./SingleFilter"
 
 export default function SingleRule({
   rule,
   updateRule,
+  deleteRule,
 }: {
   rule: Rule
-  updateRule: (newRule: Rule | null) => void
+  updateRule: (newRule: Rule) => void
+  deleteRule: () => void
 }) {
   const [title, setTitle] = useState(rule.title)
 
   return (
     <div className="rounded-xl border border-slate-400 px-3 py-4">
-      <div className="flex justify-between gap-4">
+      <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">
         <input
           type="text"
-          className="w-fit truncate bg-transparent text-lg"
+          className="truncate bg-transparent text-lg"
           value={title}
-          onChange={async (e) => {
+          onChange={(e) => {
             setTitle(e.target.value)
           }}
           onBlur={() => {
@@ -25,15 +28,37 @@ export default function SingleRule({
           }}
         ></input>
 
-        <div className="flex items-center gap-2">
-          <button>
-            Match{" "}
-            <span className="underline">
-              {rule.combine == "AND" ? "all" : "any"}
-            </span>{" "}
-            filter
-            {rule.combine == "AND" ? "s" : ""}
-          </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex gap-2">
+            <button
+              className="hover:text-slate-700"
+              onClick={() => {
+                updateRule({
+                  ...rule,
+                  type: rule.type == "show" ? "hide" : "show",
+                })
+              }}
+            >
+              <span className="underline">{rule.type}</span> event
+            </button>
+            <div>|</div>
+            <button
+              className="hover:text-slate-700"
+              onClick={() => {
+                updateRule({
+                  ...rule,
+                  combine: rule.combine == "AND" ? "OR" : "AND",
+                })
+              }}
+            >
+              match{" "}
+              <span className="underline">
+                {rule.combine == "AND" ? "all" : "any"}
+              </span>{" "}
+              filter
+              {rule.combine == "AND" ? "s" : ""}
+            </button>
+          </div>
 
           <button
             className="relative w-10 select-none align-middle"
@@ -55,11 +80,7 @@ export default function SingleRule({
             ></label>
           </button>
 
-          <button
-            onClick={() => {
-              updateRule(null)
-            }}
-          >
+          <button onClick={deleteRule}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6 text-red-700"
@@ -79,11 +100,45 @@ export default function SingleRule({
       </div>
       <div>
         <div className="text-slate-500">Filters:</div>
-        <div>
-          {rule.filters.map((filter) => (
-            <div>{filter.regex}</div>
-          ))}
+        <div className="flex flex-col gap-2">
+          {!rule.filters.length && <div>No filters</div>}
+          {rule.filters
+            .map((filter, idx) => ({ ...filter, id: idx }))
+            .map((filter) => (
+              <SingleFilter
+                key={JSON.stringify(filter)}
+                filter={filter}
+                updateFilter={(newFilter) => {
+                  updateRule({
+                    ...rule,
+                    filters: rule.filters.map((e, idx) =>
+                      idx == filter.id ? newFilter : e
+                    ),
+                  })
+                }}
+                deleteFilter={() => {
+                  updateRule({
+                    ...rule,
+                    filters: rule.filters.filter((e, idx) => idx != filter.id),
+                  })
+                }}
+              ></SingleFilter>
+            ))}
         </div>
+        <button
+          className="text-blue-700"
+          onClick={() => {
+            updateRule({
+              ...rule,
+              filters: [
+                ...rule.filters,
+                { property: "summary", negated: false, regex: "" },
+              ],
+            })
+          }}
+        >
+          + Add filter
+        </button>
       </div>
     </div>
   )
