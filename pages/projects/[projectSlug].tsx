@@ -59,9 +59,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
     options: { traverseCollections: false }, // set to true to pre-generate all subpages
   })
 
-  const paths = Object.keys(allPages).map((projectSlug) => ({
-    params: { projectSlug },
-  }))
+  const paths = Object.keys(allPages)
+    .filter((slug) => !["projects", "view-projects"].includes(slug))
+    .map((projectSlug) => ({
+      params: { projectSlug },
+    }))
 
   return {
     paths,
@@ -91,8 +93,8 @@ export default function Project({
       <Layout title={title}>
         <ProjectPage
           title={title}
-          description={description}
-          link={link}
+          description={`${description}`}
+          link={`${link}`}
           image={image}
         >
           <NotionRenderer

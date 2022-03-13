@@ -32,6 +32,7 @@ export default function Ical() {
             <a
               href="https://www.kth.se/social/home/calendar/settings/"
               target="_blank"
+              rel="noreferrer"
               className="text-blue-600 hover:underline focus:underline"
             >
               KTH calendar settings

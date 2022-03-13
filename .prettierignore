@@ -50,3 +50,8 @@ yarn.lock
 .env.production.local
 # vercel
 .vercel
+
+# shell scripts
+*.sh
+# public dir
+/public

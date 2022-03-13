@@ -47,23 +47,3 @@ export interface Filter {
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 export { fetcher }
-
-export function useCalendar(calendarUrl: string | null) {
-  const cal = calendarUrl && parseCalendarPath(calendarUrl)
-  if (!cal) {
-    return { rules: [], loading: true, error: false, mutate: () => {} }
-  }
-  const { user, icalendar } = cal
-
-  const { data, error, mutate } = useSWR<Rule[]>(
-    `https://ical.elias1233.workers.dev/social/user/${user}/icalendar/${icalendar}/rules`,
-    fetcher
-  )
-
-  return {
-    rules: data || [],
-    loading: !error && !data,
-    error: error,
-    mutate,
-  }
-}
