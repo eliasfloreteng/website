@@ -1,6 +1,6 @@
 import { proxiedUrl, Rule, parseCalendarPath } from "lib/calendar"
 import SingleRule from "@/components/SingleRule"
-import useSWR from "swr"
+import useSWR, { mutate as globalMutate } from "swr"
 import { fetcher, isDev } from "lib/util"
 
 export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
@@ -40,12 +40,13 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
               await mutate(newRules, false)
               const proxy = kthUrl && proxiedUrl(kthUrl)
               if (proxy) {
-                mutate(
+                await mutate(
                   fetcher(`${proxy}/rule`, {
                     method: "PUT",
                     body: JSON.stringify(newRule),
                   })
                 )
+                globalMutate(`${proxy}/preview`)
               }
             }}
             deleteRule={async () => {
@@ -58,18 +59,19 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
               )
               const proxy = kthUrl && proxiedUrl(kthUrl)
               if (proxy) {
-                mutate(
+                await mutate(
                   fetcher(`${proxy}/rule/${rule.id}`, {
                     method: "DELETE",
                   })
                 )
+                globalMutate(`${proxy}/preview`)
               }
             }}
           ></SingleRule>
         ))}
 
         <button
-          className="flex items-center justify-center gap-2 rounded-lg bg-gray-100 py-2 px-4 shadow-lg"
+          className="addButton"
           onClick={async () => {
             const newRule: Rule = {
               id: rules.length,
@@ -83,12 +85,13 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
             await mutate(newRules, false)
             const proxy = kthUrl && proxiedUrl(kthUrl)
             if (proxy) {
-              mutate(
+              await mutate(
                 fetcher(`${proxy}/rule`, {
                   method: "POST",
                   body: JSON.stringify(newRule),
                 })
               )
+              globalMutate(`${proxy}/preview`)
             }
           }}
         >

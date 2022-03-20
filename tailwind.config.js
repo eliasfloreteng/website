@@ -14,10 +14,11 @@ module.exports = {
       },
     },
   },
-  // @ts-ignore
   plugins: [
     // @ts-ignore
     require("@tailwindcss/typography"),
+    // @ts-ignore
+    require("@tailwindcss/line-clamp"),
     // @ts-ignore
     require("@tailwindcss/forms")({
       strategy: "class",

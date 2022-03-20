@@ -1,5 +1,3 @@
-// compiled tailwind styles
-import "tailwindcss/tailwind.css"
 // core styles shared by all of react-notion-x (required)
 import "react-notion-x/src/styles.css"
 // used for code syntax highlighting (optional)

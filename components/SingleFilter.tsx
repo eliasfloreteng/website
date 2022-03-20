@@ -13,11 +13,11 @@ export default function SingleFilter({
   const [regex, setRegex] = useState(filter.regex)
 
   return (
-    <div className="flex flex-wrap items-center gap-4">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
       <input
         type="text"
         required
-        className="form-input truncate bg-transparent"
+        className="form-input truncate"
         title="Regex for when to match this filter"
         value={regex}
         onChange={(e) => {

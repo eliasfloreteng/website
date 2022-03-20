@@ -2,14 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  *,
+  ::before,
+  ::after {
+    @apply scroll-smooth;
+  }
+}
+
 @layer components {
   .link {
     @apply text-blue-600 hover:underline focus:underline;
   }
-}
 
-*,
-::before,
-::after {
-  scroll-behavior: smooth;
+  .addButton {
+    @apply mx-auto flex w-full items-center justify-center gap-2 rounded-lg bg-gray-100 py-2 px-4 shadow-md;
+  }
 }

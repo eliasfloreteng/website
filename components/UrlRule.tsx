@@ -28,7 +28,7 @@ export default function UrlRule({
         href={url}
         className="grid place-items-center border-y border-gray-500 px-2"
         target="_blank"
-        rel="nofollow noreferrer"
+        rel="noreferrer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

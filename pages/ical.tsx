@@ -1,3 +1,4 @@
+import EventsPreview from "@/components/EventsPreview"
 import HideShowEvents from "@/components/HideShowEvents"
 import Layout from "@/components/Layout"
 import RuleEditor from "@/components/RuleEditor"
@@ -11,7 +12,7 @@ export default function Ical() {
     setKthUrl(localStorage.getItem("kthUrl"))
   }, [])
   useEffect(() => {
-    localStorage.setItem("kthUrl", kthUrl || "")
+    if (kthUrl) localStorage.setItem("kthUrl", kthUrl)
   }, [kthUrl])
 
   return (
@@ -70,14 +71,14 @@ export default function Ical() {
           {kthUrl && (
             <p>
               <a
-                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-4 py-2 text-center text-sm text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                className="mb-2 inline-block rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-4 py-2 text-center text-sm text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
                 href={(kthUrl && proxiedUrl(kthUrl)) || "#"}
               >
                 Download the ICS file
               </a>
               {" or "}
               <button
-                className="rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-4 py-2 text-center text-sm text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
+                className="mb-2 inline-block rounded-lg bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 px-4 py-2 text-center text-sm text-white hover:bg-gradient-to-br focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800"
                 onClick={() => {
                   const url = proxiedUrl(kthUrl)
                   url && navigator.clipboard.writeText(url)
@@ -91,7 +92,10 @@ export default function Ical() {
 
         {kthUrl && (
           <>
-            <HideShowEvents kthUrl={kthUrl}></HideShowEvents>
+            <h2 className="text-3xl font-semibold">Filtered events preview</h2>
+            <EventsPreview kthUrl={kthUrl} />
+
+            <HideShowEvents kthUrl={kthUrl} />
 
             <section>
               <h2 className="mb-3 text-3xl font-semibold">Rules</h2>

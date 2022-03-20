@@ -1,7 +1,7 @@
 import UrlRule from "@/components/UrlRule"
 import { proxiedUrl, HideShowRule } from "lib/calendar"
 import { fetcher } from "lib/util"
-import useSWR from "swr"
+import useSWR, { mutate as globalMutate } from "swr"
 
 const AddIcon = () => (
   <svg
@@ -37,12 +37,13 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
     await mutate(newRules, false)
     const proxy = kthUrl && proxiedUrl(kthUrl)
     if (proxy) {
-      mutate(
+      await mutate(
         fetcher(`${proxy}/hideshowrule`, {
           method: "POST",
           body: JSON.stringify(newRule),
         })
       )
+      globalMutate(`${proxy}/preview`)
     }
   }
 
@@ -53,12 +54,13 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
     await mutate(newRules, false)
     const proxy = kthUrl && proxiedUrl(kthUrl)
     if (proxy) {
-      mutate(
+      await mutate(
         fetcher(`${proxy}/hideshowrule`, {
           method: "PUT",
           body: JSON.stringify(newRule),
         })
       )
+      globalMutate(`${proxy}/preview`)
     }
   }
 
@@ -72,11 +74,12 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
     )
     const proxy = kthUrl && proxiedUrl(kthUrl)
     if (proxy) {
-      mutate(
+      await mutate(
         fetcher(`${proxy}/hideshowrule/${rule.id}`, {
           method: "DELETE",
         })
       )
+      globalMutate(`${proxy}/preview`)
     }
   }
 
@@ -87,8 +90,8 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
   }
 
   return (
-    <section className="flex divide-x">
-      <div className="flex-1 pr-4">
+    <section className="flex flex-col md:flex-row">
+      <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Hidden events</h2>
 
         <div className="flex flex-col gap-2">
@@ -103,17 +106,16 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
               ></UrlRule>
             ))}
 
-          <button
-            className="mx-auto flex items-center justify-center gap-2 rounded-lg bg-gray-100 py-2 px-4 shadow-lg"
-            onClick={() => addRule("hide")}
-          >
+          <button className="addButton" onClick={() => addRule("hide")}>
             <AddIcon />
             Add hidden event
           </button>
         </div>
       </div>
 
-      <div className="flex-1 pl-4">
+      <div className="my-8 mx-0 border md:my-0 md:mx-8"></div>
+
+      <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Shown events</h2>
 
         <div className="flex flex-col gap-2">
@@ -128,10 +130,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
               ></UrlRule>
             ))}
 
-          <button
-            className="mx-auto flex items-center justify-center gap-2 rounded-lg bg-gray-100 py-2 px-4 shadow-lg"
-            onClick={() => addRule("show")}
-          >
+          <button className="addButton" onClick={() => addRule("show")}>
             <AddIcon />
             Add shown event
           </button>
