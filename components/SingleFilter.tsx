@@ -15,15 +15,15 @@ export default function SingleFilter({
   return (
     <div className="flex flex-wrap items-center gap-4">
       <input
-        className="form-input truncate bg-transparent"
         type="text"
+        required
+        className="form-input truncate bg-transparent"
+        title="Regex for when to match this filter"
         value={regex}
         onChange={(e) => {
           setRegex(e.target.value)
         }}
-        onBlur={() => {
-          updateFilter({ ...filter, regex })
-        }}
+        onBlur={() => updateFilter({ ...filter, regex })}
       />
 
       <label className="flex items-center gap-1 text-sm text-slate-500">

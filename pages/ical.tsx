@@ -1,6 +1,8 @@
+import HideShowEvents from "@/components/HideShowEvents"
 import Layout from "@/components/Layout"
 import RuleEditor from "@/components/RuleEditor"
 import { proxiedUrl } from "lib/calendar"
+import Head from "next/head"
 import { useEffect, useState } from "react"
 
 export default function Ical() {
@@ -19,6 +21,19 @@ export default function Ical() {
           or show certain events based on rules using regular expressions on the
           title, description, location or KTH event link/id."
     >
+      <Head>
+        <link
+          type="image/x-icon"
+          rel="icon"
+          href={`https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_${new Date().getDate()}.ico`}
+        ></link>
+        <link
+          rel="shortcut icon"
+          type="image/x-icon"
+          href={`https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_${new Date().getDate()}.ico`}
+        />
+      </Head>
+
       <div className="container mx-auto space-y-6 p-4">
         <header className="space-y-4">
           <h1 className="text-6xl font-bold">KTH calendar proxy</h1>
@@ -42,12 +57,14 @@ export default function Ical() {
           <div className="flex flex-col">
             <label htmlFor="kthUrl">KTH exported calendar url:</label>
             <input
-              className="form-input"
+              className="form-input invalid:bg-pink-50"
               id="kthUrl"
               name="kthUrl"
               type="url"
               value={kthUrl || ""}
-              onChange={(e) => setKthUrl(e.target.value)}
+              onChange={(e) => {
+                setKthUrl(e.target.value)
+              }}
             />
           </div>
           {kthUrl && (
@@ -73,10 +90,14 @@ export default function Ical() {
         </header>
 
         {kthUrl && (
-          <section>
-            <h2 className="mb-3 text-3xl font-semibold">Rules</h2>
-            <RuleEditor kthUrl={kthUrl}></RuleEditor>
-          </section>
+          <>
+            <HideShowEvents kthUrl={kthUrl}></HideShowEvents>
+
+            <section>
+              <h2 className="mb-3 text-3xl font-semibold">Rules</h2>
+              <RuleEditor kthUrl={kthUrl}></RuleEditor>
+            </section>
+          </>
         )}
       </div>
     </Layout>

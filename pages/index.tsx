@@ -4,7 +4,6 @@ import Link from "next/link"
 export default function Home() {
   return (
     <Layout title="Elias1233" description="Software developer studying at KTH">
-      {/* link classes: text-blue-600 focus:underline hover:underline */}
       <h1 className="text-6xl font-bold">Hello and welcome!</h1>
 
       <div className="prose">

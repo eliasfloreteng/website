@@ -1,4 +1,4 @@
-import useSWR from "swr"
+import { isDev } from "./util"
 
 export function generateCalendarPath(user: number, icalendar: string) {
   return `social/user/${user}/icalendar/${icalendar}`
@@ -26,7 +26,12 @@ export function proxiedUrl(rawUrl: string) {
   }
   const { user, icalendar } = parsed
   const path = generateCalendarPath(user, icalendar)
-  return `https://ical.elias1233.workers.dev/${path}`
+
+  if (isDev) {
+    return `http://localhost:8787/${path}`
+  } else {
+    return `https://ical.elias1233.workers.dev/${path}`
+  }
 }
 
 export interface Rule {
@@ -44,6 +49,8 @@ export interface Filter {
   negated: boolean
 }
 
-// @ts-ignore
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
-export { fetcher }
+export interface HideShowRule {
+  id: number
+  url: string
+  type: "hide" | "show"
+}

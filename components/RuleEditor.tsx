@@ -1,6 +1,7 @@
-import { proxiedUrl, fetcher, Rule, parseCalendarPath } from "lib/calendar"
+import { proxiedUrl, Rule, parseCalendarPath } from "lib/calendar"
 import SingleRule from "@/components/SingleRule"
 import useSWR from "swr"
+import { fetcher, isDev } from "lib/util"
 
 export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
   const { user, icalendar } = (kthUrl && parseCalendarPath(kthUrl)) || {
@@ -9,7 +10,9 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
   }
 
   const { data, error, mutate } = useSWR<Rule[]>(
-    `https://ical.elias1233.workers.dev/social/user/${user}/icalendar/${icalendar}/rules`,
+    `${
+      isDev ? "http://localhost:8787" : "https://ical.elias1233.workers.dev"
+    }/social/user/${user}/icalendar/${icalendar}/rules`,
     fetcher
   )
   const rules = data || []
@@ -56,9 +59,8 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
               const proxy = kthUrl && proxiedUrl(kthUrl)
               if (proxy) {
                 mutate(
-                  fetcher(`${proxy}/rule`, {
+                  fetcher(`${proxy}/rule/${rule.id}`, {
                     method: "DELETE",
-                    body: JSON.stringify(rule),
                   })
                 )
               }

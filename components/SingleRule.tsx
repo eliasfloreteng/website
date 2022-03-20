@@ -18,15 +18,14 @@ export default function SingleRule({
       <div className="flex flex-wrap justify-between gap-x-4 gap-y-1">
         <input
           type="text"
+          required
           className="truncate bg-transparent text-lg"
           value={title}
           onChange={(e) => {
             setTitle(e.target.value)
           }}
-          onBlur={() => {
-            updateRule({ ...rule, title })
-          }}
-        ></input>
+          onBlur={() => updateRule({ ...rule, title })}
+        />
 
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex gap-2">

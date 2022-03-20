@@ -7,8 +7,7 @@ import ProjectPage from "@/components/ProjectPage"
 import { createMapPageUrl, getAllPages } from "lib/notion"
 import { homeId } from "config"
 import { ExtendedRecordMap, PageBlock } from "notion-types"
-
-const isDev = process.env.NODE_ENV === "development" || !process.env.NODE_ENV
+import { isDev } from "lib/util"
 
 const notion = new NotionAPI()
 
