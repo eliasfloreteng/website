@@ -26,5 +26,6 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        source: "next.config.js,node_modules,package.json,.next"
+        key: ${{ secrets.KEY }}
+        source: "next.config.js,package.json,.next"
         target: "~/ci"
