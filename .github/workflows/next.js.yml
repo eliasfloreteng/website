@@ -28,7 +28,7 @@ jobs:
         node-version: '16'
         cache: 'yarn'
     - name: install yarn dependencies
-      run: yarn install
+      run: yarn install --frozen-lockfile
     - name: build nextjs app
       run: yarn build
     - name: copy file via ssh password
