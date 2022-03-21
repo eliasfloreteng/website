@@ -13,11 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: setup nodejs and yarn (with cache)
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-        cache: 'yarn'
     - name: next.js build cache
       uses: actions/cache@v2
       with:
@@ -27,6 +22,11 @@ jobs:
         # If source files changed but packages didn't, rebuild from a prior cache.
         restore-keys: |
           ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+    - name: setup nodejs and yarn (with cache)
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'yarn'
     - name: install yarn dependencies
       run: yarn install
     - name: build nextjs app
@@ -36,6 +36,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
         key: ${{ secrets.KEY }}
         source: "next.config.js,package.json,.next"
         target: "~/ci"
