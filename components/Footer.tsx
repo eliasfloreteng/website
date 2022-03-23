@@ -4,7 +4,7 @@ import nextjs from "../public/nextjs.ico"
 
 export default function Footer() {
   return (
-    <footer className="mt-8 flex w-full max-w-6xl flex-col items-center justify-center space-y-3 border-t py-6">
+    <footer className="mt-8 mx-auto flex w-full max-w-6xl flex-col items-center justify-center space-y-3 border-t py-6">
       <div className="space-y-2 px-3">
         <div className="text-slate-500">
           Website from scratch by Elias Floreteng, using{" "}
