@@ -1,5 +1,5 @@
 import { proxiedUrl, Rule, parseCalendarPath } from "lib/calendar"
-import SingleRule from "@/components/SingleRule"
+import SingleRule from "@/components/ical/SingleRule"
 import useSWR, { mutate as globalMutate } from "swr"
 import { fetcher, isDev } from "lib/util"
 
@@ -77,7 +77,7 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
               id: rules.length,
               title: "Title",
               enabled: true,
-              combine: "AND",
+              combine: "OR",
               type: "hide",
               filters: [],
             }

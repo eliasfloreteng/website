@@ -1,4 +1,4 @@
-import UrlRule from "@/components/UrlRule"
+import UrlRule from "@/components/ical/UrlRule"
 import { proxiedUrl, HideShowRule } from "lib/calendar"
 import { fetcher } from "lib/util"
 import useSWR, { mutate as globalMutate } from "swr"
