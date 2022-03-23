@@ -3,12 +3,12 @@ import { fetcher } from "lib/util"
 import useSWR, { mutate as globalMutate } from "swr"
 
 interface RawEvent {
-  summary: string
-  description: string
-  location: string
+  summary: string | null
+  description: string | null
+  location: string | null
   startDate: string
   endDate: string
-  url: string
+  url: string | null
 }
 
 type Event = Omit<RawEvent, "startDate" | "endDate"> & {
@@ -47,8 +47,8 @@ export default function EventsPreview({ kthUrl }: { kthUrl: string }) {
       <div className="flex snap-start snap-always flex-col gap-2">
         <a
           className="text font-semibold line-clamp-2 hover:underline"
-          title={event.summary}
-          href={event.url}
+          title={event.summary || ""}
+          href={event.url || "#"}
           target="_blank"
           rel="noreferrer"
         >
@@ -57,7 +57,7 @@ export default function EventsPreview({ kthUrl }: { kthUrl: string }) {
         <div>{timeInterval}</div>
         <div className="flex flex-wrap gap-1">
           Location:
-          {event.location.split(/,\s+/).map((part) => (
+          {(event.location || "").split(/,\s+/).map((part) => (
             <a
               key={part}
               className="link"
@@ -73,7 +73,7 @@ export default function EventsPreview({ kthUrl }: { kthUrl: string }) {
           className="form-textarea rounded-md"
           rows={4}
           readOnly
-          value={event.description.trim()}
+          value={(event.description || "").trim()}
         />
         <button
           className="addButton"
@@ -81,7 +81,7 @@ export default function EventsPreview({ kthUrl }: { kthUrl: string }) {
           onClick={async () => {
             const newRule: HideShowRule = {
               id: -1,
-              url: event.url,
+              url: event.url || "",
               type: "hide",
             }
             const proxy = kthUrl && proxiedUrl(kthUrl)
