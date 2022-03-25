@@ -7,6 +7,10 @@ on:
   push:
     branches: [ main ]
 
+concurrency:
+  group: main-build-${{ github.ref }}-1
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
