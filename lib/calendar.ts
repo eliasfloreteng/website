@@ -27,7 +27,8 @@ export function proxiedUrl(rawUrl: string) {
   const { user, icalendar } = parsed
   const path = generateCalendarPath(user, icalendar)
 
-  if (isDev) {
+  // TODO: change while developing service worker
+  if (isDev && false) {
     return `http://localhost:8787/${path}`
   } else {
     return `https://ical.elias1233.workers.dev/${path}`

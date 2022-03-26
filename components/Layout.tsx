@@ -9,12 +9,16 @@ export default function Layout({
   description,
   image,
   date,
+  manifestHref,
+  faviconHref,
   children,
 }: {
   title: string
   description?: string
   image?: string
   date?: string
+  manifestHref?: string
+  faviconHref?: string
   children?: ReactNode
 }) {
   const router = useRouter()
@@ -52,6 +56,23 @@ export default function Layout({
         <meta name="twitter:description" content={fromJSX(description)} />
         <meta name="twitter:image" content={image} />
         {date && <meta property="article:published_time" content={date} />}
+
+        {manifestHref ? (
+          <link rel="manifest" href={manifestHref} />
+        ) : (
+          <link rel="manifest" href="/manifest.json" />
+        )}
+        {faviconHref ? (
+          <>
+            <link rel="shortcut icon" type="image/x-icon" href={faviconHref} />
+            <link rel="icon" type="image/x-icon" href={faviconHref} />
+          </>
+        ) : (
+          <>
+            <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+            <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+          </>
+        )}
       </Head>
 
       <div className="flex min-h-screen flex-col bg-slate-50">

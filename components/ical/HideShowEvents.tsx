@@ -90,7 +90,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
   }
 
   return (
-    <section className="flex flex-col md:flex-row">
+    <section className="flex flex-col md:flex-row" id="rules">
       <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Hidden events</h2>
 

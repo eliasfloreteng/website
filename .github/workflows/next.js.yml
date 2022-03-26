@@ -5,44 +5,44 @@ name: Next.js build & copy to remote
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: next.js build cache
-      uses: actions/cache@v2
-      with:
-        path: ${{ github.workspace }}/.next/cache
-        # Generate a new cache whenever packages or source files change.
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-        # If source files changed but packages didn't, rebuild from a prior cache.
-        restore-keys: |
-          ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
-    - name: setup nodejs and yarn (with cache)
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
-        cache: 'yarn'
-    - name: install yarn dependencies
-      run: yarn install --frozen-lockfile
-    - name: build nextjs app
-      run: yarn build
-    - name: copy file via ssh password
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        source: "next.config.js,package.json,.next,node_modules"
-        target: "~/ci"
-    - name: restart remote next.js server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        script: sudo systemctl restart website
+      - uses: actions/checkout@v2
+      - name: next.js build cache
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/.next/cache
+          # Generate a new cache whenever packages or source files change.
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+      - name: setup nodejs and yarn (with cache)
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "yarn"
+      - name: install yarn dependencies
+        run: yarn install --frozen-lockfile
+      - name: build nextjs app
+        run: yarn build
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: "next.config.js,package.json,.next,node_modules"
+          target: "~/ci"
+      - name: restart remote next.js server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: sudo systemctl restart website

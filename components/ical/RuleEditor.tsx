@@ -1,18 +1,11 @@
-import { proxiedUrl, Rule, parseCalendarPath } from "lib/calendar"
+import { proxiedUrl, Rule } from "lib/calendar"
 import SingleRule from "@/components/ical/SingleRule"
 import useSWR, { mutate as globalMutate } from "swr"
-import { fetcher, isDev } from "lib/util"
+import { fetcher } from "lib/util"
 
-export default function RuleEditor({ kthUrl }: { kthUrl: string | null }) {
-  const { user, icalendar } = (kthUrl && parseCalendarPath(kthUrl)) || {
-    user: 0,
-    icalendar: "0",
-  }
-
+export default function RuleEditor({ kthUrl }: { kthUrl: string }) {
   const { data, error, mutate } = useSWR<Rule[]>(
-    `${
-      isDev ? "http://localhost:8787" : "https://ical.elias1233.workers.dev"
-    }/social/user/${user}/icalendar/${icalendar}/rules`,
+    `${proxiedUrl(kthUrl)}/rules`,
     fetcher
   )
   const rules = data || []

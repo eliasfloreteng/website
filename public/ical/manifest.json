@@ -1,0 +1,22 @@
+{
+    "name": "KTH calendar proxy",
+    "short_name": "KTH Calendar",
+    "theme_color": "#f1f3f4",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/ical",
+    "start_url": "/ical",
+    "description": "This service is a proxy for your KTH exported calendar that can hide or show certain events based on rules using regular expressions on the title, description, location or KTH event link/id.",
+    "icons": [
+        {
+            "src": "/ical/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/ical/icons/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
