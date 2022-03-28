@@ -7,6 +7,7 @@ import { proxiedUrl } from "lib/calendar"
 import Head from "next/head"
 import Image from "next/image"
 import { useEffect, useState } from "react"
+import EventCalendar from "@/components/ical/EventCalendar"
 
 export default function Ical() {
   const [kthUrl, setKthUrl] = useState(null as string | null)
@@ -60,7 +61,7 @@ export default function Ical() {
       </Head>
 
       <div className="container mx-auto space-y-6 p-4">
-        <header className="space-y-4">
+        <header className="space-y-5">
           <h1 className="text-6xl font-bold">KTH calendar proxy</h1>
           <p>
             This service is a proxy for your KTH exported calendar that can hide
@@ -204,10 +205,8 @@ export default function Ical() {
 
         {kthUrl && (
           <div className="space-y-12">
-            <section>
-              <h2 className="text-3xl font-semibold">
-                Filtered events preview
-              </h2>
+            <section className="space-y-8">
+              <EventCalendar kthUrl={kthUrl} />
               <EventsPreview kthUrl={kthUrl} />
             </section>
 
