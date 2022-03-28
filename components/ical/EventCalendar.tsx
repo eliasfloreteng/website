@@ -68,8 +68,8 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
     startDate: new Date(e.startDate),
     endDate: new Date(e.endDate),
   }))
-  const loading = !error && !data
 
+  const loading = !error && !data
   if (loading)
     return (
       <div

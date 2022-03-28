@@ -1,7 +1,13 @@
 import kthLogo from "@/public/ical/kth.svg"
 import { proxiedUrl } from "lib/calendar"
+import { fetcher } from "lib/util"
 import Image from "next/image"
 import { SetStateAction } from "react"
+import useSWR from "swr"
+
+interface Hits {
+  hits: number
+}
 
 export default function KTHProxyUrl({
   kthUrl,
@@ -10,6 +16,13 @@ export default function KTHProxyUrl({
   kthUrl: string | null
   setKthUrl: (value: SetStateAction<string | null>) => void
 }) {
+  const { data, error } = useSWR<Hits>(
+    `${kthUrl && proxiedUrl(kthUrl)}/hits`,
+    fetcher,
+    // Milliseconds between refreshes: 120_000 = 2 minutes
+    { refreshInterval: 120_000 }
+  )
+
   return (
     <ol className="relative border-l border-gray-200">
       <li className="mb-10 ml-8">
@@ -114,6 +127,13 @@ export default function KTHProxyUrl({
               </a>{" "}
               for example just like the original KTH exported calendar.
             </p>
+
+            {data && (
+              <p className="mb-2 text-slate-900">
+                The proxied url has been used{" "}
+                <span className="font-semibold">{data.hits}</span> times.
+              </p>
+            )}
 
             <div className="inline-flex max-w-full select-all rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-slate-900">
               <span className="truncate">{proxiedUrl(kthUrl) || ""}</span>
