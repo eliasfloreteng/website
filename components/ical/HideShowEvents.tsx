@@ -1,4 +1,5 @@
 import UrlRule from "@/components/ical/UrlRule"
+import LoadingSpinner from "@/components/LoadingSpinner"
 import { proxiedUrl, HideShowRule } from "lib/calendar"
 import { fetcher } from "lib/util"
 import useSWR, { mutate as globalMutate } from "swr"
@@ -83,7 +84,16 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
     }
   }
 
-  if (loading) return <div>Loading...</div>
+  if (loading)
+    return (
+      <div
+        style={{ height: 638 }}
+        className="flex flex-col items-center justify-center gap-3 rounded-lg bg-slate-900/10 text-xl"
+      >
+        <LoadingSpinner />
+        Loading...
+      </div>
+    )
   if (error) {
     console.error(error, error.status, error.info)
     return <div>Error!</div>
@@ -94,7 +104,12 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
       <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Hidden events</h2>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex max-h-96 flex-col gap-2 overflow-x-auto pb-2">
+          <button className="addButton" onClick={() => addRule("hide")}>
+            <AddIcon />
+            Add hidden event
+          </button>
+
           {rules
             .filter((rule) => rule.type == "hide")
             .map((rule) => (
@@ -104,12 +119,8 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
                 updateRule={updateRule}
                 deleteRule={() => deleteRule(rule)}
               ></UrlRule>
-            ))}
-
-          <button className="addButton" onClick={() => addRule("hide")}>
-            <AddIcon />
-            Add hidden event
-          </button>
+            ))
+            .reverse()}
         </div>
       </div>
 
@@ -118,7 +129,12 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
       <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Shown events</h2>
 
-        <div className="flex flex-col gap-2">
+        <div className="flex max-h-96 flex-col gap-2 overflow-x-auto pb-2">
+          <button className="addButton" onClick={() => addRule("show")}>
+            <AddIcon />
+            Add shown event
+          </button>
+
           {rules
             .filter((rule) => rule.type == "show")
             .map((rule) => (
@@ -128,12 +144,8 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
                 updateRule={updateRule}
                 deleteRule={() => deleteRule(rule)}
               ></UrlRule>
-            ))}
-
-          <button className="addButton" onClick={() => addRule("show")}>
-            <AddIcon />
-            Add shown event
-          </button>
+            ))
+            .reverse()}
         </div>
       </div>
     </section>

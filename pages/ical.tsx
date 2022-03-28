@@ -1,4 +1,3 @@
-import EventsPreview from "@/components/ical/EventsPreview"
 import HideShowEvents from "@/components/ical/HideShowEvents"
 import Layout from "@/components/Layout"
 import RuleEditor from "@/components/ical/RuleEditor"
@@ -78,9 +77,8 @@ export default function Ical() {
 
         {kthUrl && (
           <div className="space-y-12">
-            <section className="space-y-8">
+            <section className="">
               <EventCalendar kthUrl={kthUrl} />
-              <EventsPreview kthUrl={kthUrl} />
             </section>
 
             <HideShowEvents kthUrl={kthUrl} />

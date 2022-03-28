@@ -2,6 +2,7 @@ import { proxiedUrl, Rule } from "lib/calendar"
 import SingleRule from "@/components/ical/SingleRule"
 import useSWR, { mutate as globalMutate } from "swr"
 import { fetcher } from "lib/util"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 export default function RuleEditor({ kthUrl }: { kthUrl: string }) {
   const { data, error, mutate } = useSWR<Rule[]>(
@@ -11,7 +12,16 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string }) {
   const rules = data || []
   const loading = !error && !rules
 
-  if (loading) return <div>Loading...</div>
+  if (loading)
+    return (
+      <div
+        style={{ height: 810 }}
+        className="flex flex-col items-center justify-center gap-3 rounded-lg bg-slate-900/10 text-xl"
+      >
+        <LoadingSpinner />
+        Loading...
+      </div>
+    )
   if (error) {
     console.error(error)
     return <div>Error!</div>
