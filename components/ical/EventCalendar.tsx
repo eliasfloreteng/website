@@ -19,8 +19,6 @@ export type Event = Omit<RawEvent, "startDate" | "endDate"> & {
   endDate: Date
 }
 
-// TODO: add modal with hide event button & more info
-
 const colors = [
   "bg-slate-500",
   "bg-gray-500",
