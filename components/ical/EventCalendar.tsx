@@ -255,7 +255,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
 
       {eventModal && (
         <div className="fixed top-0 right-0 left-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-slate-900/40 md:inset-0 md:h-full">
-          <div className="h-full w-full max-w-2xl p-4 md:h-auto">
+          <div className="grid h-full w-full max-w-2xl place-items-center p-4 md:h-auto">
             <EventCard
               event={eventModal}
               onClose={() => setEventModal(null)}
