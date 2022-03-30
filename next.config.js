@@ -10,7 +10,7 @@ module.exports = withPWA({
   images: {
     domains: ["calendar.google.com", "www.kth.se"],
   },
-  // TODO: Enable this when stable
+  // TODO: Enable this when stable https://nextjs.org/docs/advanced-features/output-file-tracing
   // experimental: {
   //   outputStandalone: true,
   // },
