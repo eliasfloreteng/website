@@ -10,10 +10,14 @@ module.exports = withPWA({
   images: {
     domains: ["calendar.google.com", "www.kth.se"],
   },
+  // TODO: Enable this when stable
+  // experimental: {
+  //   outputStandalone: true,
+  // },
 
   pwa: {
     dest: "public",
     runtimeCaching,
-    // disable: process.env.NODE_ENV === "development",
+    disable: process.env.NODE_ENV === "development",
   },
 })
