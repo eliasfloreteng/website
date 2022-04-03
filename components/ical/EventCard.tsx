@@ -138,7 +138,7 @@ export default function EventCard({
 
         {event.description && (
           <textarea
-            className="form-textarea min-h-[4rem] w-full rounded-md"
+            className="form-textarea min-h-[4rem] w-full overscroll-y-contain rounded-md"
             rows={4}
             readOnly
             value={(event.description || "").trim()}

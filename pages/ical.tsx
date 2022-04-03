@@ -68,7 +68,7 @@ export default function Ical() {
 
           <details open={!kthUrl}>
             <summary className="mb-5 cursor-pointer select-none text-2xl font-semibold text-slate-900">
-              Get KTH calendar and proxied calendar
+              First time setup
             </summary>
 
             <KTHProxyUrl kthUrl={kthUrl} setKthUrl={setKthUrl} />

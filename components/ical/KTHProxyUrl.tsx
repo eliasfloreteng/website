@@ -24,7 +24,7 @@ export default function KTHProxyUrl({
   )
 
   return (
-    <ol className="relative border-l border-gray-200">
+    <ol className="relative left-5 border-l border-gray-200">
       <li className="mb-10 ml-8">
         <span className="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-white font-semibold ring-8 ring-white">
           1.
