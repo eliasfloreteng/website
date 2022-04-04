@@ -140,7 +140,9 @@ export default function ProxySetup({
                 title="Copy link to clipboard"
                 onClick={() => {
                   const url = proxiedUrl(kthUrl)
-                  url && navigator.clipboard.writeText(url)
+                  if (navigator) {
+                    url && navigator.clipboard.writeText(url)
+                  }
                 }}
               >
                 <svg

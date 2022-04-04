@@ -1,14 +1,14 @@
 export const isDev =
   process.env.NODE_ENV === "development" || !process.env.NODE_ENV
 
-export const rtf = new Intl.RelativeTimeFormat(
-  navigator.languages && navigator.languages.length
-    ? navigator.languages[0]
-    : navigator.language,
-  {
-    numeric: "auto",
-  }
-)
+export const currentLang =
+  typeof window !== "undefined"
+    ? navigator?.languages?.[0] || navigator?.language
+    : undefined
+
+export const rtf = new Intl.RelativeTimeFormat(currentLang || "en", {
+  numeric: "auto",
+})
 // in milliseconds
 const units = {
   year: 24 * 60 * 60 * 1000 * 365,
