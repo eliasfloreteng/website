@@ -19,7 +19,7 @@ export type Event = Omit<RawEvent, "startDate" | "endDate"> & {
   endDate: Date
 }
 
-const colors = [
+const colors: readonly string[] = [
   "bg-slate-500",
   "bg-gray-500",
   "bg-zinc-500",
@@ -55,10 +55,15 @@ function colorFromCourseCode(courseCode: string) {
 }
 
 export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
+  const hourHeight = 48
+  const startHour = 8
+  const [weekOffset, setWeekOffset] = useState(0)
+
   const { data, error, mutate } = useSWR<RawEvent[]>(
     `${proxiedUrl(kthUrl)}/preview`,
     fetcher
   )
+
   const [eventModal, setEventModal] = useState<Event | null>(null)
 
   const events: Event[] = (data || []).map((e) => ({
@@ -83,16 +88,24 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
     return <div>Error!</div>
   }
 
+  // start date
   let firstOfWeek = new Date()
-  firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay())
-  let weekdays = []
-  for (let i = 0; i < 5; i++) {
-    firstOfWeek.setDate(firstOfWeek.getDate() + 1)
-    weekdays.push(new Date(firstOfWeek))
+  // skip according to week offset
+  firstOfWeek.setDate(firstOfWeek.getDate() + weekOffset * 7)
+  // this weeks monday
+  firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay() + 1)
+  // if after friday 19:00
+  if (
+    (firstOfWeek.getDay() == 5 && firstOfWeek.getHours() >= 19) ||
+    firstOfWeek.getDay() > 5 || // after friday
+    firstOfWeek.getDay() < 1 // before monday
+  ) {
+    // skip to next monday
+    firstOfWeek.setDate(firstOfWeek.getDate() + 7)
   }
 
   // https://github.com/jquery/jquery-ui/blob/cf938e286382cc8f6cb74b3c6f75275073672aeb/ui/widgets/datepicker.js#L1153
-  let yearStart = new Date()
+  let yearStart = new Date(firstOfWeek)
   yearStart.setDate(yearStart.getDate() + 4 - (yearStart.getDay() || 7))
   let time = yearStart.getTime()
   yearStart.setMonth(0)
@@ -100,14 +113,74 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
   const weekNum =
     Math.floor(Math.round((time - yearStart.valueOf()) / 86400000) / 7) + 1
 
-  const hourHeight = 48
-  const startHour = 8
+  let weekdays = []
+  let startDate = firstOfWeek.getDate()
+  for (let i = startDate; i < startDate + 5; i++) {
+    firstOfWeek.setDate(i)
+    weekdays.push(new Date(firstOfWeek))
+  }
 
   return (
     <>
       <div className="w-full overflow-clip rounded-xl ring-1 ring-gray-900/5 md:rounded-lg">
-        <div className="bg-neutral-100 px-6 py-5 text-xl font-semibold tracking-wide">
-          Vecka {weekNum}
+        <div className="flex justify-between gap-4 bg-neutral-100 px-6 py-5">
+          <div className="text-xl font-semibold tracking-wide">
+            Vecka {weekNum}
+          </div>
+
+          <div className="inline-flex -space-x-px">
+            <button
+              className="ml-0 block rounded-l-lg border border-gray-300 bg-white py-2 px-3 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              onClick={() => setWeekOffset(weekOffset - 1)}
+            >
+              <span className="sr-only">Previous</span>
+              <svg
+                className="h-5 w-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+
+            {
+              // TODO: Ability to change week
+            }
+            {/* <input
+                type="number"
+                className="appearance-textfield box-content max-w-[2ch] border border-gray-300 bg-white py-2 px-3 text-center font-semibold slashed-zero lining-nums tabular-nums leading-none text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-slate-900/25"
+                value={0}
+                readOnly
+                size={1}
+                min={1}
+                max={53}
+                maxLength={2}
+              /> */}
+
+            <button
+              className="block rounded-r-lg border border-gray-300 bg-white py-2 px-3 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              onClick={() => setWeekOffset(weekOffset + 1)}
+            >
+              <span className="sr-only">Next</span>
+              <svg
+                className="h-5 w-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
         <div className="flex overflow-x-auto">
           <div className="hidden w-0 overflow-clip border-t border-r text-right text-xs text-slate-400 md:block md:w-10">
@@ -140,7 +213,11 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
               let weekday = day.toLocaleDateString("sv", {
                 weekday: "short",
               })
-              let isToday = day.getDate() == new Date().getDate()
+              const today = new Date()
+              let isToday =
+                day.getDate() === today.getDate() &&
+                day.getMonth() === today.getMonth() &&
+                day.getFullYear() === today.getFullYear()
 
               return (
                 <div key={day.toString()} className="min-w-[8rem]">
