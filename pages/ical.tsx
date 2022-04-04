@@ -4,7 +4,7 @@ import RuleEditor from "@/components/ical/RuleEditor"
 import Head from "next/head"
 import { useEffect, useState } from "react"
 import EventCalendar from "@/components/ical/EventCalendar"
-import KTHProxyUrl from "@/components/ical/KTHProxyUrl"
+import ProxySetup from "@/components/ical/ProxySetup"
 
 export default function Ical() {
   const [kthUrl, setKthUrl] = useState(null as string | null)
@@ -71,7 +71,7 @@ export default function Ical() {
               First time setup
             </summary>
 
-            <KTHProxyUrl kthUrl={kthUrl} setKthUrl={setKthUrl} />
+            <ProxySetup kthUrl={kthUrl} setKthUrl={setKthUrl} />
           </details>
         </header>
 

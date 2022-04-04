@@ -7,9 +7,10 @@ import useSWR from "swr"
 
 interface Hits {
   hits: number
+  latestHit: string
 }
 
-export default function KTHProxyUrl({
+export default function ProxySetup({
   kthUrl,
   setKthUrl,
 }: {
@@ -131,7 +132,12 @@ export default function KTHProxyUrl({
             {data && (
               <p className="mb-2 text-slate-900">
                 The proxied url has been used{" "}
-                <span className="font-semibold">{data.hits}</span> times.
+                <span className="font-semibold">{data.hits}</span> times. Last
+                time was{" "}
+                <span className="font-semibold">
+                  {new Date(data.latestHit).toLocaleString()}
+                </span>
+                .
               </p>
             )}
 
