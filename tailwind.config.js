@@ -1,6 +1,7 @@
 // @ts-ignore
 const defaultTheme = require("tailwindcss/defaultTheme")
 
+/** @type {import("tailwindcss/tailwind-config").TailwindConfig } */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -9,7 +10,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
+        //@ts-ignore
         sans: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
+        //@ts-ignore
         serif: ['"Merriweather"', ...defaultTheme.fontFamily.serif],
       },
     },
