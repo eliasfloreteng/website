@@ -104,7 +104,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
       <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Hidden events</h2>
 
-        <div className="flex max-h-96 flex-col gap-2 overflow-x-auto pb-2">
+        <div className="flex flex-col gap-2 overflow-x-auto pb-2">
           <button className="addButton" onClick={() => addRule("hide")}>
             <AddIcon />
             Add hidden event

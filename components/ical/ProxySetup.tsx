@@ -1,6 +1,7 @@
 import kthLogo from "@/public/ical/kth.svg"
 import { proxiedUrl, useCalendarHits } from "lib/calendar"
 import Image from "next/image"
+import Link from "next/link"
 import { SetStateAction } from "react"
 
 export default function ProxySetup({
@@ -13,7 +14,7 @@ export default function ProxySetup({
   const { hitsLoaded, hits, latestHit } = useCalendarHits(kthUrl)
 
   return (
-    <ol className="relative left-5 border-l border-gray-200">
+    <ol className="relative left-5 top-5 border-l border-gray-200">
       <li className="mb-10 ml-8">
         <span className="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-white font-semibold ring-8 ring-white">
           1.
@@ -80,21 +81,25 @@ export default function ProxySetup({
               based on regular exceptions, hide or show specific events and
               preview events during the coming week.
             </p>
-            <a href="#rules" className="button">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="mr-2 h-4 w-4"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>{" "}
-              Edit rules below
-            </a>
+            <Link href={{ query: { tab: "regexrules" } }}>
+              <a className="button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mr-2 h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>{" "}
+                Edit rules
+              </a>
+            </Link>
           </li>
           <li className="mb-10 ml-8">
             <span className="absolute -left-3 flex h-6 w-6 items-center justify-center rounded-full bg-white font-semibold ring-8 ring-white">

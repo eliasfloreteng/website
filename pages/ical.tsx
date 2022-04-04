@@ -1,13 +1,17 @@
+import EventCalendar from "@/components/ical/EventCalendar"
 import HideShowEvents from "@/components/ical/HideShowEvents"
-import Layout from "@/components/Layout"
+import ProxySetup from "@/components/ical/ProxySetup"
 import RuleEditor from "@/components/ical/RuleEditor"
+import Layout from "@/components/Layout"
 import { useCalendarHits } from "lib/calendar"
 import Head from "next/head"
+import Link from "next/link"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import EventCalendar from "@/components/ical/EventCalendar"
-import ProxySetup from "@/components/ical/ProxySetup"
 
 export default function Ical() {
+  const router = useRouter()
+
   const [kthUrl, setKthUrl] = useState(null as string | null)
   useEffect(() => {
     setKthUrl(localStorage.getItem("kthUrl"))
@@ -17,6 +21,8 @@ export default function Ical() {
   }, [kthUrl])
 
   const { hitsLoaded, hits, latestHitRelative } = useCalendarHits(kthUrl)
+
+  const tab = kthUrl ? router.query.tab || "calendar" : "setup"
 
   return (
     <Layout
@@ -60,10 +66,10 @@ export default function Ical() {
         <meta name="theme-color" content="#ffffff" />
       </Head>
 
-      <div className="container mx-auto space-y-6 p-4">
-        <header className="space-y-5">
-          <h1 className="text-6xl font-bold">KTH calendar proxy</h1>
-          <p>
+      <div className="container mx-auto p-4">
+        <header>
+          <h1 className="mb-4 text-6xl font-bold">KTH calendar proxy</h1>
+          <p className="mb-2">
             This service is a proxy for your KTH exported calendar that can hide
             or show certain events based on rules using regular expressions on
             the title, description, location or KTH event link/id.
@@ -76,18 +82,133 @@ export default function Ical() {
         </header>
 
         {kthUrl && (
-          <div className="space-y-12">
-            <section className="">
-              <EventCalendar kthUrl={kthUrl} />
-            </section>
+          <>
+            <div className="mb-4 flex flex-wrap border-b border-gray-200 text-center font-medium text-gray-500">
+              <Link href={{ query: { tab: "setup" } }} scroll={false}>
+                <a
+                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                    tab == "setup"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+                  Setup
+                </a>
+              </Link>
+              <Link href={{ query: { tab: "calendar" } }} scroll={false}>
+                <a
+                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                    tab == "calendar"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Calendar
+                </a>
+              </Link>
+              <Link href={{ query: { tab: "hideshowrules" } }} scroll={false}>
+                <a
+                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                    tab == "hideshowrules"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                  Hide/show rules
+                </a>
+              </Link>
+              <Link href={{ query: { tab: "regexrules" } }} scroll={false}>
+                <a
+                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                    tab == "regexrules"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    />
+                  </svg>
+                  Regex rules
+                </a>
+              </Link>
+            </div>
 
-            <HideShowEvents kthUrl={kthUrl} />
-
-            <section>
-              <h2 className="mb-3 text-3xl font-semibold">Rules</h2>
-              <RuleEditor kthUrl={kthUrl}></RuleEditor>
-            </section>
-          </div>
+            <div className="space-y-12">
+              {tab == "setup" && (
+                <ProxySetup kthUrl={kthUrl} setKthUrl={setKthUrl} />
+              )}
+              {tab == "calendar" && (
+                <section>
+                  <EventCalendar kthUrl={kthUrl} />
+                </section>
+              )}
+              {tab == "hideshowrules" && <HideShowEvents kthUrl={kthUrl} />}
+              {tab == "regexrules" && (
+                <section>
+                  <h2 className="mb-3 text-3xl font-semibold">Rules</h2>
+                  <RuleEditor kthUrl={kthUrl}></RuleEditor>
+                </section>
+              )}
+            </div>
+          </>
         )}
       </div>
     </Layout>
