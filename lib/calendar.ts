@@ -1,4 +1,32 @@
-import { isDev } from "./util"
+import useSWR from "swr"
+import { fetcher, getRelativeTime, isDev } from "./util"
+
+export interface Hits {
+  hits: number
+  latestHit: string | Date
+  latestHitRelative?: string
+}
+
+export function useCalendarHits(
+  kthUrl: string | null
+): (Partial<Hits> & { hitsLoaded: false }) | (Hits & { hitsLoaded: true }) {
+  const { data, error } = useSWR<Hits>(
+    kthUrl ? `${proxiedUrl(kthUrl)}/hits` : null,
+    fetcher,
+    // Milliseconds between refreshes: 120_000 = 2 minutes
+    { refreshInterval: 120_000 }
+  )
+  if (!data) {
+    return { hitsLoaded: false }
+  }
+  const latestHit = new Date(data.latestHit)
+  return {
+    ...data,
+    hitsLoaded: true,
+    latestHit,
+    latestHitRelative: getRelativeTime(latestHit),
+  }
+}
 
 export function generateCalendarPath(user: number, icalendar: string) {
   return `social/user/${user}/icalendar/${icalendar}`

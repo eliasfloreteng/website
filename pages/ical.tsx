@@ -1,6 +1,7 @@
 import HideShowEvents from "@/components/ical/HideShowEvents"
 import Layout from "@/components/Layout"
 import RuleEditor from "@/components/ical/RuleEditor"
+import { useCalendarHits } from "lib/calendar"
 import Head from "next/head"
 import { useEffect, useState } from "react"
 import EventCalendar from "@/components/ical/EventCalendar"
@@ -14,6 +15,8 @@ export default function Ical() {
   useEffect(() => {
     if (kthUrl) localStorage.setItem("kthUrl", kthUrl)
   }, [kthUrl])
+
+  const { hitsLoaded, hits, latestHitRelative } = useCalendarHits(kthUrl)
 
   return (
     <Layout
@@ -65,14 +68,11 @@ export default function Ical() {
             or show certain events based on rules using regular expressions on
             the title, description, location or KTH event link/id.
           </p>
-
-          <details open={!kthUrl}>
-            <summary className="mb-5 cursor-pointer select-none text-2xl font-semibold text-slate-900">
-              First time setup
-            </summary>
-
-            <ProxySetup kthUrl={kthUrl} setKthUrl={setKthUrl} />
-          </details>
+          {hitsLoaded && (
+            <p className="mb-2">
+              The proxy has been used {hits} times ({latestHitRelative}).
+            </p>
+          )}
         </header>
 
         {kthUrl && (

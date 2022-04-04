@@ -1,14 +1,7 @@
 import kthLogo from "@/public/ical/kth.svg"
-import { proxiedUrl } from "lib/calendar"
-import { fetcher } from "lib/util"
+import { proxiedUrl, useCalendarHits } from "lib/calendar"
 import Image from "next/image"
 import { SetStateAction } from "react"
-import useSWR from "swr"
-
-interface Hits {
-  hits: number
-  latestHit: string
-}
 
 export default function ProxySetup({
   kthUrl,
@@ -17,12 +10,7 @@ export default function ProxySetup({
   kthUrl: string | null
   setKthUrl: (value: SetStateAction<string | null>) => void
 }) {
-  const { data, error } = useSWR<Hits>(
-    `${kthUrl && proxiedUrl(kthUrl)}/hits`,
-    fetcher,
-    // Milliseconds between refreshes: 120_000 = 2 minutes
-    { refreshInterval: 120_000 }
-  )
+  const { hitsLoaded, hits, latestHit } = useCalendarHits(kthUrl)
 
   return (
     <ol className="relative left-5 border-l border-gray-200">
@@ -129,13 +117,13 @@ export default function ProxySetup({
               for example just like the original KTH exported calendar.
             </p>
 
-            {data && (
+            {hitsLoaded && (
               <p className="mb-2 text-slate-900">
                 The proxied url has been used{" "}
-                <span className="font-semibold">{data.hits}</span> times. Last
-                time was{" "}
+                <span className="font-semibold">{hits}</span> times. Last time
+                was{" "}
                 <span className="font-semibold">
-                  {new Date(data.latestHit).toLocaleString()}
+                  {latestHit.toLocaleString()}
                 </span>
                 .
               </p>
