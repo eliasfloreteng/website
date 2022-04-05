@@ -1,3 +1,7 @@
+import dynamic from "next/dynamic"
+import Link from "next/link"
+import Image from "next/image"
+
 export const isDev =
   process.env.NODE_ENV === "development" || !process.env.NODE_ENV
 
@@ -44,4 +48,42 @@ export async function fetcher(url: any, ...args: any) {
   }
 
   return res.json()
+}
+
+export const Components = {
+  nextImage: Image,
+  nextLink: Link,
+  //@ts-ignore
+  Code: dynamic(() =>
+    import("react-notion-x/build/third-party/code").then((m) => m.Code)
+  ),
+  //@ts-ignore
+  Collection: dynamic(() =>
+    import("react-notion-x/build/third-party/collection").then(
+      (m) => m.Collection
+    )
+  ),
+  //@ts-ignore
+  collection: dynamic(() =>
+    import("react-notion-x/build/third-party/collection").then(
+      (m) => m.Collection
+    )
+  ),
+  //@ts-ignore
+  Equation: dynamic(() =>
+    import("react-notion-x/build/third-party/equation").then((m) => m.Equation)
+  ),
+  Pdf: dynamic(
+    //@ts-ignore
+    () => import("react-notion-x/build/third-party/pdf").then((m) => m.Pdf),
+    {
+      ssr: false,
+    }
+  ),
+  Modal: dynamic(
+    () => import("react-notion-x/build/third-party/modal").then((m) => m.Modal),
+    {
+      ssr: false,
+    }
+  ),
 }
