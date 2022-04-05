@@ -81,34 +81,35 @@ export default function Ical() {
           )}
         </header>
 
-        {kthUrl && (
-          <>
-            <div className="mb-4 flex flex-wrap border-b border-gray-200 text-center font-medium text-gray-500">
-              <Link href={{ query: { tab: "setup" } }} scroll={false}>
-                <a
-                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
-                    tab == "setup"
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
-                  }`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                    />
-                  </svg>
-                  Setup
-                </a>
-              </Link>
+        <div className="mb-4 flex flex-wrap border-b border-gray-200 text-center font-medium text-gray-500">
+          <Link href={{ query: { tab: "setup" } }} scroll={false}>
+            <a
+              className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                tab == "setup"
+                  ? "border-blue-600 text-blue-600"
+                  : "border-transparent hover:border-gray-300 hover:text-gray-600"
+              }`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              Setup
+            </a>
+          </Link>
+
+          {kthUrl && (
+            <>
               <Link href={{ query: { tab: "calendar" } }} scroll={false}>
                 <a
                   className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
@@ -189,12 +190,15 @@ export default function Ical() {
                   Regex rules
                 </a>
               </Link>
-            </div>
-
-            <div className="space-y-12">
-              {tab == "setup" && (
-                <ProxySetup kthUrl={kthUrl} setKthUrl={setKthUrl} />
-              )}
+            </>
+          )}
+        </div>
+        <div className="space-y-12">
+          {tab == "setup" && (
+            <ProxySetup kthUrl={kthUrl} setKthUrl={setKthUrl} />
+          )}
+          {kthUrl && (
+            <>
               {tab == "calendar" && (
                 <section>
                   <EventCalendar kthUrl={kthUrl} />
@@ -207,9 +211,9 @@ export default function Ical() {
                   <RuleEditor kthUrl={kthUrl}></RuleEditor>
                 </section>
               )}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </Layout>
   )
