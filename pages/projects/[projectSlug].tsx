@@ -1,32 +1,13 @@
 import { GetStaticProps, GetStaticPaths } from "next"
-import Image from "next/image"
-import Link from "next/link"
-import dynamic from "next/dynamic"
 import { getPageTitle, getPageProperty } from "notion-utils"
 import { NotionAPI } from "notion-client"
-import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
+import { NotionRenderer } from "react-notion-x"
 import Layout from "@/components/Layout"
 import ProjectPage from "@/components/ProjectPage"
 import { createMapPageUrl, getAllPages } from "lib/notion"
 import { homeId } from "config"
 import { ExtendedRecordMap, PageBlock } from "notion-types"
-import { isDev } from "lib/util"
-
-//@ts-ignore
-const Code = dynamic(() => import("react-notion-x").then((m) => m.Code))
-//@ts-ignore
-const Equation = dynamic(() => import("react-notion-x").then((m) => m.Equation))
-//@ts-ignore
-const Pdf = dynamic(() => import("react-notion-x").then((m) => m.Pdf), {
-  ssr: false,
-})
-const Modal = dynamic(
-  //@ts-ignore
-  () => import("react-notion-x").then((m) => m.Modal),
-  {
-    ssr: false,
-  }
-)
+import { Components, isDev } from "lib/util"
 
 const notion = new NotionAPI()
 
@@ -121,17 +102,7 @@ export default function Project({
             fullPage={false}
             darkMode={false}
             rootPageId={homeId}
-            components={{
-              // @ts-ignore
-              nextImage: Image,
-              nextLink: Link,
-              Code,
-              Collection,
-              collectionRow: CollectionRow,
-              Equation,
-              Modal,
-              Pdf,
-            }}
+            components={Components}
           />
         </ProjectPage>
       </Layout>

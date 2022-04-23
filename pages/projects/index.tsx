@@ -3,10 +3,11 @@ import Layout from "@/components/Layout"
 import { createMapPageUrl } from "lib/notion"
 import Link from "next/link"
 import { NotionAPI } from "notion-client"
-import { NotionRenderer, Collection, CollectionRow } from "react-notion-x"
+import { NotionRenderer } from "react-notion-x"
 import { homeId } from "config"
 import { GetStaticProps } from "next"
 import { ExtendedRecordMap } from "notion-types"
+import { Components } from "lib/util"
 
 const notion = new NotionAPI()
 
@@ -53,10 +54,7 @@ export default function Projects({
             mapPageUrl={createMapPageUrl(recordMap)}
             fullPage={false}
             darkMode={false}
-            components={{
-              collection: Collection,
-              collectionRow: CollectionRow,
-            }}
+            components={Components}
           />
         </div>
       </section>
