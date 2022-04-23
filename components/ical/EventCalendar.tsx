@@ -90,19 +90,19 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
 
   // start date
   let firstOfWeek = new Date()
-  // skip according to week offset
-  firstOfWeek.setDate(firstOfWeek.getDate() + weekOffset * 7)
-  // this weeks monday
-  firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay() + 1)
   // if after friday 19:00
   if (
     (firstOfWeek.getDay() == 5 && firstOfWeek.getHours() >= 19) ||
     firstOfWeek.getDay() > 5 || // after friday
     firstOfWeek.getDay() < 1 // before monday
   ) {
-    // skip to next monday
+    // skip to next week
     firstOfWeek.setDate(firstOfWeek.getDate() + 7)
   }
+  // skip according to week offset
+  firstOfWeek.setDate(firstOfWeek.getDate() + weekOffset * 7)
+  // this weeks monday
+  firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay() + 1)
 
   // https://github.com/jquery/jquery-ui/blob/cf938e286382cc8f6cb74b3c6f75275073672aeb/ui/widgets/datepicker.js#L1153
   let yearStart = new Date(firstOfWeek)
