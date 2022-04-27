@@ -20,6 +20,15 @@ export default function Home() {
             <p className="mt-4 text-xl">The projects i have participated in</p>
           </a>
         </Link>
+
+        <Link href="/projects">
+          <a className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
+            <h3 className="text-2xl font-bold">Experience &rarr;</h3>
+            <p className="mt-4 text-xl">
+              Some of my skills in software development
+            </p>
+          </a>
+        </Link>
       </div>
     </Layout>
   )

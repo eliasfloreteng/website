@@ -25,11 +25,17 @@ export default function ProjectPage({
   return (
     <div className="w-full">
       <div className="relative border-b-8 border-blue-600">
-        <img className="h-96 w-full object-cover" src={image ?? ""} alt="" />
+        {image && (
+          <img className="h-96 w-full object-cover" src={image} alt="" />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40"></div>
       </div>
 
-      <div className="relative bottom-36 w-full px-4 sm:px-8 md:px-24 lg:w-auto">
+      <div
+        className={`relative w-full px-4 sm:px-8 md:px-24 lg:w-auto ${
+          image ? "bottom-36" : ""
+        }`}
+      >
         <div className="relative mx-auto max-w-max rounded-lg bg-white shadow-md lg:max-w-6xl">
           <button
             className="absolute left-0 right-0 m-4 rounded-xl px-6 py-3 text-center font-semibold ring-blue-400 hover:ring-2 focus:ring-2 md:left-auto"
@@ -40,7 +46,11 @@ export default function ProjectPage({
             &lt; Go back
           </button>
 
-          <div className="px-6 pb-8 pt-12 sm:px-12 md:pt-8">
+          <div
+            className={`px-6 pb-8 pt-12 sm:px-12 md:pt-8 ${
+              image ? "" : "mt-8"
+            }`}
+          >
             <h1 className="py-8 text-center text-3xl font-bold md:text-left md:text-7xl">
               {title}
             </h1>
@@ -75,9 +85,11 @@ export default function ProjectPage({
         </div>
       </div>
 
-      <div className="px-4 sm:px-8 md:px-24">
+      <div className={`px-4 sm:px-8 md:px-24 ${image ? "" : "mt-12"}`}>
         <div
-          className={`mx-auto -mt-24 mb-16 lg:max-w-6xl ${className || ""}`}
+          className={`mx-auto mb-16 lg:max-w-6xl ${image ? "-mt-24" : ""} ${
+            className || ""
+          }`}
           {...props}
         >
           {children}
