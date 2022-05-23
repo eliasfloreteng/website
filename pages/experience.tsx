@@ -22,27 +22,17 @@ export default function Experience({
   recordMap: ExtendedRecordMap
 }) {
   return (
-    <Layout title="Experience" description="Software i know">
+    <Layout title="Experience" description="My experience">
       <section className="w-full">
-        <div className="mx-auto h-48 max-w-6xl">
-          <h1 className="py-16 text-center text-5xl font-bold md:text-left lg:text-8xl">
-            Software i know
+        <div className="mx-auto max-w-6xl">
+          <h1 className="py-10 text-center text-5xl font-bold md:text-left lg:text-7xl">
+            Experience &amp; resume
           </h1>
         </div>
 
         <div className="bg-[#F1F1F1] px-3 sm:px-8">
-          <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-6xl pt-6">
             <NotionRenderer recordMap={recordMap}></NotionRenderer>
-          </div>
-
-          <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 py-20 pb-40 md:grid-cols-2">
-            <div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Repudiandae, harum!
-            </div>
-            <div>
-              levels: ask me about anything, i can google it, hello world
-            </div>
           </div>
         </div>
       </section>

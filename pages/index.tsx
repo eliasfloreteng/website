@@ -3,8 +3,11 @@ import Link from "next/link"
 
 export default function Home() {
   return (
-    <Layout title="Elias1233" description="Software developer studying at KTH">
-      <h1 className="text-6xl font-bold">Hello and welcome!</h1>
+    <Layout
+      title="Elias Floreteng"
+      description="Software developer studying at KTH"
+    >
+      <h1 className="mb-8 text-6xl font-bold">Hello and welcome!</h1>
 
       <div className="prose">
         <p className="lead">
