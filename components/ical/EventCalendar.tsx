@@ -72,17 +72,6 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
     endDate: new Date(e.endDate),
   }))
 
-  const loading = !error && !data
-  if (loading)
-    return (
-      <div
-        style={{ height: 651 }}
-        className="flex flex-col items-center justify-center gap-3 rounded-lg bg-slate-900/10 text-xl"
-      >
-        <LoadingSpinner />
-        Loading...
-      </div>
-    )
   if (error) {
     console.error(error, error.status, error.info)
     return <div>Error!</div>
@@ -182,7 +171,8 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
             </button>
           </div>
         </div>
-        <div className="flex overflow-x-auto">
+
+        <div className="relative flex overflow-x-auto">
           <div className="hidden w-0 overflow-clip border-t border-r text-right text-xs text-slate-400 md:block md:w-10">
             <div
               className="border-b-2 border-transparent"
@@ -327,6 +317,12 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
           </div>
 
           <div className="hidden w-0 border-t border-l md:block md:w-5"></div>
+          {!data && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-900/10 text-xl">
+              <LoadingSpinner />
+              Loading...
+            </div>
+          )}
         </div>
       </div>
 
