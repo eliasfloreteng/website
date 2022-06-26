@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import Image from "next/image"
+import Image from "@/components/Image"
 
 export const isDev =
   process.env.NODE_ENV === "development" || !process.env.NODE_ENV
@@ -9,10 +9,18 @@ export const currentLang =
   typeof window !== "undefined"
     ? navigator?.languages?.[0] || navigator?.language
     : undefined
-
-export const rtf = new Intl.RelativeTimeFormat(currentLang || "en", {
-  numeric: "auto",
-})
+export const rtf = (() => {
+  if (Intl === void 0 || typeof Intl.RelativeTimeFormat !== "function") {
+    return {
+      format(value: number, key: string) {
+        return `${value} ${key}`
+      },
+    }
+  }
+  return new Intl.RelativeTimeFormat(currentLang || "en", {
+    numeric: "auto",
+  })
+})()
 // in milliseconds
 const units = {
   year: 24 * 60 * 60 * 1000 * 365,

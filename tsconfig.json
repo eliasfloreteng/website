@@ -31,7 +31,9 @@
     "**/public/sw.js.map",
     "**/public/workbox-*.js.map",
     "**/public/worker-*.js.map",
-    "**/public/fallback-*.js"
+    "**/public/fallback-*.js",
+    "android",
+    "out"
   ],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
 }

@@ -1,5 +1,5 @@
 import khat from "@/public/khat.jpg"
-import Image from "next/image"
+import Image from "@/components/Image"
 import Head from "next/head"
 import { useEffect, useRef, useState } from "react"
 

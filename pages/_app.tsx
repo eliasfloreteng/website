@@ -5,6 +5,9 @@ import "prismjs/themes/prism-tomorrow.css"
 // used for rendering equations (optional)
 import "react-notion-x/build/third-party/equation.css"
 
+import "@formatjs/intl-relativetimeformat/polyfill"
+import "@formatjs/intl-relativetimeformat/locale-data/en" // locale-data for en
+
 // custom global css
 import "styles/global.css"
 import "styles/notion.css"
