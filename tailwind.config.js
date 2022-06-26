@@ -15,6 +15,21 @@ module.exports = {
         //@ts-ignore
         serif: ['"Merriweather"', ...defaultTheme.fontFamily.serif],
       },
+      keyframes: {
+        "bounce-reverse": {
+          "0%, 100%": {
+            transform: "none",
+            "animation-timing-function": "cubic-bezier(0,0,0.2,1)",
+          },
+          "50%": {
+            transform: "translateY(-25%)",
+            // "animation-timing-function": "cubic-bezier(0.8,0,1,1)",
+          },
+        },
+      },
+      animation: {
+        "bounce-once": "bounce-reverse 500ms ease-in-out 1",
+      },
     },
   },
   plugins: [

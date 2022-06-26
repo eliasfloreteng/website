@@ -49,13 +49,25 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: true,
     }
   }
+
+  const alwaysGenerate = [
+    "staffinmotion",
+    "star-stockholm",
+    "recycle-right",
+    "always-bemanning",
+  ]
+  return {
+    paths: alwaysGenerate.map((projectSlug) => ({
+      params: { projectSlug },
+    })),
+    fallback: "blocking",
+  }
+
   // This crawls all public pages starting from the given root page in order
   // for next.js to pre-generate all pages via static site generation (SSG).
-  // This is a useful optimization but not necessary; you could just as easily
-  // set paths to an empty array to not pre-generate any pages at build time.
   const allPages = await getAllPages({
     notion,
-    options: { traverseCollections: false }, // set to true to pre-generate all subpages
+    options: { traverseCollections: false, onlyFeatured: true }, // set to true to pre-generate all subpages
   })
 
   const paths = Object.keys(allPages)
