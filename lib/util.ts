@@ -10,13 +10,6 @@ export const currentLang =
     ? navigator?.languages?.[0] || navigator?.language
     : undefined
 export const rtf = (() => {
-  if (Intl === void 0 || typeof Intl.RelativeTimeFormat !== "function") {
-    return {
-      format(value: number, key: string) {
-        return `${value} ${key}`
-      },
-    }
-  }
   return new Intl.RelativeTimeFormat(currentLang || "en", {
     numeric: "auto",
   })

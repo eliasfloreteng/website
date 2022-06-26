@@ -5,14 +5,12 @@ import "prismjs/themes/prism-tomorrow.css"
 // used for rendering equations (optional)
 import "react-notion-x/build/third-party/equation.css"
 
-import "@formatjs/intl-relativetimeformat/polyfill"
-import "@formatjs/intl-relativetimeformat/locale-data/en" // locale-data for en
-
 // custom global css
 import "styles/global.css"
 import "styles/notion.css"
 import { AppProps } from "next/app"
 import Head from "next/head"
+import Script from "next/script"
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -36,6 +34,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#f1f3f4" />
       </Head>
       <Component {...pageProps} />
+      {/* Polyfill Intl.RelativeTimeFormat, its dependencies &amp; `en` locale data */}
+      <Script
+        src="https://polyfill.io/v3/polyfill.min.js?features=Intl.RelativeTimeFormat,Intl.RelativeTimeFormat.~locale.en,Intl.RelativeTimeFormat.~locale.se"
+        strategy="beforeInteractive"
+      ></Script>
     </>
   )
 }

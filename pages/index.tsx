@@ -1,7 +1,11 @@
 import Layout from "@/components/Layout"
 import Link from "next/link"
+import Ical from "./ical"
 
 export default function Home() {
+  if (process.env.EXPORTING) {
+    return <Ical />
+  }
   return (
     <Layout
       title="Elias Floreteng"

@@ -11,6 +11,8 @@ export default function Layout({
   date,
   manifestHref,
   faviconHref,
+  hideNavbar,
+  hideFooter,
   children,
 }: {
   title: string
@@ -19,6 +21,8 @@ export default function Layout({
   date?: string
   manifestHref?: string
   faviconHref?: string
+  hideNavbar?: boolean
+  hideFooter?: boolean
   children?: ReactNode
 }) {
   const router = useRouter()
@@ -76,7 +80,7 @@ export default function Layout({
       </Head>
 
       <div className="flex min-h-screen flex-col bg-slate-50">
-        <Navbar />
+        {!hideNavbar && <Navbar />}
 
         <main
           id="content"
@@ -85,7 +89,7 @@ export default function Layout({
           {children}
         </main>
 
-        <Footer />
+        {!hideFooter && <Footer />}
       </div>
     </>
   )

@@ -31,7 +31,8 @@ export function useCalendarHits(
 export function generateCalendarPath(user: number, icalendar: string) {
   return `social/user/${user}/icalendar/${icalendar}`
 }
-export function parseCalendarPath(rawUrl: string) {
+export function parseCalendarPath(rawUrl: string | null) {
+  if (!rawUrl) return null
   try {
     const url = new URL(rawUrl)
     let res = RegExp(/social\/user\/(\d{6})\/icalendar\/([\da-f]{40})$/).exec(
@@ -47,7 +48,7 @@ export function parseCalendarPath(rawUrl: string) {
     }
   }
 }
-export function proxiedUrl(rawUrl: string) {
+export function proxiedUrl(rawUrl: string | null) {
   const parsed = parseCalendarPath(rawUrl)
   if (!parsed) {
     return null

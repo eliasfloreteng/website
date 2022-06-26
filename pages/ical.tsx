@@ -24,6 +24,7 @@ export default function Ical() {
 
   const tab = kthUrl ? router.query.tab || "calendar" : "setup"
 
+  const hideNavAndFoot = Boolean(process.env.EXPORTING)
   return (
     <Layout
       title="KTH calendar proxy"
@@ -32,6 +33,8 @@ export default function Ical() {
           title, description, location or KTH event link/id."
       faviconHref={`https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_${new Date().getDate()}.ico`}
       manifestHref="/ical/manifest.json"
+      hideNavbar={hideNavAndFoot}
+      hideFooter={hideNavAndFoot}
     >
       <Head>
         <meta name="apple-mobile-web-app-title" content="KTH calendar proxy" />
@@ -68,12 +71,17 @@ export default function Ical() {
 
       <div className="container mx-auto p-4">
         <header>
-          <h1 className="mb-4 text-6xl font-bold">KTH calendar proxy</h1>
-          <p className="mb-2">
-            This service is a proxy for your KTH exported calendar that can hide
-            or show certain events based on rules using regular expressions on
-            the title, description, location or KTH event link/id.
-          </p>
+          <h1 className="mb-4 text-3xl font-bold md:text-6xl">
+            KTH calendar proxy
+          </h1>
+          {!process.env.EXPORTING && (
+            <p className="mb-2">
+              This service is a proxy for your KTH exported calendar that can
+              hide or show certain events based on rules using regular
+              expressions on the title, description, location or KTH event
+              link/id.
+            </p>
+          )}
           {hitsLoaded && (
             <p className="mb-2">
               The proxy has been used {hits} times ({latestHitRelative}).
