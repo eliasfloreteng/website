@@ -6,6 +6,8 @@
     "start": "next start",
     "export:next": "next export",
     "export": "cross-env EXPORTING=1 npm-run-all -s build export:next",
+    "capacitor:android": "cap run android",
+    "run:android": "npm-run-all -s export capacitor:android",
     "lint": "next lint"
   },
   "dependencies": {
