@@ -33,7 +33,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="mx-auto w-full max-w-6xl px-4 py-10 md:py-20">
+    <header className="mx-auto w-full max-w-6xl px-4 py-10 md:py-20">
       <div className="flex flex-wrap items-center justify-between">
         <div className="flex flex-col">
           <Link href="/">
@@ -63,13 +63,13 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="order-last mt-4 w-full space-x-4 text-center md:order-none md:mt-0 md:w-auto md:space-x-8 md:text-left">
+        <nav className="order-last mt-4 w-full space-x-4 text-center md:order-none md:mt-0 md:w-auto md:space-x-8 md:text-left">
           <ActiveLink href="/" exact>
             Home
           </ActiveLink>
           <ActiveLink href="/projects">Projects</ActiveLink>
           <ActiveLink href="/experience">Experience</ActiveLink>
-        </div>
+        </nav>
 
         <div className="flex flex-row items-center space-x-4">
           <a
@@ -100,6 +100,6 @@ export default function Navbar() {
           </a>
         </div>
       </div>
-    </nav>
+    </header>
   )
 }
