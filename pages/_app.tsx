@@ -29,9 +29,35 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta name="apple-mobile-web-app-title" content="Elias1233" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="msapplication-TileColor" content="#06B6D4" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <meta name="theme-color" content="#f1f3f4" />
+        <meta name="msapplication-TileColor" content="#da532c" />
+        <meta
+          name="msapplication-config"
+          content="/favicon/browserconfig.xml"
+        />
+        <meta name="theme-color" content="#f8fafc" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/favicon/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon/favicon-16x16.png"
+        />
+        <link
+          rel="mask-icon"
+          href="/favicon/safari-pinned-tab.svg"
+          color="#38bdf8"
+        />
+        <link rel="shortcut icon" href="/favicon/favicon.ico" />
       </Head>
       <Component {...pageProps} />
       {/* Polyfill Intl.RelativeTimeFormat, its dependencies &amp; `en` locale data */}

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 256 256">
+  <g clip-path="url(#a)" filter="url(#b)">
+    <g clip-path="url(#c)">
+      <rect width="188.703" height="188.703" x="-.886" y="93.465" fill="#fff" rx="16" transform="rotate(-30 -.886 93.465)" />
+      <path fill="#38BDF8" fill-rule="evenodd" d="M126.543 26.703a5.897 5.897 0 0 1 2.159-8.056l28.726-16.585a5.896 5.896 0 0 1 8.055 2.159l88.455 153.207a5.896 5.896 0 0 1-2.159 8.055l-28.726 16.586a5.896 5.896 0 0 1-8.055-2.159l-15.48-26.811a5.897 5.897 0 0 0-8.055-2.159l-74.689 43.122a5.897 5.897 0 0 1-8.055-2.159l-12.163-21.066a5.897 5.897 0 0 1 2.159-8.055l74.688-43.121a5.898 5.898 0 0 0 2.159-8.056l-10.689-18.512a5.896 5.896 0 0 0-8.055-2.159l-74.689 43.122a5.897 5.897 0 0 1-8.055-2.159l-12.162-21.066a5.897 5.897 0 0 1 2.158-8.055l74.689-43.122a5.898 5.898 0 0 0 2.158-8.055l-14.374-24.896Z" clip-rule="evenodd" />
+    </g>
+  </g>
+  <defs>
+    <clipPath id="a">
+      <path fill="#fff" d="M0 0h256v256H0z" />
+    </clipPath>
+    <clipPath id="c">
+      <rect width="188.703" height="188.703" x="-.886" y="93.465" fill="#fff" rx="16" transform="rotate(-30 -.886 93.465)" />
+    </clipPath>
+    <filter id="b" width="265.772" height="265.772" x="-4.886" y="-.886" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+      <feOffset dy="1" />
+      <feGaussianBlur stdDeviation=".5" />
+      <feComposite in2="hardAlpha" operator="out" />
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0" />
+      <feBlend in2="BackgroundImageFix" result="effect1_dropShadow_10_14" />
+      <feColorMatrix in="SourceAlpha" result="hardAlpha" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+      <feOffset dy="4" />
+      <feGaussianBlur stdDeviation="2" />
+      <feComposite in2="hardAlpha" operator="out" />
+      <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+      <feBlend in2="effect1_dropShadow_10_14" result="effect2_dropShadow_10_14" />
+      <feBlend in="SourceGraphic" in2="effect2_dropShadow_10_14" result="shape" />
+    </filter>
+  </defs>
+</svg>

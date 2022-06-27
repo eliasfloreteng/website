@@ -1,6 +1,8 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
+import Logo from "@/public/logo.svg"
+import Image from "@/components/Image"
 
 export default function Navbar() {
   const router = useRouter()
@@ -35,19 +37,28 @@ export default function Navbar() {
       <div className="flex flex-wrap items-center justify-between">
         <div className="flex flex-col">
           <Link href="/">
-            <a className="group">
-              <h1 className="text-xl font-semibold">
-                Elias
-                <span className="text-slate-200 opacity-0 transition-opacity group-hover:opacity-100">
-                  1233
-                </span>
-              </h1>
-              <p className="text-slate-500">
-                Software developer styding at{" "}
-                <abbr title="Royal Institute of Technology in Stockholm">
-                  KTH
-                </abbr>
-              </p>
+            <a className="group flex items-center gap-4">
+              <Image
+                src={Logo}
+                alt="Logotype of Elias1233"
+                className="transition-transform group-hover:rotate-[30deg]"
+                height={78}
+                width={78}
+              />
+              <div>
+                <h1 className="text-xl font-semibold">
+                  Elias
+                  <span className="text-slate-200 opacity-0 transition-opacity group-hover:opacity-100">
+                    1233
+                  </span>
+                </h1>
+                <p className="text-slate-500">
+                  Software developer styding at{" "}
+                  <abbr title="Royal Institute of Technology in Stockholm">
+                    KTH
+                  </abbr>
+                </p>
+              </div>
             </a>
           </Link>
         </div>
