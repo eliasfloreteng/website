@@ -1,8 +1,8 @@
 import { CapacitorConfig } from "@capacitor/cli"
 
 const config: CapacitorConfig = {
-  appId: "se.elias1233.app",
-  appName: "Elias1233",
+  appId: "se.elias1233.kthcal",
+  appName: "KTH Calendar",
   webDir: "out",
   bundledWebRuntime: false,
 }
