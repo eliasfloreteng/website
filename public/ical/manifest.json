@@ -5,7 +5,7 @@
     "background_color": "#ffffff",
     "display": "standalone",
     "scope": "/ical",
-    "start_url": "/ical",
+    "start_url": "/ical?pwa",
     "description": "This service is a proxy for your KTH exported calendar that can hide or show certain events based on rules using regular expressions on the title, description, location or KTH event link/id.",
     "icons": [
         {

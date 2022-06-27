@@ -24,7 +24,9 @@ export default function Ical() {
 
   const tab = kthUrl ? router.query.tab || "calendar" : "setup"
 
-  const hideNavAndFoot = Boolean(process.env.EXPORTING)
+  const hideNavAndFoot = Boolean(
+    process.env.EXPORTING || router.query.pwa !== undefined
+  )
   return (
     <Layout
       title="KTH calendar proxy"
@@ -90,7 +92,10 @@ export default function Ical() {
         </header>
 
         <div className="mb-4 flex flex-wrap border-b border-gray-200 text-center font-medium text-gray-500">
-          <Link href={{ query: { tab: "setup" } }} scroll={false}>
+          <Link
+            href={{ query: { ...router.query, tab: "setup" } }}
+            scroll={false}
+          >
             <a
               className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
                 tab == "setup"
@@ -118,7 +123,12 @@ export default function Ical() {
 
           {kthUrl && (
             <>
-              <Link href={{ query: { tab: "calendar" } }} scroll={false}>
+              <Link
+                href={{
+                  query: { ...router.query, tab: "calendar" },
+                }}
+                scroll={false}
+              >
                 <a
                   className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
                     tab == "calendar"
@@ -143,7 +153,15 @@ export default function Ical() {
                   Calendar
                 </a>
               </Link>
-              <Link href={{ query: { tab: "hideshowrules" } }} scroll={false}>
+              <Link
+                href={{
+                  query: {
+                    ...router.query,
+                    tab: "hideshowrules",
+                  },
+                }}
+                scroll={false}
+              >
                 <a
                   className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
                     tab == "hideshowrules"
@@ -173,7 +191,15 @@ export default function Ical() {
                   Hide/show rules
                 </a>
               </Link>
-              <Link href={{ query: { tab: "regexrules" } }} scroll={false}>
+              <Link
+                href={{
+                  query: {
+                    ...router.query,
+                    tab: "regexrules",
+                  },
+                }}
+                scroll={false}
+              >
                 <a
                   className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
                     tab == "regexrules"
