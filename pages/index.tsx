@@ -23,6 +23,8 @@ export default function Home() {
         </div>
       </div>
 
+      {/* <Blobs /> */}
+
       <div className="mt-6 flex w-full max-w-4xl flex-wrap items-center justify-around">
         <Link href="/projects">
           <a className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
