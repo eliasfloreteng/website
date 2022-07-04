@@ -13,6 +13,7 @@ export default function Layout({
   faviconHref,
   hideNavbar,
   hideFooter,
+  className,
   children,
 }: {
   title: string
@@ -23,6 +24,7 @@ export default function Layout({
   faviconHref?: string
   hideNavbar?: boolean
   hideFooter?: boolean
+  className?: string
   children?: ReactNode
 }) {
   const router = useRouter()
@@ -84,7 +86,7 @@ export default function Layout({
 
         <main
           id="content"
-          className="flex w-full flex-1 flex-col items-center justify-center"
+          className={`flex w-full flex-1 flex-col items-center justify-center ${className}`}
         >
           {children}
         </main>

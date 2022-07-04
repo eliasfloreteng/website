@@ -48,7 +48,7 @@ export default function Navbar() {
               <div>
                 <h1 className="text-xl font-semibold">
                   Elias
-                  <span className="text-slate-200 opacity-0 transition-opacity group-hover:opacity-100">
+                  <span className="text-slate-200 transition-opacity group-hover:opacity-100 sm:opacity-0">
                     1233
                   </span>
                 </h1>
@@ -71,7 +71,7 @@ export default function Navbar() {
           <ActiveLink href="/experience">Experience</ActiveLink>
         </nav>
 
-        <div className="flex flex-row items-center space-x-4">
+        <div className="ml-auto flex flex-row items-center space-x-4 sm:ml-0">
           <a
             href="https://github.com/elias123tre"
             className="text-slate-600 dark:text-slate-300"
