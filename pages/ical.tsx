@@ -90,7 +90,6 @@ export default function Ical() {
             </p>
           )}
         </header>
-
         <div className="mb-4 flex flex-wrap border-b border-gray-200 text-center font-medium text-gray-500">
           <Link
             href={{ query: { ...router.query, tab: "setup" } }}
@@ -227,6 +226,7 @@ export default function Ical() {
             </>
           )}
         </div>
+
         <div className="space-y-12">
           {tab == "setup" && (
             <ProxySetup kthUrl={kthUrl} setKthUrl={setKthUrl} />

@@ -1,4 +1,4 @@
-import { HideShowRule, proxiedUrl } from "lib/calendar"
+import { getWeekdays, HideShowRule, proxiedUrl, weekNumber } from "lib/calendar"
 import { fetcher } from "lib/util"
 import { useState } from "react"
 import useSWR, { mutate as globalMutate } from "swr"
@@ -15,49 +15,84 @@ export interface RawEvent {
 }
 
 export type Event = Omit<RawEvent, "startDate" | "endDate"> & {
+  mandatory: boolean
+  courseCode: string | null
   startDate: Date
   endDate: Date
 }
 
-const colors: readonly string[] = [
-  "bg-slate-500",
-  "bg-gray-500",
-  "bg-zinc-500",
-  "bg-neutral-500",
-  "bg-stone-500",
-  "bg-red-500",
-  "bg-orange-500",
+let colors = [
   "bg-amber-500",
-  "bg-yellow-500",
-  "bg-lime-500",
-  "bg-green-500",
-  "bg-emerald-500",
-  "bg-teal-500",
-  "bg-cyan-500",
   "bg-sky-500",
-  "bg-blue-500",
-  "bg-indigo-500",
-  "bg-violet-500",
-  "bg-purple-500",
-  "bg-fuchsia-500",
-  "bg-pink-500",
   "bg-rose-500",
+  "bg-purple-500",
+  "bg-green-500",
+  "bg-stone-500",
+  "bg-orange-500",
+  "bg-teal-500",
+  "bg-indigo-500",
+  "bg-cyan-500",
+  "bg-fuchsia-500",
+  "bg-yellow-500",
+  "bg-slate-500",
+  "bg-lime-500",
+  "bg-blue-500",
+  "bg-red-500",
+  "bg-emerald-500",
+  "bg-violet-500",
+  "bg-pink-500",
 ]
+let courseColors: { [key: string]: string } = {}
+
+/**
+ * Assign each coursecode to a color in order from array `colors`
+ * @param courseCode string of coursecode to be turned into color
+ * @returns tailwind bg color class
+ */
 function colorFromCourseCode(courseCode: string) {
-  var hash = 0
-  if (courseCode.length === 0) return hash
-  for (let i = 0; i < courseCode.length; i++) {
-    let chr = courseCode.charCodeAt(i)
-    hash = (hash << 5) - hash + chr
-    hash |= 0 // Convert to 32bit integer
+  const color = courseColors[courseCode]
+  if (color) {
+    return color
   }
-  return colors[Math.abs(hash % colors.length)]
+  const newColor = colors.shift()
+  if (!newColor) {
+    return "bg-zinc-700"
+  }
+  courseColors[courseCode] = newColor
+  return newColor
 }
 
 export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
   const hourHeight = 48
   const startHour = 8
-  const [weekOffset, setWeekOffset] = useState(0)
+
+  const today = new Date()
+
+  // if after friday 19:00
+  if (
+    (today.getDay() == 5 && today.getHours() >= 19) ||
+    today.getDay() > 5 || // after friday
+    today.getDay() < 1 // before monday
+  ) {
+    // skip to next week
+    today.setDate(today.getDate() + 7)
+  }
+  const currentWeek = weekNumber(today)
+
+  const [weekNum, _setWeekNum] = useState(currentWeek)
+  type UseState<S> = (action: S | ((prevState: S) => S)) => void
+  const setWeekNum: UseState<number> = (arg) => {
+    const mod = (num: number, n: number) => ((num % n) + n) % n || 52
+    if (typeof arg === "number") {
+      _setWeekNum(mod(arg, 52))
+    } else {
+      _setWeekNum((week) => mod(arg(week), 52))
+    }
+  }
+
+  // skip according to week offset
+  today.setDate(today.getDate() + (weekNum - currentWeek) * 7)
+  const weekdays = getWeekdays(today)
 
   const { data, error, mutate } = useSWR<RawEvent[]>(
     `${proxiedUrl(kthUrl)}/preview`,
@@ -68,6 +103,14 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
 
   const events: Event[] = (data || []).map((e) => ({
     ...e,
+    description: (e.description || "").trim().replace(/&amp;/g, "&") || null,
+    mandatory: new RegExp(/^\s*\*\s*/).test(e.summary || ""),
+    courseCode:
+      e.summary
+        // Extract course code from last occuring parenthesis
+        ?.match(/\(((?:\w{2}\d{4})|(?:[\w\d]{2,}[ ,\wåäöÅÄÖ\d]*))\)/gi)
+        ?.pop()
+        ?.replace(/[\(\)]/g, "") || null,
     startDate: new Date(e.startDate),
     endDate: new Date(e.endDate),
   }))
@@ -77,50 +120,24 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
     return <div>Error!</div>
   }
 
-  // start date
-  let firstOfWeek = new Date()
-  // if after friday 19:00
-  if (
-    (firstOfWeek.getDay() == 5 && firstOfWeek.getHours() >= 19) ||
-    firstOfWeek.getDay() > 5 || // after friday
-    firstOfWeek.getDay() < 1 // before monday
-  ) {
-    // skip to next week
-    firstOfWeek.setDate(firstOfWeek.getDate() + 7)
-  }
-  // skip according to week offset
-  firstOfWeek.setDate(firstOfWeek.getDate() + weekOffset * 7)
-  // this weeks monday
-  firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay() + 1)
-
-  // https://github.com/jquery/jquery-ui/blob/cf938e286382cc8f6cb74b3c6f75275073672aeb/ui/widgets/datepicker.js#L1153
-  let yearStart = new Date(firstOfWeek)
-  yearStart.setDate(yearStart.getDate() + 4 - (yearStart.getDay() || 7))
-  let time = yearStart.getTime()
-  yearStart.setMonth(0)
-  yearStart.setDate(1)
-  const weekNum =
-    Math.floor(Math.round((time - yearStart.valueOf()) / 86400000) / 7) + 1
-
-  let weekdays = []
-  let startDate = firstOfWeek.getDate()
-  for (let i = startDate; i < startDate + 5; i++) {
-    firstOfWeek.setDate(i)
-    weekdays.push(new Date(firstOfWeek))
-  }
-
   return (
     <>
       <div className="w-full overflow-clip rounded-xl ring-1 ring-gray-900/5 md:rounded-lg">
-        <div className="flex justify-between gap-4 bg-neutral-100 px-6 py-5">
-          <div className="text-xl font-semibold tracking-wide">
-            Vecka {weekNum}
-          </div>
+        <div className="flex items-center justify-between gap-4 bg-neutral-100 px-6 py-5">
+          <button
+            className="text-xl font-semibold tracking-wide"
+            title="Reset to current week"
+            onClick={() => {
+              setWeekNum(currentWeek)
+            }}
+          >
+            Week {weekNum}
+          </button>
 
           <div className="inline-flex -space-x-px">
             <button
               className="ml-0 block rounded-l-lg border border-gray-300 bg-white py-2 px-3 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              onClick={() => setWeekOffset(weekOffset - 1)}
+              onClick={() => setWeekNum((week) => week - 1)}
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -137,23 +154,22 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
               </svg>
             </button>
 
-            {
-              // TODO: Ability to change week
-            }
-            {/* <input
-                type="number"
-                className="appearance-textfield box-content max-w-[2ch] border border-gray-300 bg-white py-2 px-3 text-center font-semibold slashed-zero lining-nums tabular-nums leading-none text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-slate-900/25"
-                value={0}
-                readOnly
-                size={1}
-                min={1}
-                max={53}
-                maxLength={2}
-              /> */}
+            <input
+              type="number"
+              className="appearance-textfield box-content border border-gray-300 bg-white py-2 px-2 text-center font-semibold slashed-zero lining-nums tabular-nums leading-none text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-slate-900/25"
+              value={weekNum}
+              onInput={(event) =>
+                setWeekNum(parseInt(event.currentTarget.value, 10))
+              }
+              size={1}
+              min={1}
+              max={53}
+              maxLength={2}
+            />
 
             <button
               className="block rounded-r-lg border border-gray-300 bg-white py-2 px-3 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-              onClick={() => setWeekOffset(weekOffset + 1)}
+              onClick={() => setWeekNum((week) => week + 1)}
             >
               <span className="sr-only">Next</span>
               <svg
@@ -210,7 +226,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
                 day.getFullYear() === today.getFullYear()
 
               return (
-                <div key={day.toString()} className="min-w-[8rem]">
+                <div key={day.toString()} className="min-w-[9rem]">
                   <div className="flex items-center justify-center gap-2 border-b-2 p-4 capitalize">
                     <span className="text-slate-600">{weekday}</span>
                     <span
@@ -266,9 +282,6 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
                           event.startDate.getHours() -
                           event.startDate.getMinutes()
 
-                        let courseCode =
-                          event.summary?.match(/\((\w{2}\d{4})\)/i)?.[1]
-
                         return (
                           <button
                             key={JSON.stringify(event)}
@@ -277,27 +290,33 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
                             onClick={() => setEventModal(event)}
                           >
                             <div
-                              className={`grid content-center rounded-xl px-4 text-sm text-white ${
-                                courseCode
-                                  ? colorFromCourseCode(courseCode)
-                                  : "bg-fuchsia-400"
-                              }`}
+                              className={
+                                "grid content-center rounded-xl px-4 text-sm text-white " +
+                                (event.courseCode
+                                  ? colorFromCourseCode(event.courseCode)
+                                  : "bg-gray-700")
+                              }
                               style={{
                                 height:
                                   eventHeight * hourHeight -
                                   8 /* to remove padding */,
                               }}
                             >
-                              <div>
-                                {event.startDate.toLocaleTimeString("sv", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })}{" "}
-                                &ndash;{" "}
-                                {event.endDate.toLocaleTimeString("sv", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                })}
+                              <div className="flex justify-between gap-1">
+                                <div>
+                                  {event.startDate.toLocaleTimeString("sv", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}{" "}
+                                  &ndash;{" "}
+                                  {event.endDate.toLocaleTimeString("sv", {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  })}
+                                </div>
+                                {event.mandatory && (
+                                  <div className="text-xs">&#x2731;</div>
+                                )}
                               </div>
 
                               <div

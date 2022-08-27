@@ -3,7 +3,7 @@ import "react-notion-x/src/styles.css"
 // used for code syntax highlighting (optional)
 import "prismjs/themes/prism-tomorrow.css"
 // used for rendering equations (optional)
-import "react-notion-x/build/third-party/equation.css"
+import "katex/dist/katex.min.css"
 
 // custom global css
 import "styles/global.css"

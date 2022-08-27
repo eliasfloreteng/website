@@ -1,6 +1,40 @@
 import useSWR from "swr"
 import { fetcher, getRelativeTime, isDev } from "./util"
 
+/**
+ * Get iso8601 week number from javascript Date
+ *
+ * Credit: https://github.com/jquery/jquery-ui/blob/cf938e286382cc8f6cb74b3c6f75275073672aeb/ui/widgets/datepicker.js#L1153-L1164
+ * @param date input date to get week of
+ */
+export function weekNumber(date: string | number | Date) {
+  let yearStart = new Date(date)
+  yearStart.setDate(yearStart.getDate() + 4 - (yearStart.getDay() || 7))
+  let time = yearStart.getTime()
+  yearStart.setMonth(0)
+  yearStart.setDate(1)
+  return Math.floor(Math.round((time - yearStart.getTime()) / 86400000) / 7) + 1
+}
+
+/**
+ * Get all weekdays of the same week as inputDay
+ * @param inputDay
+ * @returns array of dates (mon-fri)
+ */
+export function getWeekdays(inputDay: string | number | Date) {
+  // start date
+  let firstOfWeek = new Date(inputDay)
+  // this weeks monday
+  firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay() + 1)
+
+  let weekdays = []
+  for (let i = 0; i < 5; i++) {
+    weekdays.push(new Date(firstOfWeek))
+    firstOfWeek.setDate(firstOfWeek.getDate() + 1)
+  }
+  return weekdays
+}
+
 export interface Hits {
   hits: number
   latestHit: string | Date

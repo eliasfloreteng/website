@@ -165,21 +165,28 @@ export default function ProxySetup({
   ]
 
   return (
-    <ol className="relative border-l border-gray-200">
+    <ol className="relative translate-x-[calc(1.75rem/2)] border-l border-gray-200">
       {steps.map(({ title, text, action, shielded }, index) => {
         if (shielded && !kthUrl) {
           return
         }
         return (
-          <li className="mb-10 ml-[1.5rem] sm:ml-8" key={index}>
-            <span className="absolute flex aspect-square h-7 -translate-x-[calc(1.5rem+50%)] items-center justify-center rounded-full bg-white font-semibold sm:h-9">
-              {index + 1}.
+          <li
+            className="mb-10 flex -translate-x-[calc(2.5rem/2)] items-start gap-4 "
+            key={index}
+          >
+            <span className="relative grid w-[2.5rem] place-items-center text-center font-semibold">
+              <div className="absolute top-1/2 left-0 right-0 aspect-square w-[2.5rem] -translate-y-1/2 rounded-full bg-white"></div>
+              <div className="relative w-[2.5rem] leading-7">{index + 1}.</div>
             </span>
-            <h3 className="mb-1 flex items-center text-lg font-semibold text-gray-900">
-              {title}
-            </h3>
-            <p className="mb-4 text-gray-500">{text}</p>
-            {action}
+
+            <div className="min-w-0">
+              <h3 className="mb-1 flex items-center text-lg font-semibold text-gray-900">
+                {title}
+              </h3>
+              <p className="mb-4 text-gray-500">{text}</p>
+              {action}
+            </div>
           </li>
         )
       })}
