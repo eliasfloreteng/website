@@ -184,6 +184,10 @@
   display: none !important;
 } */
 
+.notion-collection-column-title-body {
+  line-height: 18px;
+}
+
 .notion-collection-row-property .notion-property {
   margin: 0 auto;
   text-align: center;
