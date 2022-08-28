@@ -97,7 +97,21 @@ export default function Project({
   const block = recordMap?.block?.[keys[0]]?.value
   const description = getPageProperty("Description", block, recordMap)
   const link = getPageProperty("Link", block, recordMap)
-  const image = (block as PageBlock).format?.page_cover
+  const image = (() => {
+    const coverLink = (block as PageBlock).format?.page_cover
+    if (!coverLink) return null
+    const encoded = encodeURIComponent(coverLink)
+    return `https://www.notion.so/image/${encoded}?table=block&id=${block.id}&cache=v2`
+  })()
+
+  // useful for debugging from the dev console
+  if (typeof window !== "undefined") {
+    const keys = Object.keys(recordMap?.block || {})
+    const block = recordMap?.block?.[keys[0]]?.value
+    const g = window as any
+    g.recordMap = recordMap
+    g.block = block
+  }
 
   return (
     <>
