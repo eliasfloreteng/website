@@ -185,12 +185,14 @@
 } */
 
 .notion-collection-row-property .notion-property {
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
+  width: fit-content;
 }
 
 .notion-collection-row-value {
   padding: 0;
+  text-align: center;
 }
 
 .notion-page-cover {
