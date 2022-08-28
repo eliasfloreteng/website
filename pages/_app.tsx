@@ -10,7 +10,6 @@ import "styles/global.css"
 import "styles/notion.css"
 import { AppProps } from "next/app"
 import Head from "next/head"
-import Script from "next/script"
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -60,11 +59,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
       </Head>
       <Component {...pageProps} />
-      {/* Polyfill Intl.RelativeTimeFormat, its dependencies &amp; `en` locale data */}
-      <Script
-        src="https://polyfill.io/v3/polyfill.min.js?features=Intl.RelativeTimeFormat,Intl.RelativeTimeFormat.~locale.en,Intl.RelativeTimeFormat.~locale.se"
-        strategy="beforeInteractive"
-      ></Script>
     </>
   )
 }

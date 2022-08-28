@@ -1,5 +1,6 @@
 // eslint-disable-next-line @next/next/no-document-import-in-page
 import Document, { Html, Head, Main, NextScript } from "next/document"
+import Script from "next/script"
 
 class MyDocument extends Document {
   render() {
@@ -16,6 +17,11 @@ class MyDocument extends Document {
         <body>
           <Main />
           <NextScript />
+          {/* Polyfill Intl.RelativeTimeFormat, its dependencies &amp; `en` locale data */}
+          <Script
+            src="https://polyfill.io/v3/polyfill.min.js?features=Intl.RelativeTimeFormat,Intl.RelativeTimeFormat.~locale.en,Intl.RelativeTimeFormat.~locale.se"
+            strategy="beforeInteractive"
+          ></Script>
         </body>
       </Html>
     )

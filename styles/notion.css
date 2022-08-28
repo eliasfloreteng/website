@@ -49,6 +49,11 @@
   margin: 0 auto;
 }
 
+/* Hide collection header title (does not contain view name) */
+.notion-collection-header {
+  display: none;
+}
+
 .notion-gallery-grid {
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   grid-gap: 6vmin;
