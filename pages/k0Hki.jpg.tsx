@@ -1,5 +1,5 @@
 import khat from "@/public/khat.jpg"
-import Image from "@/components/Image"
+import Image from "next/image"
 import Head from "next/head"
 import { useEffect, useRef, useState } from "react"
 
@@ -69,6 +69,7 @@ export default function Knocking() {
           ref={audio}
           src="/knocking.mp3"
           autoPlay
+          loop
           controls={false}
         ></audio>
       </div>

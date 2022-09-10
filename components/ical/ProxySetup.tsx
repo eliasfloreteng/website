@@ -1,6 +1,6 @@
 import kthLogo from "@/public/ical/kth.svg"
 import { proxiedUrl, useCalendarHits } from "lib/calendar"
-import Image from "@/components/Image"
+import Image from "next/image"
 import Link from "next/link"
 import { SetStateAction } from "react"
 

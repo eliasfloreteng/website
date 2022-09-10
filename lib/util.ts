@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import Image from "@/components/Image"
+import Image from "next/image"
 
 export const isDev =
   process.env.NODE_ENV === "development" || !process.env.NODE_ENV

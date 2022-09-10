@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "@/components/Image"
+import Image from "next/image"
 import nextjs from "../public/nextjs.ico"
 
 export default function Footer() {

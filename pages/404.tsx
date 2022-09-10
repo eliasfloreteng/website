@@ -1,5 +1,5 @@
 import Layout from "@/components/Layout"
-import Image from "@/components/Image"
+import Image from "next/image"
 import notFoundImage from "../public/page_not_found.svg"
 
 export default function ErrorPage() {

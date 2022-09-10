@@ -10,9 +10,11 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 let config = {
+  swcMinify: true,
   reactStrictMode: true,
   staticPageGenerationTimeout: 300,
   images: {
+    unoptimized: true,
     domains: [
       "calendar.google.com",
       "www.kth.se",

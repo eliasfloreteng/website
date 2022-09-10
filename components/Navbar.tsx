@@ -2,7 +2,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { ReactNode } from "react"
 import Logo from "@/public/logo.svg"
-import Image from "@/components/Image"
+import Image from "next/image"
 
 export default function Navbar() {
   const router = useRouter()
