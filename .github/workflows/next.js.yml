@@ -16,10 +16,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
+      - uses: actions/checkout@v3
       - name: next.js build cache
         uses: actions/cache@v3
         with:
@@ -30,9 +27,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
       - name: setup nodejs and yarn (with cache)
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18"
           cache: "yarn"
       - name: install yarn dependencies
         run: yarn install --frozen-lockfile
