@@ -14,7 +14,7 @@ let config = {
   reactStrictMode: true,
   staticPageGenerationTimeout: 300,
   images: {
-    unoptimized: true,
+    unoptimized: Boolean(process.env.EXPORTING),
     domains: [
       "calendar.google.com",
       "www.kth.se",
