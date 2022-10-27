@@ -21,7 +21,10 @@ export default function Knocking() {
 
   const CookieModal = () => (
     <>
-      <div className="fixed h-screen w-screen bg-black/80" />
+      <div
+        className="fixed h-screen w-screen bg-black/80"
+        onClick={() => setCookies(false)}
+      />
       <div className="fixed left-1/2 top-1/2 z-50 flex max-h-screen min-h-[70vh] w-screen max-w-5xl -translate-x-1/2 -translate-y-1/2 flex-col justify-between gap-8 overflow-y-auto bg-white p-6 shadow-lg sm:rounded-3xl md:w-[70vw] md:p-12">
         <div className="space-y-8 text-center">
           <div className="text-8xl">🍪</div>
@@ -40,13 +43,14 @@ export default function Knocking() {
         </small>
         <button
           className="rounded-full bg-slate-800 px-8 py-4 text-2xl font-semibold uppercase text-white transition-colors hover:ring-[3px]"
-          onClick={() => {
-            setCookies(false)
-          }}
+          onClick={() => setCookies(false)}
         >
           Accept
         </button>
-        <small className="cursor-pointer text-center uppercase text-slate-500 hover:underline">
+        <small
+          className="cursor-pointer text-center uppercase text-slate-500 hover:underline"
+          onClick={() => setCookies(false)}
+        >
           Manage settings
         </small>
       </div>
@@ -61,9 +65,9 @@ export default function Knocking() {
       <div>
         <Image
           alt="two khats hugging it out"
+          className="object-contain"
           src={khat}
-          layout="fill"
-          objectFit="contain"
+          fill
         ></Image>
         <audio
           ref={audio}
