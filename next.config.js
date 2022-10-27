@@ -30,12 +30,4 @@ let config = {
   // },
 }
 
-// When using `next export` use custom image loader
-if (process.env.EXPORTING) {
-  if (!config.images) config.images = {}
-  config.images.loader = "custom"
-  if (!config.env) config.env = {}
-  config.env.EXPORTING = process.env.EXPORTING
-}
-
 module.exports = withPWA(config)

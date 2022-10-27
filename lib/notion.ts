@@ -1,9 +1,5 @@
 import { uuidToId, getAllPagesInSpace, getCanonicalPageId } from "notion-utils"
-import {
-  rootNotionPageId,
-  rootNotionSpaceId,
-  featuredNotionPageId,
-} from "config"
+import { rootNotionPageId, rootNotionSpaceId } from "config"
 import { NotionAPI } from "notion-client"
 import { ExtendedRecordMap } from "notion-types"
 
@@ -12,11 +8,9 @@ export const getAllPages = async ({
   options,
 }: {
   notion: NotionAPI
-  options?: { traverseCollections?: boolean; onlyFeatured?: boolean }
+  options?: { traverseCollections?: boolean }
 }) => {
-  const rootPageId = options?.onlyFeatured
-    ? featuredNotionPageId
-    : rootNotionPageId
+  const rootPageId = rootNotionPageId
   const pageMap = await getAllPagesInSpace(
     rootPageId,
     rootNotionSpaceId,
