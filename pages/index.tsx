@@ -26,19 +26,21 @@ export default function Home() {
       {/* <Blobs /> */}
 
       <div className="mt-6 flex w-full max-w-4xl flex-wrap items-center justify-around">
-        <Link href="/projects">
-          <a className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
-            <h3 className="text-2xl font-bold">Projects &rarr;</h3>
-            <p className="mt-4 text-xl">The projects i have participated in</p>
-          </a>
+        <Link
+          href="/projects"
+          className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
+        >
+          <h3 className="text-2xl font-bold">Projects &rarr;</h3>
+          <p className="mt-4 text-xl">The projects i have participated in</p>
         </Link>
-        <Link href="/experience">
-          <a className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600">
-            <h3 className="text-2xl font-bold">Experience &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Some of my skills in software development
-            </p>
-          </a>
+        <Link
+          href="/experience"
+          className="mt-6 w-96 rounded-xl border p-6 text-left hover:text-blue-600 focus:text-blue-600"
+        >
+          <h3 className="text-2xl font-bold">Experience &rarr;</h3>
+          <p className="mt-4 text-xl">
+            Some of my skills in software development
+          </p>
         </Link>
       </div>
     </Layout>

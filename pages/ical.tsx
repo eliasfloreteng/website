@@ -94,30 +94,27 @@ export default function Ical() {
           <Link
             href={{ query: { ...router.query, tab: "setup" } }}
             scroll={false}
+            className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+              tab == "setup"
+                ? "border-blue-600 text-blue-600"
+                : "border-transparent hover:border-gray-300 hover:text-gray-600"
+            }`}
           >
-            <a
-              className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
-                tab == "setup"
-                  ? "border-blue-600 text-blue-600"
-                  : "border-transparent hover:border-gray-300 hover:text-gray-600"
-              }`}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                />
-              </svg>
-              Setup
-            </a>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            Setup
           </Link>
 
           {kthUrl && (
@@ -127,30 +124,27 @@ export default function Ical() {
                   query: { ...router.query, tab: "calendar" },
                 }}
                 scroll={false}
+                className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                  tab == "calendar"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                }`}
               >
-                <a
-                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
-                    tab == "calendar"
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
-                  }`}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    />
-                  </svg>
-                  Calendar
-                </a>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  />
+                </svg>
+                Calendar
               </Link>
               <Link
                 href={{
@@ -160,35 +154,32 @@ export default function Ical() {
                   },
                 }}
                 scroll={false}
+                className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                  tab == "hideshowrules"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                }`}
               >
-                <a
-                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
-                    tab == "hideshowrules"
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
-                  }`}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                  Hide/show rules
-                </a>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+                Hide/show rules
               </Link>
               <Link
                 href={{
@@ -198,30 +189,27 @@ export default function Ical() {
                   },
                 }}
                 scroll={false}
+                className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
+                  tab == "regexrules"
+                    ? "border-blue-600 text-blue-600"
+                    : "border-transparent hover:border-gray-300 hover:text-gray-600"
+                }`}
               >
-                <a
-                  className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
-                    tab == "regexrules"
-                      ? "border-blue-600 text-blue-600"
-                      : "border-transparent hover:border-gray-300 hover:text-gray-600"
-                  }`}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    />
-                  </svg>
-                  Regex rules
-                </a>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                  />
+                </svg>
+                Regex rules
               </Link>
             </>
           )}

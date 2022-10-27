@@ -20,14 +20,13 @@ export default function Navbar() {
       ? router.asPath == href
       : router.asPath.startsWith(href)
     return (
-      <Link href={href}>
-        <a
-          className={`${
-            isActive ? "font-bold text-slate-800" : "text-slate-600"
-          }`}
-        >
-          {children}
-        </a>
+      <Link
+        href={href}
+        className={`${
+          isActive ? "font-bold text-slate-800" : "text-slate-600"
+        }`}
+      >
+        {children}
       </Link>
     )
   }
@@ -36,30 +35,28 @@ export default function Navbar() {
     <header className="mx-auto w-full max-w-6xl px-4 py-10 md:py-20">
       <div className="flex flex-wrap items-center justify-between">
         <div className="flex flex-col">
-          <Link href="/">
-            <a className="group flex items-center gap-4">
-              <Image
-                src={Logo}
-                alt="Logotype of Elias1233"
-                className="transition-transform group-hover:rotate-[30deg]"
-                height={78}
-                width={78}
-              />
-              <div>
-                <h1 className="text-xl font-semibold">
-                  Elias
-                  <span className="text-slate-200 transition-opacity group-hover:opacity-100 sm:opacity-0">
-                    1233
-                  </span>
-                </h1>
-                <p className="text-slate-500">
-                  Software developer styding at{" "}
-                  <abbr title="Royal Institute of Technology in Stockholm">
-                    KTH
-                  </abbr>
-                </p>
-              </div>
-            </a>
+          <Link href="/" className="group flex items-center gap-4">
+            <Image
+              src={Logo}
+              alt="Logotype of Elias1233"
+              className="transition-transform group-hover:rotate-[30deg]"
+              height={78}
+              width={78}
+            />
+            <div>
+              <h1 className="text-xl font-semibold">
+                Elias
+                <span className="text-slate-200 transition-opacity group-hover:opacity-100 sm:opacity-0">
+                  1233
+                </span>
+              </h1>
+              <p className="text-slate-500">
+                Software developer styding at{" "}
+                <abbr title="Royal Institute of Technology in Stockholm">
+                  KTH
+                </abbr>
+              </p>
+            </div>
           </Link>
         </div>
 

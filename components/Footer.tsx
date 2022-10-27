@@ -23,13 +23,13 @@ export default function Footer() {
           <div className="text-lg font-semibold">Quick links:</div>
           <div>
             <div>
-              <Link href="/ical">
-                <a className="link">KTH icalendar proxy</a>
+              <Link href="/ical" className="link">
+                KTH icalendar proxy
               </Link>
             </div>
             <div>
-              <Link href="/k0Hki.jpg">
-                <a className="link">Cute cat</a>
+              <Link href="/k0Hki.jpg" className="link">
+                Cute cat
               </Link>
             </div>
           </div>

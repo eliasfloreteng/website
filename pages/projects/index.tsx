@@ -73,22 +73,23 @@ const ProjectCard = ({
   image: string
   number: number
 }) => (
-  <Link href={`/projects/${pagename}`}>
-    <a className="group grid h-72 w-full overflow-hidden shadow-2xl">
-      <div className="z-10 col-start-1 row-start-1 bg-black bg-opacity-10"></div>
-      <div className="z-10 col-start-1 row-start-1 flex flex-col justify-between">
-        <h1 className="m-10 max-w-max rounded-md bg-red-500 py-1 px-2 text-xl font-bold text-slate-50">
-          {title}
-        </h1>
-        <h1 className="m-10 text-xl font-bold text-slate-50">
-          {number.toString().padStart(2, "0")}
-        </h1>
-      </div>
-      <img
-        src={image}
-        alt="portfolio"
-        className="col-start-1 row-start-1 h-full w-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-125"
-      />
-    </a>
+  <Link
+    href={`/projects/${pagename}`}
+    className="group grid h-72 w-full overflow-hidden shadow-2xl"
+  >
+    <div className="z-10 col-start-1 row-start-1 bg-black bg-opacity-10"></div>
+    <div className="z-10 col-start-1 row-start-1 flex flex-col justify-between">
+      <h1 className="m-10 max-w-max rounded-md bg-red-500 py-1 px-2 text-xl font-bold text-slate-50">
+        {title}
+      </h1>
+      <h1 className="m-10 text-xl font-bold text-slate-50">
+        {number.toString().padStart(2, "0")}
+      </h1>
+    </div>
+    <img
+      src={image}
+      alt="portfolio"
+      className="col-start-1 row-start-1 h-full w-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-125"
+    />
   </Link>
 )
