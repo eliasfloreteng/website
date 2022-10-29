@@ -2,12 +2,18 @@ import { GetStaticProps, GetStaticPaths } from "next"
 import { getPageTitle, getPageProperty } from "notion-utils"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer } from "react-notion-x"
-import Layout from "@/components/Layout"
-import ProjectPage from "@/components/ProjectPage"
 import { createMapPageUrl, getAllPages } from "lib/notion"
 import { homeId } from "config"
 import { ExtendedRecordMap, PageBlock } from "notion-types"
-import { Components, isDev } from "lib/util"
+import { Components, hashCode, isDev } from "lib/util"
+
+import Layout from "@/components/Layout"
+import ProjectPage from "@/components/ProjectPage"
+import LoadingSpinner from "@/components/LoadingSpinner"
+import Skeleton from "@/components/Skeleton"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import { GRADIENTS } from "lib/gradients"
 
 const notion = new NotionAPI()
 
@@ -67,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
       paths,
-      fallback: "blocking",
+      fallback: true,
     }
   }
 
@@ -81,7 +87,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: alwaysGenerate.map((projectSlug) => ({
       params: { projectSlug },
     })),
-    fallback: "blocking",
+    fallback: true,
   }
 }
 
@@ -90,8 +96,31 @@ export default function Project({
 }: {
   recordMap?: ExtendedRecordMap
 }) {
+  const router = useRouter()
+  const [slug, setSlug] = useState<string | null>(null)
+
+  useEffect(() => {
+    setSlug(router.asPath.split("?")[0].split("/").at(-1) || null)
+  }, [router.asPath])
+
+  // loading state fallback
   if (!recordMap) {
-    return null
+    return (
+      <Layout title="Project">
+        <ProjectPage
+          title={<Skeleton title width="4em" />}
+          description={
+            <>
+              <Skeleton width="20%" /> <Skeleton width="15%" />{" "}
+              <Skeleton width="10%" /> <Skeleton width="25%" />
+            </>
+          }
+          image={slug ? GRADIENTS[hashCode(slug, GRADIENTS.length)] : undefined}
+        >
+          <LoadingSpinner className="mx-auto h-14 w-14 text-stone-400" />
+        </ProjectPage>
+      </Layout>
+    )
   }
 
   const title = getPageTitle(recordMap)

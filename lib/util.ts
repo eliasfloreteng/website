@@ -34,6 +34,23 @@ export function getRelativeTime(d1: Date, d2 = new Date()) {
       return rtf.format(Math.round(elapsed / value), key)
 }
 
+/**
+ * Positive 32-bit index of the hash code of `str` with a given modulo/radix
+ * @param str
+ * @param radix
+ * @returns
+ */
+export function hashCode(str: string, radix?: number) {
+  let hash = 0
+  for (let i = 0, len = str.length; i < len; i++) {
+    let chr = str.charCodeAt(i)
+    hash = (hash << 5) - hash + chr
+    hash |= 0 // Convert to 32bit integer
+  }
+  if (radix) return Math.abs(hash % radix)
+  return Math.abs(hash)
+}
+
 export async function fetcher(url: any, ...args: any) {
   const res = await fetch(url, ...args)
 
