@@ -36,9 +36,9 @@ module.exports = {
             "background-position": "100% 100%",
           },
         },
-      },
-      "cursor-loading": {
-        "from, to": { cursor: "wait" },
+        "cursor-loading": {
+          "from, to": { cursor: "wait" },
+        },
       },
       animation: {
         "bounce-once": "bounce-reverse 500ms ease-in-out 1",
