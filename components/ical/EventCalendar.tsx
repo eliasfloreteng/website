@@ -337,8 +337,8 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
 
           <div className="hidden w-0 border-t border-l md:block md:w-5"></div>
           {!data && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-900/10 text-xl">
-              <LoadingSpinner />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-900/10 text-xl text-white">
+              <LoadingSpinner className="-ml-1 mr-3 h-10 w-10" />
               Loading...
             </div>
           )}

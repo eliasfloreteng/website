@@ -18,7 +18,7 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string }) {
         style={{ height: 810 }}
         className="flex flex-col items-center justify-center gap-3 rounded-lg bg-slate-900/10 text-xl"
       >
-        <LoadingSpinner />
+        <LoadingSpinner className="-ml-1 mr-3 h-10 w-10" />
         Loading...
       </div>
     )
@@ -74,7 +74,7 @@ export default function RuleEditor({ kthUrl }: { kthUrl: string }) {
         ))}
 
         <button
-          className="addButton"
+          className="button-add"
           onClick={async () => {
             const newRule: Rule = {
               id: rules.length,

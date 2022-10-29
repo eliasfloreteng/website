@@ -90,7 +90,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
         style={{ height: 638 }}
         className="flex flex-col items-center justify-center gap-3 rounded-lg bg-slate-900/10 text-xl"
       >
-        <LoadingSpinner />
+        <LoadingSpinner className="-ml-1 mr-3 h-10 w-10" />
         Loading...
       </div>
     )
@@ -105,7 +105,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
         <h2 className="mb-3 text-3xl font-semibold">Hidden events</h2>
 
         <div className="flex flex-col gap-2 overflow-x-auto pb-2">
-          <button className="addButton" onClick={() => addRule("hide")}>
+          <button className="button-add" onClick={() => addRule("hide")}>
             <AddIcon />
             Add hidden event
           </button>
@@ -130,7 +130,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
         <h2 className="mb-3 text-3xl font-semibold">Shown events</h2>
 
         <div className="flex max-h-96 flex-col gap-2 overflow-x-auto pb-2">
-          <button className="addButton" onClick={() => addRule("show")}>
+          <button className="button-add" onClick={() => addRule("show")}>
             <AddIcon />
             Add shown event
           </button>
