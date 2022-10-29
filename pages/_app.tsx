@@ -10,8 +10,25 @@ import "styles/global.css"
 import "styles/notion.css"
 import { AppProps } from "next/app"
 import Head from "next/head"
+import { useRouter } from "next/router"
+import { useState, useEffect } from "react"
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+
+  const [isRouteChanging, setIsRouteChanging] = useState(false)
+  useEffect(() => {
+    router.events.on("routeChangeStart", (url) => {
+      setIsRouteChanging(true)
+    })
+    router.events.on("routeChangeComplete", (url) => {
+      setIsRouteChanging(false)
+    })
+    router.events.on("routeChangeError", (url) => {
+      setIsRouteChanging(false)
+    })
+  }, [router])
+
   return (
     <>
       <Head>
@@ -58,6 +75,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         />
         <link rel="shortcut icon" href="/favicon/favicon.ico" />
       </Head>
+
+      <div
+        className={`loading-stripes fixed inset-x-0 top-0 h-1.5 shadow shadow-blue-800/20 transition-opacity delay-150 duration-500 ease-in ${
+          router.isFallback || isRouteChanging ? "opacity-80" : "opacity-0"
+        }`}
+      ></div>
       <Component {...pageProps} />
     </>
   )

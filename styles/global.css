@@ -22,6 +22,11 @@
   .button-add {
     @apply mx-auto flex w-full items-center justify-center gap-2 rounded-lg bg-gray-100 py-2 px-4 shadow-md;
   }
+
+  .loading-stripes {
+    @apply animate-scrolling bg-stripes;
+    background-size: 200% 200%;
+  }
 }
 
 @layer utilities {
