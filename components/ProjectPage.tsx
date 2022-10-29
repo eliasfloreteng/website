@@ -11,8 +11,8 @@ export default function ProjectPage({
   children,
   ...props
 }: {
-  title: string
-  description?: string | null
+  title: string | React.ReactNode
+  description?: string | React.ReactNode | null
   link?: string | null
   image?: string | null
   date?: string | null
@@ -55,7 +55,7 @@ export default function ProjectPage({
               {title}
             </h1>
             {description && (
-              <p className="mb-8 text-slate-700">{description}</p>
+              <div className="mb-8 text-slate-700">{description}</div>
             )}
             {link && (
               <div className="flex flex-wrap gap-y-4 gap-x-8">
