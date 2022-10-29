@@ -24,15 +24,15 @@ export default function ProjectPage({
 
   return (
     <div className="w-full">
-      <div className="relative border-b-8 border-blue-600">
+      <div className="group peer relative border-b-8 border-blue-600 hover:animate-[cursor-loading_1000ms_ease-in-out_1]">
         {image && (
           <img className="h-96 w-full object-cover" src={image} alt="" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black opacity-40 transition-opacity duration-500 group-hover:opacity-0 group-hover:delay-1000"></div>
       </div>
 
       <div
-        className={`relative w-full px-4 sm:px-8 md:px-24 lg:w-auto ${
+        className={`relative z-10 w-full px-4 transition-[bottom] duration-500 peer-hover:-bottom-4 peer-hover:delay-1000 sm:px-8 md:px-24 lg:w-auto ${
           image ? "bottom-36" : ""
         }`}
       >
