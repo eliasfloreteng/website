@@ -58,12 +58,12 @@ export default function ProjectPage({
               <div className="mb-8 text-slate-700">{description}</div>
             )}
             {link && (
-              <div className="flex flex-wrap gap-y-4 gap-x-8">
+              <div className="flex flex-wrap gap-x-8 gap-y-4">
                 <a
                   href={link}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex flex-auto items-center justify-center space-x-2 rounded py-1 px-2 shadow hover:bg-slate-100 focus:bg-slate-100 sm:py-4 sm:px-6"
+                  className="inline-flex flex-auto items-center justify-center space-x-2 rounded px-2 py-1 shadow hover:bg-slate-100 focus:bg-slate-100 sm:px-6 sm:py-4"
                 >
                   <span>{new URL(link).hostname}</span>
                   <svg

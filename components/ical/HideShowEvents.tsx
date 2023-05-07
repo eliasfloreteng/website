@@ -124,7 +124,7 @@ export default function HideShowEvents({ kthUrl }: { kthUrl: string }) {
         </div>
       </div>
 
-      <div className="my-8 mx-0 border md:my-0 md:mx-8"></div>
+      <div className="mx-0 my-8 border md:mx-8 md:my-0"></div>
 
       <div className="min-w-fit flex-auto">
         <h2 className="mb-3 text-3xl font-semibold">Shown events</h2>

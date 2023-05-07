@@ -28,7 +28,7 @@ export default function EventCard({
     <div ref={ref} className="flex flex-col rounded-lg bg-white shadow">
       <div className="flex items-center justify-between rounded-t border-b p-5">
         <a
-          className="flex-1 text-lg font-semibold text-slate-900 line-clamp-2"
+          className="line-clamp-2 flex-1 text-lg font-semibold text-slate-900"
           title={event.summary || ""}
           href={event.url || "#"}
           target="_blank"

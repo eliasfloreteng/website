@@ -136,7 +136,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
 
           <div className="inline-flex -space-x-px">
             <button
-              className="ml-0 block rounded-l-lg border border-gray-300 bg-white py-2 px-3 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              className="ml-0 block rounded-l-lg border border-gray-300 bg-white px-3 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               onClick={() => setWeekNum((week) => week - 1)}
             >
               <span className="sr-only">Previous</span>
@@ -156,7 +156,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
 
             <input
               type="number"
-              className="appearance-textfield box-content border border-gray-300 bg-white py-2 px-2 text-center font-semibold slashed-zero lining-nums tabular-nums leading-none text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-slate-900/25"
+              className="appearance-textfield box-content border border-gray-300 bg-white px-2 py-2 text-center font-semibold slashed-zero lining-nums tabular-nums leading-none text-gray-500 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-slate-900/25"
               value={weekNum}
               onInput={(event) =>
                 setWeekNum(parseInt(event.currentTarget.value, 10))
@@ -168,7 +168,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
             />
 
             <button
-              className="block rounded-r-lg border border-gray-300 bg-white py-2 px-3 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+              className="block rounded-r-lg border border-gray-300 bg-white px-3 py-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
               onClick={() => setWeekNum((week) => week + 1)}
             >
               <span className="sr-only">Next</span>
@@ -189,7 +189,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
         </div>
 
         <div className="relative flex overflow-x-auto">
-          <div className="hidden w-0 overflow-clip border-t border-r text-right text-xs text-slate-400 md:block md:w-10">
+          <div className="hidden w-0 overflow-clip border-r border-t text-right text-xs text-slate-400 md:block md:w-10">
             <div
               className="border-b-2 border-transparent"
               style={{ height: 62 }}
@@ -320,7 +320,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
                               </div>
 
                               <div
-                                className="font-medium line-clamp-2"
+                                className="line-clamp-2 font-medium"
                                 title={event.summary ?? undefined}
                               >
                                 {event.summary?.replace(/^\*\s*/, "")}
@@ -335,7 +335,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
             })}
           </div>
 
-          <div className="hidden w-0 border-t border-l md:block md:w-5"></div>
+          <div className="hidden w-0 border-l border-t md:block md:w-5"></div>
           {!data && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-slate-900/10 text-xl text-white">
               <LoadingSpinner className="-ml-1 mr-3 h-10 w-10" />
@@ -346,7 +346,7 @@ export default function EventCalendar({ kthUrl }: { kthUrl: string }) {
       </div>
 
       {eventModal && (
-        <div className="fixed top-0 right-0 left-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-slate-900/40 md:inset-0 md:h-full">
+        <div className="fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden bg-slate-900/40 md:inset-0 md:h-full">
           <div className="grid h-full w-full max-w-2xl place-items-center p-4 md:h-auto">
             <EventCard
               event={eventModal}

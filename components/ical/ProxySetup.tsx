@@ -174,7 +174,7 @@ export default function ProxySetup({
             key={index}
           >
             <span className="relative grid w-[2.5rem] place-items-center text-center font-semibold">
-              <div className="absolute top-1/2 left-0 right-0 aspect-square w-[2.5rem] -translate-y-1/2 rounded-full bg-white"></div>
+              <div className="absolute left-0 right-0 top-1/2 aspect-square w-[2.5rem] -translate-y-1/2 rounded-full bg-white"></div>
               <div className="relative w-[2.5rem] leading-7">{index + 1}.</div>
             </span>
 
