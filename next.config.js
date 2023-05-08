@@ -30,7 +30,7 @@ let config = {
   //   newNextLinkBehavior: true,
   // },
   experimental: {
-    appDir: false,
+    appDir: true,
   },
 }
 

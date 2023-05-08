@@ -49,47 +49,54 @@ export const getStaticProps: GetStaticProps = async (context) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  if (isDev) {
-    return {
-      paths: [],
-      fallback: true,
-    }
-  }
-
-  // Generate all pages on export
-  if (process.env.EXPORTING) {
-    // This crawls all public pages starting from the given root page in order
-    // for next.js to pre-generate all pages via static site generation (SSG).
-    const allPages = await getAllPages({
-      notion,
-      options: { traverseCollections: true },
-    })
-
-    const paths = Object.keys(allPages)
-      .filter((slug) => !["projects", "view-projects"].includes(slug))
-      .map((projectSlug) => ({
-        params: { projectSlug },
-      }))
-
-    return {
-      paths,
-      fallback: true,
-    }
-  }
-
-  const alwaysGenerate = [
-    "staffinmotion",
-    "star-stockholm",
-    "recycle-right",
-    "always-bemanning",
-  ]
   return {
-    paths: alwaysGenerate.map((projectSlug) => ({
-      params: { projectSlug },
-    })),
+    paths: [],
     fallback: true,
   }
 }
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   if (isDev) {
+//     return {
+//       paths: [],
+//       fallback: true,
+//     }
+//   }
+
+//   // Generate all pages on export
+//   if (process.env.EXPORTING) {
+//     // This crawls all public pages starting from the given root page in order
+//     // for next.js to pre-generate all pages via static site generation (SSG).
+//     const allPages = await getAllPages({
+//       notion,
+//       options: { traverseCollections: true },
+//     })
+
+//     const paths = Object.keys(allPages)
+//       .filter((slug) => !["projects", "view-projects"].includes(slug))
+//       .map((projectSlug) => ({
+//         params: { projectSlug },
+//       }))
+
+//     return {
+//       paths,
+//       fallback: true,
+//     }
+//   }
+
+//   const alwaysGenerate = [
+//     "staffinmotion",
+//     "star-stockholm",
+//     "recycle-right",
+//     "always-bemanning",
+//   ]
+//   return {
+//     paths: alwaysGenerate.map((projectSlug) => ({
+//       params: { projectSlug },
+//     })),
+//     fallback: true,
+//   }
+// }
 
 export default function Project({
   recordMap,
