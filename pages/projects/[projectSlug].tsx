@@ -1,11 +1,11 @@
-import { GetStaticProps, GetStaticPaths } from "next"
+import { GetServerSideProps } from "next"
 import { getPageTitle, getPageProperty } from "notion-utils"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer } from "react-notion-x"
 import { createMapPageUrl, getAllPages } from "lib/notion"
 import { homeId } from "config"
 import { ExtendedRecordMap, PageBlock } from "notion-types"
-import { Components, hashCode, isDev } from "lib/util"
+import { Components, hashCode } from "lib/util"
 
 import Layout from "@/components/Layout"
 import ProjectPage from "@/components/ProjectPage"
@@ -17,7 +17,7 @@ import { GRADIENTS } from "lib/gradients"
 
 const notion = new NotionAPI()
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const projectSlug = context?.params?.projectSlug
     if (projectSlug && !Array.isArray(projectSlug)) {
@@ -47,56 +47,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     }
   }
 }
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
-}
-
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   if (isDev) {
-//     return {
-//       paths: [],
-//       fallback: true,
-//     }
-//   }
-
-//   // Generate all pages on export
-//   if (process.env.EXPORTING) {
-//     // This crawls all public pages starting from the given root page in order
-//     // for next.js to pre-generate all pages via static site generation (SSG).
-//     const allPages = await getAllPages({
-//       notion,
-//       options: { traverseCollections: true },
-//     })
-
-//     const paths = Object.keys(allPages)
-//       .filter((slug) => !["projects", "view-projects"].includes(slug))
-//       .map((projectSlug) => ({
-//         params: { projectSlug },
-//       }))
-
-//     return {
-//       paths,
-//       fallback: true,
-//     }
-//   }
-
-//   const alwaysGenerate = [
-//     "staffinmotion",
-//     "star-stockholm",
-//     "recycle-right",
-//     "always-bemanning",
-//   ]
-//   return {
-//     paths: alwaysGenerate.map((projectSlug) => ({
-//       params: { projectSlug },
-//     })),
-//     fallback: true,
-//   }
-// }
 
 export default function Project({
   recordMap,

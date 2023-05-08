@@ -5,13 +5,13 @@ import Link from "next/link"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer } from "react-notion-x"
 import { homeId } from "config"
-import { GetStaticProps } from "next"
+import { GetServerSideProps } from "next"
 import { ExtendedRecordMap } from "notion-types"
 import { Components } from "lib/util"
 
 const notion = new NotionAPI()
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const recordMap = await notion.getPage(homeId)
 

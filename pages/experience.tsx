@@ -1,12 +1,12 @@
 import Layout from "@/components/Layout"
-import { GetStaticProps } from "next"
+import { GetServerSideProps } from "next"
 import { NotionAPI } from "notion-client"
 import { ExtendedRecordMap } from "notion-types"
 import { NotionRenderer } from "react-notion-x"
 
 const notion = new NotionAPI()
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const recordMap = await notion.getPage("155db39d4a314bc6800d094e23fb535d")
   return {
     props: {
