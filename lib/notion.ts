@@ -1,5 +1,5 @@
 import { uuidToId, getAllPagesInSpace, getCanonicalPageId } from "notion-utils"
-import { rootNotionPageId, rootNotionSpaceId } from "config"
+import { rootNotionPageId, rootNotionSpaceId } from "../config"
 import { NotionAPI } from "notion-client"
 import { ExtendedRecordMap } from "notion-types"
 

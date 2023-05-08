@@ -3,7 +3,7 @@ import { getPageTitle, getPageProperty } from "notion-utils"
 import { NotionAPI } from "notion-client"
 import { NotionRenderer } from "react-notion-x"
 import { createMapPageUrl, getAllPages } from "lib/notion"
-import { homeId } from "config"
+import { homeId } from "../../config"
 import { ExtendedRecordMap, PageBlock } from "notion-types"
 import { Components, hashCode } from "lib/util"
 
