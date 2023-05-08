@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import Head from "next/head"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
@@ -27,7 +27,7 @@ export default function Layout({
   className?: string
   children?: ReactNode
 }) {
-  const router = useRouter()
+  const pathname = usePathname()
 
   const fromJSX = (elem: any /* ReactNode */) => {
     if (typeof elem == "string") {
@@ -47,11 +47,8 @@ export default function Layout({
         <title>{title}</title>
         <meta name="robots" content="follow, index" />
         <meta content={fromJSX(description)} name="description" />
-        <meta
-          property="og:url"
-          content={`https://elias1233.se${router.asPath}`}
-        />
-        <link rel="canonical" href={`https://elias1233.se${router.asPath}`} />
+        <meta property="og:url" content={`https://elias1233.se${pathname}`} />
+        <link rel="canonical" href={`https://elias1233.se${pathname}`} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="elias1233" />
         <meta property="og:description" content={fromJSX(description)} />
@@ -86,7 +83,9 @@ export default function Layout({
 
         <main
           id="content"
-          className={`flex w-full flex-1 flex-col items-center justify-center ${className}`}
+          className={`flex w-full flex-1 flex-col items-center justify-center ${
+            className || ""
+          }`}
         >
           {children}
         </main>

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function ProjectPage({
   title,

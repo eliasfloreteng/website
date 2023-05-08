@@ -1,11 +1,13 @@
+"use client"
+
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { usePathname } from "next/navigation"
 import { ReactNode } from "react"
 import Logo from "@/public/logo.svg"
 import Image from "next/image"
 
 export default function Navbar() {
-  const router = useRouter()
+  const pathname = usePathname() || ""
 
   const ActiveLink = ({
     href,
@@ -16,9 +18,7 @@ export default function Navbar() {
     exact?: boolean
     children?: ReactNode
   }) => {
-    const isActive = exact
-      ? router.asPath == href
-      : router.asPath.startsWith(href)
+    const isActive = exact ? pathname == href : pathname.startsWith(href)
     return (
       <Link
         href={href}

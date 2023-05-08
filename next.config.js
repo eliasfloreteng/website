@@ -28,6 +28,9 @@ let config = {
   // experimental: {
   //   outputStandalone: true,
   // },
+  experimental: {
+    appDir: true,
+  },
 }
 
 module.exports = withPWA(config)

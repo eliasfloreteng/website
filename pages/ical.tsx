@@ -6,11 +6,11 @@ import Layout from "@/components/Layout"
 import { useCalendarHits } from "lib/calendar"
 import Head from "next/head"
 import Link from "next/link"
-import { useRouter } from "next/router"
+import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export default function Ical() {
-  const router = useRouter()
+  const searchParams = useSearchParams() ?? new URLSearchParams()
 
   const [kthUrl, setKthUrl] = useState(null as string | null)
   useEffect(() => {
@@ -22,10 +22,10 @@ export default function Ical() {
 
   const { hitsLoaded, hits, latestHitRelative } = useCalendarHits(kthUrl)
 
-  const tab = kthUrl ? router.query.tab || "calendar" : "setup"
+  const tab = kthUrl ? searchParams.get("tab") || "calendar" : "setup"
 
   const hideNavAndFoot = Boolean(
-    process.env.EXPORTING || router.query.pwa !== undefined
+    process.env.EXPORTING || searchParams.get("pwa")
   )
   return (
     <Layout
@@ -92,7 +92,7 @@ export default function Ical() {
         </header>
         <div className="mb-4 flex flex-wrap border-b border-gray-200 text-center font-medium text-gray-500">
           <Link
-            href={{ query: { ...router.query, tab: "setup" } }}
+            href={{ query: { tab: "setup" } }}
             scroll={false}
             className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
               tab == "setup"
@@ -121,7 +121,7 @@ export default function Ical() {
             <>
               <Link
                 href={{
-                  query: { ...router.query, tab: "calendar" },
+                  query: { tab: "calendar" },
                 }}
                 scroll={false}
                 className={`inline-flex items-center gap-1.5 rounded-t-lg border-b-2 p-4 ${
@@ -149,7 +149,6 @@ export default function Ical() {
               <Link
                 href={{
                   query: {
-                    ...router.query,
                     tab: "hideshowrules",
                   },
                 }}
@@ -184,7 +183,6 @@ export default function Ical() {
               <Link
                 href={{
                   query: {
-                    ...router.query,
                     tab: "regexrules",
                   },
                 }}

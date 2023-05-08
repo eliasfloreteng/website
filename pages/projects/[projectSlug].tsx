@@ -12,7 +12,7 @@ import ProjectPage from "@/components/ProjectPage"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import Skeleton from "@/components/Skeleton"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { GRADIENTS } from "lib/gradients"
 
 const notion = new NotionAPI()
@@ -99,9 +99,13 @@ export default function Project({
   const router = useRouter()
   const [slug, setSlug] = useState<string | null>(null)
 
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   useEffect(() => {
-    setSlug(router.asPath.split("?")[0].split("/").at(-1) || null)
-  }, [router.asPath])
+    const url = pathname + (searchParams ? searchParams.toString() : "")
+    setSlug(url.split("?")[0].split("/").at(-1) || null)
+  }, [pathname, searchParams])
 
   // loading state fallback
   if (!recordMap) {
