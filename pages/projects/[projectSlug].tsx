@@ -32,12 +32,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         props: {
           recordMap,
         },
-        revalidate: 300,
       }
     } else {
       return {
         props: {},
-        revalidate: 300,
       }
     }
   } catch (error) {

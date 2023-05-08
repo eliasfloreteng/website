@@ -19,7 +19,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         recordMap,
       },
-      revalidate: 300,
     }
   } catch (err) {
     console.error("page error", err)

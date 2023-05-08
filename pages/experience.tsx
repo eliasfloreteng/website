@@ -12,7 +12,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     props: {
       recordMap,
     },
-    revalidate: 300,
   }
 }
 
