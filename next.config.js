@@ -27,9 +27,10 @@ let config = {
   // TODO: Enable this when stable https://nextjs.org/docs/advanced-features/output-file-tracing
   // experimental: {
   //   outputStandalone: true,
+  //   newNextLinkBehavior: true,
   // },
   experimental: {
-    appDir: true,
+    appDir: false,
   },
 }
 
