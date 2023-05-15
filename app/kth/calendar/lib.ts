@@ -82,6 +82,7 @@ export function parseCalendarPath(rawUrl: string | null) {
     }
   }
 }
+
 export function proxiedUrl(rawUrl: string | null) {
   const parsed = parseCalendarPath(rawUrl)
   if (!parsed) {
