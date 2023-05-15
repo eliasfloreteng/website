@@ -14,6 +14,8 @@
   "dependencies": {
     "@capacitor/android": "^5.0.3",
     "@capacitor/core": "^5.0.3",
+    "@notion-render/client": "^0.0.2",
+    "@notionhq/client": "^2.2.5",
     "next": "13.4.2",
     "next-pwa": "^5.6.0",
     "notion-client": "^6.16.0",
@@ -22,6 +24,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-notion-x": "^6.16.0",
+    "sass": "^1.62.1",
+    "server-only": "^0.0.1",
     "swr": "^2.1.5"
   },
   "devDependencies": {
