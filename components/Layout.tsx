@@ -1,5 +1,3 @@
-"use client"
-
 import { usePathname } from "next/navigation"
 import Head from "next/head"
 import Navbar from "@/components/Navbar"
