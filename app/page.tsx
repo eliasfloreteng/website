@@ -1,18 +1,8 @@
-import Blobs from "@/components/Blobs"
-import Layout from "@/components/Layout"
 import Link from "next/link"
-import Ical from "./ical"
 
-export default function Home() {
-  if (process.env.EXPORTING) {
-    return <Ical />
-  }
+export default function HomePage() {
   return (
-    <Layout
-      title="Elias Floreteng"
-      description="Software developer studying at KTH"
-      className="px-4 sm:px-8"
-    >
+    <>
       <div className="text-center">
         <h1 className="mb-8 text-6xl font-bold">Hello and welcome!</h1>
         <div className="prose">
@@ -43,6 +33,6 @@ export default function Home() {
           </p>
         </Link>
       </div>
-    </Layout>
+    </>
   )
 }
