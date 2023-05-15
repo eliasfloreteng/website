@@ -11,10 +11,6 @@
     "run:android": "npm-run-all -s export icons:android capacitor:android",
     "lint": "next lint"
   },
-  "engines": {
-    "node": ">=14",
-    "pnpm": ">=8"
-  },
   "dependencies": {
     "@capacitor/android": "^5.0.3",
     "@capacitor/core": "^5.0.3",
