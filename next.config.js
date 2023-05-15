@@ -24,11 +24,6 @@ let config = {
       "s3-us-west-2.amazonaws.com",
     ],
   },
-  // TODO: Enable this when stable https://nextjs.org/docs/advanced-features/output-file-tracing
-  // experimental: {
-  //   outputStandalone: true,
-  //   newNextLinkBehavior: true,
-  // },
   experimental: {
     appDir: true,
   },

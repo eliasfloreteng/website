@@ -26,6 +26,7 @@
     "react-notion-x": "^6.16.0",
     "sass": "^1.62.1",
     "server-only": "^0.0.1",
+    "sharp": "^0.32.1",
     "swr": "^2.1.5"
   },
   "devDependencies": {
