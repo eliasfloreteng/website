@@ -1,6 +1,6 @@
 import NotionPage from "app/_notion/NotionPage"
 
-export const revalidate = 86400
+export const revalidate = 10
 
 export default async function ExperiencePage() {
   return (
