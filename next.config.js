@@ -22,6 +22,7 @@ let config = {
       "notion.so",
       "s3.us-west-2.amazonaws.com",
       "s3-us-west-2.amazonaws.com",
+      "i.imgur.com",
     ],
   },
   experimental: {
