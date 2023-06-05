@@ -1,12 +1,16 @@
 import { fetchPageBlocks, notion } from "../_notion/lib"
 import { NotionRenderer } from "@notion-render/client"
-import "@notion-render/client/sass/theme.scss"
+import "@notion-render/client/dist/theme.css"
 
 export interface NotionPageProps {
   pageId: string
+  className?: string
 }
 
-export default async function NotionPage({ pageId }: NotionPageProps) {
+export default async function NotionPage({
+  pageId,
+  className,
+}: NotionPageProps) {
   const blocks = await fetchPageBlocks(pageId)
 
   const renderer = new NotionRenderer({
@@ -16,7 +20,10 @@ export default async function NotionPage({ pageId }: NotionPageProps) {
 
   return (
     <div
-      className="notion-render prose prose-slate max-w-none prose-blockquote:font-normal prose-blockquote:not-italic"
+      className={
+        "notion-render prose prose-slate max-w-none prose-blockquote:font-normal prose-blockquote:not-italic " +
+        className || ""
+      }
       dangerouslySetInnerHTML={{ __html: html }}
     ></div>
   )
