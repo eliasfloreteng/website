@@ -5,7 +5,6 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
       "@/public/*": ["public/*"]
     },
     "target": "es5",
@@ -37,7 +36,6 @@
     "**/public/workbox-*.js.map",
     "**/public/worker-*.js.map",
     "**/public/fallback-*.js",
-    "android",
     "out"
   ],
   "include": [
