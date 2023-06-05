@@ -1,5 +1,20 @@
-import { Event } from "@/components/ical/EventCalendar"
 import React, { RefObject, useEffect, useRef } from "react"
+
+export interface RawEvent {
+  summary: string | null
+  description: string | null
+  location: string | null
+  startDate: string
+  endDate: string
+  url: string | null
+}
+
+export type Event = Omit<RawEvent, "startDate" | "endDate"> & {
+  mandatory: boolean
+  courseCode: string | null
+  startDate: Date
+  endDate: Date
+}
 
 export default function CalendarEvent({
   event,

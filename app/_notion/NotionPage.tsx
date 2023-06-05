@@ -22,7 +22,7 @@ export default async function NotionPage({
     <div
       className={
         "notion-render prose prose-slate max-w-none prose-blockquote:font-normal prose-blockquote:not-italic " +
-        className || ""
+          className || ""
       }
       dangerouslySetInnerHTML={{ __html: html }}
     ></div>

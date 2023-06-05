@@ -12,10 +12,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        //@ts-ignore
-        sans: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
-        //@ts-ignore
-        serif: ['"Merriweather"', ...defaultTheme.fontFamily.serif],
+        sans: ["var(--font-montserrat)", ...defaultTheme.fontFamily.sans],
+        serif: ["var(--font-merriweather)", ...defaultTheme.fontFamily.serif],
       },
       backgroundImage: {
         stripes: `repeating-linear-gradient(-45deg, ${colors.blue[300]}, ${colors.blue[300]} 1rem, ${colors.blue[400]} 1rem, ${colors.blue[400]} 2rem)`,

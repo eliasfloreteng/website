@@ -1,10 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
 /.pnp
 .pnp.js
 package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# pnpm Dependency directory
+**/node_modules/**
+_node_modules
+.pnp.cjs
 
 ### yarn ###
 # https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored

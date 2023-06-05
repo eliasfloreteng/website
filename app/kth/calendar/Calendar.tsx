@@ -1,10 +1,15 @@
 "use client"
 
-import { getWeekdays, HideShowRule, proxiedUrl, weekNumber } from "lib/calendar"
-import { fetcher } from "lib/util"
+import {
+  getWeekdays,
+  HideShowRule,
+  proxiedUrl,
+  weekNumber,
+  fetcher,
+} from "./lib"
 import { useState } from "react"
 import useSWR, { mutate as globalMutate } from "swr"
-import LoadingSpinner from "@/components/LoadingSpinner"
+import LoadingSpinner from "./LoadingSpinner"
 import { useCalendar } from "./Context"
 import CalendarEvent from "./CalendarEvent"
 

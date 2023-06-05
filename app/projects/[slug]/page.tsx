@@ -19,9 +19,24 @@ export async function generateMetadata(
   const previousImages = parent ? (await parent).openGraph?.images || [] : []
 
   return {
-    metadataBase: new URL("https://elias1233.se"),
     title: `${project.title} – Projects`,
+    description: project.description,
     openGraph: {
+      title: project.title,
+      description: project.description,
+      type: "article",
+      publishedTime: project.created
+        ? new Date(project.created).toISOString()
+        : undefined,
+      authors: ["Elias1233"],
+      images: project.coverUrl
+        ? [project.coverUrl, ...previousImages]
+        : previousImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: project.title,
+      description: project.description,
       images: project.coverUrl
         ? [project.coverUrl, ...previousImages]
         : previousImages,

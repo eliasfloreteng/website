@@ -13,8 +13,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* <Blobs /> */}
-
       <div className="mt-6 flex w-full max-w-4xl flex-wrap items-center justify-around">
         <Link
           href="/projects"

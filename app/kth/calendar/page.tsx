@@ -5,6 +5,7 @@ import { CalendarProvider } from "./Context"
 import Input from "./Input"
 import AddButton from "./AddButton"
 import Calendar from "./Calendar"
+import Script from "next/script"
 
 export const metadata: Metadata = {
   title: "KTH calendar proxy",
@@ -15,61 +16,68 @@ export const metadata: Metadata = {
     apple:
       "https://calendar.google.com/googlecalendar/images/favicons_2020q4/calendar_31.ico",
   },
+  manifest: "/ical/manifest.json",
 }
 
 export default function CalendarPage() {
   return (
-    <CalendarProvider>
-      <div className="container mx-auto p-4">
-        <header>
-          <h1 className="mb-4 text-3xl font-bold md:text-6xl">
-            KTH calendar proxy
-          </h1>
-          <p className="mb-4">
-            This service is a proxy for your KTH exported calendar that can hide
-            or show certain events based on rules using regular expressions on
-            the title, description, location or KTH event link/id.
-          </p>
+    <>
+      {/* Polyfill Intl.RelativeTimeFormat, its dependencies & `en`, `se` locale data */}
+      <Script src="https://polyfill.io/v3/polyfill.min.js?features=Intl.RelativeTimeFormat,Intl.RelativeTimeFormat.~locale.en,Intl.RelativeTimeFormat.~locale.se" />
 
-          <ol className="flex list-inside list-decimal gap-12 marker:font-medium">
-            <li>
-              <span>Enable KTH calendar export and copy link.</span>
+      <CalendarProvider>
+        <div className="container mx-auto p-4">
+          <header>
+            <h1 className="mb-4 text-3xl font-bold md:text-6xl">
+              KTH calendar proxy
+            </h1>
+            <p className="mb-4">
+              This service is a proxy for your KTH exported calendar that can
+              hide or show certain events based on rules using regular
+              expressions on the title, description, location or KTH event
+              link/id.
+            </p>
 
-              <div className="mt-2">
-                <a
-                  href="https://www.kth.se/social/home/calendar/settings/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="button whitespace-nowrap"
-                >
-                  <span className="mr-2 h-4 w-4 flex-shrink-0">
-                    <Image src={kthLogo} alt="KTH logotype" />
-                  </span>{" "}
-                  KTH calendar settings
-                </a>
-              </div>
-            </li>
+            <ol className="flex list-inside list-decimal gap-12 marker:font-medium">
+              <li>
+                <span>Enable KTH calendar export and copy link.</span>
 
-            <li>
-              <Input />
-            </li>
+                <div className="mt-2">
+                  <a
+                    href="https://www.kth.se/social/home/calendar/settings/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="button whitespace-nowrap"
+                  >
+                    <span className="mr-2 h-4 w-4 flex-shrink-0">
+                      <Image src={kthLogo} alt="KTH logotype" />
+                    </span>{" "}
+                    KTH calendar settings
+                  </a>
+                </div>
+              </li>
 
-            <li>
-              <span>
-                Add the proxied calendar (will be copied to clipboard).
-              </span>
+              <li>
+                <Input />
+              </li>
 
-              <div className="mt-2">
-                <AddButton />
-              </div>
-            </li>
-          </ol>
-        </header>
+              <li>
+                <span>
+                  Add the proxied calendar (will be copied to clipboard).
+                </span>
 
-        <section className="mt-12">
-          <Calendar />
-        </section>
-      </div>
-    </CalendarProvider>
+                <div className="mt-2">
+                  <AddButton />
+                </div>
+              </li>
+            </ol>
+          </header>
+
+          <section className="mt-12">
+            <Calendar />
+          </section>
+        </div>
+      </CalendarProvider>
+    </>
   )
 }
