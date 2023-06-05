@@ -30,7 +30,7 @@ export function CookieModal() {
       {cookies && (
         <>
           <div
-            className="fixed h-screen w-screen bg-black/80"
+            className="fixed inset-0 h-screen w-screen bg-black/80"
             onClick={() => setCookies(false)}
           />
           <div className="fixed left-1/2 top-1/2 z-50 flex max-h-screen min-h-[70vh] w-screen max-w-5xl -translate-x-1/2 -translate-y-1/2 flex-col justify-between gap-8 overflow-y-auto bg-white p-6 shadow-lg sm:rounded-3xl md:w-[70vw] md:p-12">
