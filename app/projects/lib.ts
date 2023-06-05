@@ -1,13 +1,16 @@
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
+import {
+  MultiSelectPropertyItemObjectResponse,
+  PageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints"
 import { fetchPages } from "app/_notion/lib"
 
 export interface Project {
   id: string
   title: string
   description: string
-  tags: string[]
+  tags: MultiSelectPropertyItemObjectResponse["multi_select"]
   featured: boolean
-  language: string[]
+  language: MultiSelectPropertyItemObjectResponse["multi_select"]
   coverUrl: string | null
   slug: string
   created: string | undefined
@@ -38,9 +41,9 @@ export function pageToProject(project: PageObjectResponse): Project | null {
       id: project.id,
       title: Name.title.map((t) => t.plain_text).join(" "),
       description: Description.rich_text.map((t) => t.plain_text).join(" "),
-      tags: Tags.multi_select.map((t) => t.name),
+      tags: Tags.multi_select,
       featured: Tags.multi_select.map((t) => t.name).includes("Featured"),
-      language: Language.multi_select.map((t) => t.name),
+      language: Language.multi_select,
       coverUrl,
       slug: urlToSlug(project.url),
       created: Created.date?.start,

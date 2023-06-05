@@ -1,8 +1,13 @@
 import { GRADIENTS } from "lib/gradients"
 import ProjectCard from "./ProjectCard"
 import { Project, fetchProjects } from "./lib"
+import { Metadata } from "next"
 
 export const revalidate = 10
+
+export const metadata: Metadata = {
+  title: "Projects",
+}
 
 const isFeatured = (project: Project) => project.featured
 
@@ -24,7 +29,7 @@ export default async function ProjectsPage() {
         </h1>
       </div>
 
-      <div className="bg-white pt-8">
+      <div className="container mx-auto bg-white px-[calc(min(96px,8vw))] py-8 text-slate-800 2xl:max-w-[2048px]">
         <h2 className="mb-1 mt-6 text-3xl font-semibold text-slate-800">
           Featured projects
         </h2>
@@ -33,19 +38,21 @@ export default async function ProjectsPage() {
           companies, associations and degree projects.
         </p>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-[6vmin] pt-4">
           {featuredProjects.map((project, index) => (
             <ProjectCard
               key={project.id}
               title={project.title}
-              href={`/projects-new/${project.slug}`}
+              description={project.description}
+              href={`/projects/${project.slug}`}
               image={project.coverUrl || GRADIENTS[index]}
-              number={index + 1}
             />
           ))}
         </div>
 
-        <h2 className="mb-1 mt-6 text-3xl font-semibold text-slate-800">
+        <hr className="my-10" />
+
+        <h2 className="mb-1 text-3xl font-semibold text-slate-800">
           Other projects
         </h2>
         <p className="py-2">
@@ -53,14 +60,14 @@ export default async function ProjectsPage() {
           below.
         </p>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(360px,1fr))] gap-[6vmin] pt-4">
           {otherProjects.map((project, index) => (
             <ProjectCard
               key={project.id}
               title={project.title}
-              href={`/projects-new/${project.slug}`}
+              description={project.description}
+              href={`/projects/${project.slug}`}
               image={project.coverUrl || GRADIENTS[index]}
-              number={index + 1}
             />
           ))}
         </div>
