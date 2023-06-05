@@ -1,9 +1,10 @@
 "use client"
 
 import Image from "next/image"
+import { useCalendar } from "./Context"
 
 export default function AddButton() {
-  const url = "https://www.kth.se/social/user/.../icalendar/..."
+  const [kthUrl, setKthUrl] = useCalendar()
 
   return (
     <a
@@ -11,7 +12,7 @@ export default function AddButton() {
       target="_blank"
       rel="noreferrer"
       className="button whitespace-nowrap"
-      onClick={() => navigator.clipboard.writeText(url)}
+      onClick={() => kthUrl && navigator.clipboard.writeText(kthUrl)}
     >
       <span className="mr-2 h-4 w-4 flex-shrink-0">
         <Image
