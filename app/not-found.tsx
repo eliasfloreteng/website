@@ -20,7 +20,7 @@ export default function ErrorPage() {
         The URL you have entered does not lead to a page. Sorry about that.
       </div>
 
-      <BackButton className="">Go back</BackButton>
+      <BackButton className="rounded-md bg-white px-8 py-4 text-xl font-semibold shadow-md">Go back</BackButton>
     </div>
   )
 }
