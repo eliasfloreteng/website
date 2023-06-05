@@ -1,6 +1,12 @@
 import NotionPage from "app/_notion/NotionPage"
+import { Metadata } from "next"
 
 export const revalidate = 10
+
+export const metadata: Metadata = {
+  title: "Experience & resume",
+  description: "My experience and resume",
+}
 
 export default async function ExperiencePage() {
   return (
