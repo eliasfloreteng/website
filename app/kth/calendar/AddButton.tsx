@@ -2,9 +2,11 @@
 
 import Image from "next/image"
 import { useCalendar } from "./Context"
+import { proxiedUrl } from "./lib"
 
 export default function AddButton() {
   const [kthUrl, setKthUrl] = useCalendar()
+  const proxy = proxiedUrl(kthUrl)
 
   return (
     <a
@@ -12,7 +14,7 @@ export default function AddButton() {
       target="_blank"
       rel="noreferrer"
       className="button whitespace-nowrap"
-      onClick={() => kthUrl && navigator.clipboard.writeText(kthUrl)}
+      onClick={() => proxy && navigator.clipboard.writeText(proxy)}
     >
       <span className="mr-2 h-4 w-4 flex-shrink-0">
         <Image
