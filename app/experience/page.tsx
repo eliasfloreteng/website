@@ -19,7 +19,6 @@ export default async function ExperiencePage() {
 
       <div className="bg-[#F1F1F1] px-3 sm:px-8">
         <div className="mx-auto max-w-6xl pt-6">
-          {/* @ts-expect-error */}
           <NotionPage pageId="155db39d4a314bc6800d094e23fb535d" />
         </div>
       </div>

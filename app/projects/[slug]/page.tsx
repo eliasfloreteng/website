@@ -140,7 +140,6 @@ export default async function ProjectPage({ params: { slug } }: Props) {
           </Link>
         )}
 
-        {/* @ts-expect-error */}
         <NotionPage
           className="mt-4 border-t pt-4 empty:mt-0 empty:border-t-0 empty:pt-0"
           pageId={project.id}
