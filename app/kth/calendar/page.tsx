@@ -6,6 +6,7 @@ import Input from "./Input"
 import AddButton from "./AddButton"
 import Calendar from "./Calendar"
 import Script from "next/script"
+import LastUpdated from "./LastUpdated"
 
 export const metadata: Metadata = {
   title: "KTH calendar proxy",
@@ -38,7 +39,7 @@ export default function CalendarPage() {
               link/id.
             </p>
 
-            <ol className="flex list-inside list-decimal gap-12 marker:font-medium">
+            <ol className="flex list-inside list-decimal flex-wrap gap-x-12 gap-y-6 marker:font-medium">
               <li>
                 <span>Enable KTH calendar export and copy link.</span>
 
@@ -72,6 +73,8 @@ export default function CalendarPage() {
               </li>
             </ol>
           </header>
+
+          <LastUpdated />
 
           <section className="mt-12">
             <Calendar />

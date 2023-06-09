@@ -80,33 +80,6 @@ export function getWeekdays(inputDay: string | number | Date) {
   return weekdays
 }
 
-export interface Hits {
-  hits: number
-  latestHit: string | Date
-  latestHitRelative?: string
-}
-
-export function useCalendarHits(
-  kthUrl: string | null
-): (Partial<Hits> & { hitsLoaded: false }) | (Hits & { hitsLoaded: true }) {
-  const { data, error } = useSWR<Hits>(
-    kthUrl ? `${proxiedUrl(kthUrl)}/hits` : null,
-    fetcher,
-    // Milliseconds between refreshes: 120_000 = 2 minutes
-    { refreshInterval: 120_000 }
-  )
-  if (!data) {
-    return { hitsLoaded: false }
-  }
-  const latestHit = new Date(data.latestHit)
-  return {
-    ...data,
-    hitsLoaded: true,
-    latestHit,
-    latestHitRelative: getRelativeTime(latestHit),
-  }
-}
-
 export function generateCalendarPath(user: number, icalendar: string) {
   return `social/user/${user}/icalendar/${icalendar}`
 }
@@ -136,7 +109,8 @@ export function proxiedUrl(rawUrl: string | null) {
   const { user, icalendar } = parsed
   const path = generateCalendarPath(user, icalendar)
 
-  return `https://ical.elias1233.workers.dev/${path}`
+  // return `https://kth-calendar-proxy.elias1233.workers.dev/${path}`
+  return `http://localhost:8787/${path}`
 }
 
 export interface Rule {

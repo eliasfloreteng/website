@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useRef } from "react"
+import React, { Fragment, RefObject, useEffect, useRef } from "react"
 
 export interface RawEvent {
   summary: string | null
@@ -6,12 +6,13 @@ export interface RawEvent {
   location: string | null
   startDate: string
   endDate: string
+  hidden: boolean
   url: string | null
+  courseCode: string | null
+  mandatory: boolean
 }
 
 export type Event = Omit<RawEvent, "startDate" | "endDate"> & {
-  mandatory: boolean
-  courseCode: string | null
   startDate: Date
   endDate: Date
 }
@@ -202,20 +203,41 @@ export default function CalendarEvent({
           title="No longer show this event"
           onClick={() => onHide(event)}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
-              clipRule="evenodd"
-            />
-            <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
-          </svg>
-          Hide this event
+          {event.hidden ? (
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-6 w-6"
+              >
+                <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
+                <path
+                  fillRule="evenodd"
+                  d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 010-1.113zM17.25 12a5.25 5.25 0 11-10.5 0 5.25 5.25 0 0110.5 0z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              Show this event
+            </>
+          ) : (
+            <>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z"
+                  clipRule="evenodd"
+                />
+                <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
+              </svg>
+              Hide this event
+            </>
+          )}
         </button>
 
         <button

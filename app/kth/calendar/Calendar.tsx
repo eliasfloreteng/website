@@ -11,23 +11,7 @@ import { useState } from "react"
 import useSWR, { mutate as globalMutate } from "swr"
 import LoadingSpinner from "./LoadingSpinner"
 import { useCalendar } from "./Context"
-import CalendarEvent from "./CalendarEvent"
-
-export interface RawEvent {
-  summary: string | null
-  description: string | null
-  location: string | null
-  startDate: string
-  endDate: string
-  url: string | null
-}
-
-export type Event = Omit<RawEvent, "startDate" | "endDate"> & {
-  mandatory: boolean
-  courseCode: string | null
-  startDate: Date
-  endDate: Date
-}
+import CalendarEvent, { RawEvent, Event } from "./CalendarEvent"
 
 let colors = [
   "bg-amber-500",
@@ -103,11 +87,15 @@ export default function Calendar() {
   const weekdays = getWeekdays(today)
 
   const [eventModal, setEventModal] = useState<Event | null>(null)
+  const [eventModalLoading, setEventModalLoading] = useState(false)
 
   const [kthUrl, setKthUrl] = useCalendar()
 
+  const weekStart = weekdays[0].toLocaleDateString("sv-SE")
+  const weekEnd = weekdays[weekdays.length - 1].toLocaleDateString("sv-SE")
+
   const { data, error, mutate } = useSWR<RawEvent[]>(
-    `${proxiedUrl(kthUrl)}/preview`,
+    kthUrl ? `${proxiedUrl(kthUrl)}/start/${weekStart}/end/${weekEnd}` : null,
     fetcher
   )
 
@@ -118,13 +106,6 @@ export default function Calendar() {
   const events: Event[] = (data || []).map((e) => ({
     ...e,
     description: (e.description || "").trim().replace(/&amp;/g, "&") || null,
-    mandatory: new RegExp(/^\s*\*\s*/).test(e.summary || ""),
-    courseCode:
-      e.summary
-        // Extract course code from last occuring parenthesis
-        ?.match(/\(((?:\w{2}\d{4})|(?:[\w\d]{2,}[ ,\wåäöÅÄÖ\d]*))\)/gi)
-        ?.pop()
-        ?.replace(/[\(\)]/g, "") || null,
     startDate: new Date(e.startDate),
     endDate: new Date(e.endDate),
   }))
@@ -299,16 +280,17 @@ export default function Calendar() {
                         return (
                           <button
                             key={JSON.stringify(event)}
-                            className="absolute p-1 text-left"
+                            className="absolute w-full p-1 text-left"
                             style={{ top: fromTop * hourHeight }}
                             onClick={() => setEventModal(event)}
                           >
                             <div
                               className={
-                                "grid content-center rounded-xl px-4 text-sm text-white " +
+                                "grid w-full content-center rounded-xl px-4 text-sm text-white " +
                                 (event.courseCode
                                   ? colorFromCourseCode(event.courseCode)
-                                  : "bg-gray-700")
+                                  : "bg-gray-700") +
+                                (event.hidden ? " opacity-50 saturate-50" : "")
                               }
                               style={{
                                 height:
@@ -316,29 +298,38 @@ export default function Calendar() {
                                   8 /* to remove padding */,
                               }}
                             >
-                              <div className="flex justify-between gap-1">
-                                <div>
-                                  {event.startDate.toLocaleTimeString("sv", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  })}{" "}
-                                  &ndash;{" "}
-                                  {event.endDate.toLocaleTimeString("sv", {
-                                    hour: "2-digit",
-                                    minute: "2-digit",
-                                  })}
-                                </div>
-                                {event.mandatory && (
-                                  <div className="text-xs">&#x2731;</div>
-                                )}
-                              </div>
+                              {eventModalLoading ? (
+                                <LoadingSpinner className="mx-auto h-10 w-10" />
+                              ) : (
+                                <>
+                                  <div className="flex justify-between gap-1">
+                                    <div>
+                                      {event.startDate.toLocaleTimeString(
+                                        "sv",
+                                        {
+                                          hour: "2-digit",
+                                          minute: "2-digit",
+                                        }
+                                      )}{" "}
+                                      &ndash;{" "}
+                                      {event.endDate.toLocaleTimeString("sv", {
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                      })}
+                                    </div>
+                                    {event.mandatory && (
+                                      <div className="text-xs">&#x2731;</div>
+                                    )}
+                                  </div>
 
-                              <div
-                                className="line-clamp-2 font-medium"
-                                title={event.summary ?? undefined}
-                              >
-                                {event.summary?.replace(/^\*\s*/, "")}
-                              </div>
+                                  <div
+                                    className="line-clamp-2 font-medium"
+                                    title={event.summary ?? undefined}
+                                  >
+                                    {event.summary?.replace(/^\*\s*/, "")}
+                                  </div>
+                                </>
+                              )}
                             </div>
                           </button>
                         )
@@ -366,23 +357,20 @@ export default function Calendar() {
               event={eventModal}
               onClose={() => setEventModal(null)}
               onHide={async (event) => {
-                const newRule: HideShowRule = {
-                  id: -1,
-                  url: event.url || "",
-                  type: "hide",
-                }
+                setEventModalLoading(true)
                 const proxy = kthUrl && proxiedUrl(kthUrl)
-                if (proxy) {
-                  await globalMutate(
-                    `${proxy}/hideshowrule`,
-                    fetcher(`${proxy}/hideshowrule`, {
-                      method: "POST",
-                      body: JSON.stringify(newRule),
-                    })
-                  )
-                  await globalMutate(`${proxy}/hideshowrules`)
-                  await mutate()
+                if (proxy && event.url) {
                   setEventModal(null)
+                  await fetch(
+                    `${proxy}/${
+                      event.hidden ? "show" : "hide"
+                    }/${encodeURIComponent(event.url)}`,
+                    {
+                      method: "POST",
+                    }
+                  )
+                  await mutate()
+                  setEventModalLoading(false)
                 }
               }}
             />
