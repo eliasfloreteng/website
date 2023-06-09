@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Metadata, ResolvingMetadata } from "next"
 import NotionPage from "app/_notion/NotionPage"
 import Link from "next/link"
+import { NOTION_COLORS } from "app/_notion/lib"
 
 type Props = {
   params: { slug: string }
@@ -42,19 +43,6 @@ export async function generateMetadata(
         : previousImages,
     },
   }
-}
-
-const NOTION_COLORS = {
-  blue: "rgba(0, 120, 223, 0.2)",
-  orange: "rgba(245, 93, 0, 0.2)",
-  green: "rgba(0, 135, 107, 0.2)",
-  pink: "rgba(221, 0, 129, 0.2)",
-  brown: "rgba(140, 46, 0, 0.2)",
-  red: "rgba(255, 0, 26, 0.2)",
-  yellow: "rgba(233, 168, 0, 0.2)",
-  default: "rgba(206, 205, 202, 0.5)",
-  purple: "rgba(103, 36, 222, 0.2)",
-  gray: "rgba(155, 154, 151, 0.4)",
 }
 
 export default async function ProjectPage({ params: { slug } }: Props) {

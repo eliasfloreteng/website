@@ -13,7 +13,10 @@ export default function ProjectCard({
   image: string
 }) {
   return (
-    <Link href={href} className="group rounded-2xl hover:bg-slate-500/10">
+    <Link
+      href={href}
+      className="group block rounded-2xl bg-slate-500/10 sm:bg-transparent sm:hover:bg-slate-500/10"
+    >
       <Image
         src={image}
         width={360}
@@ -25,7 +28,7 @@ export default function ProjectCard({
 
       <div className="px-3 py-1">
         <h3 className="py-1 text-2xl font-medium leading-relaxed">{title}</h3>
-        <p className="line-clamp-4 py-1">{description}</p>
+        <p className="line-clamp-3 py-1">{description}</p>
       </div>
     </Link>
   )
