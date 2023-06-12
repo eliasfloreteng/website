@@ -5,16 +5,17 @@ import { Metadata, ResolvingMetadata } from "next"
 import NotionPage from "app/_notion/NotionPage"
 import Link from "next/link"
 import { NOTION_COLORS } from "app/_notion/lib"
+import DatabaseTable from "./DatabaseTable"
 
 type Props = {
-  params: { slug: string }
+  params: { slug: string[] }
 }
 
 export async function generateMetadata(
   { params: { slug } }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const project = await fetchProjectBySlug(slug)
+  const project = await fetchProjectBySlug(slug[0])
   if (!project) return notFound()
 
   const previousImages = parent ? (await parent).openGraph?.images || [] : []
@@ -46,7 +47,7 @@ export async function generateMetadata(
 }
 
 export default async function ProjectPage({ params: { slug } }: Props) {
-  const project = await fetchProjectBySlug(slug)
+  const project = await fetchProjectBySlug(slug[0])
   if (!project) return notFound()
 
   return (
@@ -139,6 +140,8 @@ export default async function ProjectPage({ params: { slug } }: Props) {
             View project ({new URL(project.link).hostname})
           </Link>
         )}
+
+        <DatabaseTable pageId={project.id} slugs={slug} />
 
         <NotionPage
           className="mt-4 border-t pt-4 empty:mt-0 empty:border-t-0 empty:pt-0"
