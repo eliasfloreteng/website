@@ -1,5 +1,8 @@
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function ProjectCard({
   href,
@@ -12,6 +15,8 @@ export default function ProjectCard({
   description: string
   image: string
 }) {
+  const router = useRouter()
+
   return (
     <Link
       href={href}
@@ -21,6 +26,12 @@ export default function ProjectCard({
         src={image}
         width={360}
         height={190}
+        onError={(e) => {
+          if (e.currentTarget.src.includes("X-Amz-Expires=")) {
+            e.currentTarget.onerror = null
+            router.refresh()
+          }
+        }}
         unoptimized
         alt="portfolio"
         className="h-[190px] w-full rounded-2xl object-cover shadow transition-[box-shadow,transform,color] duration-300 ease-out group-hover:scale-105 group-hover:shadow-lg"
