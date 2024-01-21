@@ -42,10 +42,13 @@ export default function LastUpdated() {
       <div>
         Your Google Calendar data was last updated{" "}
         <span
-          className="font-bold underline decoration-dotted"
-          title={lastUpdated.toLocaleString()}
+          className="has-tooltip font-bold underline decoration-dotted"
+          tabIndex={-1}
         >
           {getRelativeTime(lastUpdated)}
+          <span className="tooltip tooltip-bottom-dark">
+            {lastUpdated.toLocaleString()}
+          </span>
         </span>
         . Changes made after this time will take some time to be updated in
         Google Calendar. Be patient.

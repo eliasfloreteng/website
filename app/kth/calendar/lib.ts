@@ -1,11 +1,9 @@
-import useSWR from "swr"
-
 export const currentLang =
   typeof window !== "undefined"
     ? navigator?.languages?.[0] || navigator?.language
     : undefined
 export const rtf = (() => {
-  return new Intl.RelativeTimeFormat(currentLang || "en", {
+  return new Intl.RelativeTimeFormat(currentLang || "sv-SE", {
     numeric: "auto",
   })
 })()
@@ -23,7 +21,7 @@ export function getRelativeTime(d1: Date, d2 = new Date()) {
   // "Math.abs" accounts for both "past" & "future" scenarios
   for (const [key, value] of Object.entries(units) as [
     keyof typeof units,
-    number
+    number,
   ][])
     if (Math.abs(elapsed) > value || key == "second")
       return rtf.format(Math.round(elapsed / value), key)

@@ -27,6 +27,20 @@
     @apply animate-scrolling bg-stripes;
     background-size: 200% 200%;
   }
+
+  .has-tooltip {
+    @apply relative;
+  }
+  .has-tooltip .tooltip {
+    @apply invisible absolute left-1/2 top-full z-50 block w-max -translate-x-1/2 opacity-0 transition-opacity;
+  }
+  .has-tooltip:hover .tooltip,
+  .has-tooltip:focus .tooltip {
+    @apply visible opacity-100;
+  }
+  .tooltip-bottom-dark {
+    @apply rounded-lg bg-slate-800 px-2 py-1 text-center text-sm font-medium text-white;
+  }
 }
 
 @layer utilities {
