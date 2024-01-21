@@ -108,7 +108,34 @@ export default function Calendar() {
     description: (e.description || "").trim().replace(/&amp;/g, "&") || null,
     startDate: new Date(e.startDate),
     endDate: new Date(e.endDate),
+    overlapCount: 0, // Added property for how many events overlap
+    overlapIndex: 0, // Added property for which index this event has in the overlap
   }))
+
+  // Calculate overlap count for each event
+  for (let i = 0; i < events.length; i++) {
+    for (let j = i + 1; j < events.length; j++) {
+      if (
+        events[i].startDate < events[j].endDate &&
+        events[i].endDate > events[j].startDate
+      ) {
+        events[i].overlapCount++
+        events[j].overlapCount++
+      }
+    }
+  }
+  // add index (number) where each overlaping event gets a unique index
+  for (let i = 0; i < events.length; i++) {
+    let overlapIndex = 0
+    for (let j = 0; j < events.length; j++) {
+      if (
+        events[i].startDate < events[j].endDate &&
+        events[i].endDate > events[j].startDate
+      ) {
+        events[j].overlapIndex = overlapIndex++
+      }
+    }
+  }
 
   if (error) {
     console.error(error, error.status, error.info)
@@ -281,7 +308,11 @@ export default function Calendar() {
                           <button
                             key={JSON.stringify(event)}
                             className="absolute w-full p-1 text-left"
-                            style={{ top: fromTop * hourHeight }}
+                            style={{
+                              top: fromTop * hourHeight,
+                              width: `calc(100% / ${event.overlapCount + 1})`,
+                              left: `calc(100% / ${event.overlapCount + 1} * ${event.overlapIndex})`,
+                            }}
                             onClick={() => setEventModal(event)}
                           >
                             <div
@@ -317,13 +348,13 @@ export default function Calendar() {
                                         minute: "2-digit",
                                       })}
                                     </div>
-                                    {event.mandatory && (
-                                      <div className="text-xs">&#x2731;</div>
-                                    )}
                                   </div>
 
                                   <div
-                                    className="line-clamp-2 font-medium"
+                                    className={
+                                      "line-clamp-2 font-medium decoration-white/40" +
+                                      (event.mandatory ? " underline" : "")
+                                    }
                                     title={event.summary ?? undefined}
                                   >
                                     {event.summary?.replace(/^\*\s*/, "")}
