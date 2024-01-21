@@ -15,18 +15,15 @@ let config = {
   staticPageGenerationTimeout: 300,
   images: {
     unoptimized: Boolean(process.env.EXPORTING),
-    domains: [
-      "calendar.google.com",
-      "www.kth.se",
-      "www.notion.so",
-      "notion.so",
-      "s3.us-west-2.amazonaws.com",
-      "s3-us-west-2.amazonaws.com",
-      "i.imgur.com",
+    remotePatterns: [
+      { hostname: "calendar.google.com", protocol: "https" },
+      { hostname: "www.kth.se", protocol: "https" },
+      { hostname: "www.notion.so", protocol: "https" },
+      { hostname: "notion.so", protocol: "https" },
+      { hostname: "**.s3.us-west-2.amazonaws.com", protocol: "https" },
+      { hostname: "i.imgur.com", protocol: "https" },
+      { hostname: "products.ls.graphics", protocol: "https" },
     ],
-  },
-  experimental: {
-    appDir: true,
   },
 }
 

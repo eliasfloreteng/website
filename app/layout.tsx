@@ -3,12 +3,16 @@ import "../styles/global.css"
 import Navbar from "./_components/Navbar"
 import Footer from "./_components/Footer"
 import { Merriweather, Montserrat } from "next/font/google"
+import { Viewport } from "next"
+
+export const viewport: Viewport = {
+  themeColor: "#f8fafc",
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://elias1233.se"),
   title: "Elias1233",
   description: "Portfolio for Elias1233",
-  themeColor: "#f8fafc",
   applicationName: "Elias1233",
   appleWebApp: {
     title: "Elias1233",
