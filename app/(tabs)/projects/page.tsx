@@ -1,4 +1,4 @@
-import { GRADIENTS } from "../gradients"
+import { GRADIENTS } from "app/gradients"
 import ProjectCard from "./ProjectCard"
 import { Project, fetchProjects } from "./lib"
 import { Metadata } from "next"

@@ -26,8 +26,8 @@ export function pageToProject(project: PageObjectResponse): Project | null {
     image?.type === "external"
       ? image.external.url
       : image?.type === "file"
-      ? image.file.url
-      : null
+        ? image.file.url
+        : null
 
   if (
     Name.type === "title" &&

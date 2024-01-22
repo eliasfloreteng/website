@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation"
 import { ReactNode } from "react"
 import Logo from "@/public/logo.svg"
 import Image from "next/image"
+import { useCalendar } from "./calendar/Context"
 
 export default function Navbar() {
   const pathname = usePathname() || ""
+  const [kthUrl, setKthUrl] = useCalendar()
 
   const ActiveLink = ({
     href,
@@ -66,6 +68,7 @@ export default function Navbar() {
           </ActiveLink>
           <ActiveLink href="/projects">Projects</ActiveLink>
           <ActiveLink href="/experience">Experience</ActiveLink>
+          {kthUrl && <ActiveLink href="/calendar">Calendar</ActiveLink>}
         </nav>
 
         <div className="ml-auto flex flex-row items-center space-x-4 sm:ml-0">

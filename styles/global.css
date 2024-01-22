@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  *,
-  ::before,
-  ::after {
-    @apply scroll-smooth;
-  }
-}
-
 @layer components {
   .link {
     @apply text-blue-600 hover:underline focus:underline;
@@ -53,5 +45,23 @@
   .appearance-textfield::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  .text-shadow-grow {
+    text-shadow:
+      -1px -1px 0 #fff,
+      1px -1px 0 #fff,
+      -1px 1px 0 #fff,
+      1px 1px 0 #fff;
+  }
+
+  .text-shadow-glow {
+    text-shadow:
+      0 0 15px rgba(255, 255, 255, 0.5),
+      0 0 20px rgba(255, 255, 255, 0.5);
+  }
+
+  .text-shadow-none {
+    text-shadow: none;
   }
 }

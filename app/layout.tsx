@@ -1,9 +1,8 @@
 import type { Metadata } from "next"
-import "../styles/global.css"
-import Navbar from "./_components/Navbar"
-import Footer from "./_components/Footer"
+import "styles/global.css"
 import { Merriweather, Montserrat } from "next/font/google"
 import { Viewport } from "next"
+import NextTopLoader from "nextjs-toploader"
 
 export const viewport: Viewport = {
   themeColor: "#f8fafc",
@@ -11,7 +10,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://elias1233.se"),
-  title: "Elias1233",
+  title: "Elias Floreteng",
   description: "Portfolio for Elias1233",
   applicationName: "Elias1233",
   appleWebApp: {
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
     description: "Portfolio for Elias1233",
   },
   category: "technology",
-  keywords: ["elias1233", "portfolio", "projects", "blog", "website"],
+  keywords: ["elias1233", "portfolio", "projects", "blog", "resume"],
   manifest: "/manifest.json",
 }
 
@@ -63,21 +62,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${merriweather.variable}`}
+      className={`${montserrat.variable} ${merriweather.variable} h-full scroll-smooth antialiased`}
     >
-      <body>
-        <div className="flex min-h-screen flex-col bg-slate-50">
-          <Navbar />
+      <body className="h-full">
+        <NextTopLoader color="#38bdf8" />
 
-          <main
-            id="content"
-            className="flex w-full flex-1 flex-col items-center justify-center"
-          >
-            {children}
-          </main>
-
-          <Footer />
-        </div>
+        {children}
       </body>
     </html>
   )

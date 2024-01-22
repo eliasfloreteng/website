@@ -1,12 +1,9 @@
-// @ts-ignore
-const defaultTheme = require("tailwindcss/defaultTheme")
-const colors = require("tailwindcss/colors")
+import type { Config } from "tailwindcss"
+import defaultTheme from "tailwindcss/defaultTheme"
+import colors from "tailwindcss/colors"
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+export default {
+  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       fontFamily: {
@@ -35,10 +32,34 @@ module.exports = {
         "cursor-loading": {
           "from, to": { cursor: "wait" },
         },
+        "wipe-vertical": {
+          from: {
+            "clip-path": "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+          },
+          to: {
+            "clip-path": "polygon(0 0, 100% 0, 100% 100%, 0% 100%)",
+          },
+        },
+        fade: {
+          "0%": {
+            opacity: "0",
+          },
+          "100%": {
+            opacity: "1",
+          },
+        },
       },
       animation: {
         "bounce-once": "bounce-reverse 500ms ease-in-out 1",
         scrolling: "scrolling 10s linear infinite",
+        wipe: "wipe-vertical 1s ease-in-out 1",
+        "fade-in": "fade 1s ease-in-out 1 forwards",
+      },
+      dropShadow: {
+        glow: [
+          "0 0 20px rgba(255,255, 255, 0.35)",
+          "0 0 65px rgba(255, 255,255, 0.2)",
+        ],
       },
     },
   },
@@ -48,4 +69,4 @@ module.exports = {
       strategy: "class",
     }),
   ],
-}
+} satisfies Config
