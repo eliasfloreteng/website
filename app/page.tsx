@@ -30,7 +30,7 @@ export default function HomePage() {
       </button>
 
       <div
-        className="text-shadow-glow sm:text-shadow-none absolute inset-x-0 top-1/2 w-full -translate-y-1/2 hyphens-auto px-6 text-justify text-sm font-medium text-black opacity-0 transition hover:drop-shadow-glow focus:opacity-100 peer-hover:opacity-100 peer-focus:opacity-100 sm:px-24 sm:hover:text-white md:bottom-6 md:left-6 md:top-auto md:w-3/4 md:translate-y-0 md:px-0 md:text-left md:text-gray-700 md:opacity-100 lg:w-1/3 xl:w-2/5"
+        className="text-shadow-glow sm:text-shadow-dark absolute inset-x-0 top-1/2 w-full -translate-y-1/2 hyphens-auto px-6 text-justify text-sm font-medium text-black opacity-0 transition hover:drop-shadow-glow focus:opacity-100 peer-hover:opacity-100 peer-focus:opacity-100 sm:px-24 sm:hover:text-white md:bottom-6 md:left-6 md:top-auto md:w-3/4 md:translate-y-0 md:px-0 md:text-left md:text-gray-700 md:opacity-100 lg:w-1/3 xl:w-2/5"
         tabIndex={-1}
       >
         {metadata.description}
