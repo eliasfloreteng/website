@@ -28,7 +28,7 @@ export default function ErrorPage() {
       />
       <Script
         id="particlesphere-script"
-        src="particlesphere/script.js"
+        src="/particlesphere/script.js"
         strategy="lazyOnload"
       />
 
