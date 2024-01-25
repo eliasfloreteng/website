@@ -17,16 +17,17 @@ export default function ErrorPage() {
       <canvas id="nCanvasRender" className="h-full w-full" />
 
       <Script
+        key="particlesphere-stats"
         id="particlesphere-stats"
         src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.js"
-        strategy="lazyOnload"
       />
       <Script
+        key="particlesphere-dat-gui"
         id="particlesphere-dat-gui"
         src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"
-        strategy="lazyOnload"
       />
       <Script
+        key="particlesphere-script"
         id="particlesphere-script"
         src="/particlesphere/script.js"
         strategy="lazyOnload"
