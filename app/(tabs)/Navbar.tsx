@@ -40,18 +40,13 @@ export default function Navbar() {
           <Link href="/" className="group flex items-center gap-4">
             <Image
               src={Logo}
-              alt="Logotype of Elias1233"
+              alt="Logotype for Elias Floreteng"
               className="transition-transform group-hover:rotate-[30deg]"
               height={78}
               width={78}
             />
             <div>
-              <h1 className="text-xl font-semibold">
-                Elias
-                <span className="text-slate-200 transition-opacity group-hover:opacity-100 sm:opacity-0">
-                  1233
-                </span>
-              </h1>
+              <h1 className="text-xl font-semibold">Elias Floreteng</h1>
               <p className="text-slate-500">
                 Software developer styding at{" "}
                 <abbr title="Royal Institute of Technology in Stockholm">

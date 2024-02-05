@@ -30,7 +30,7 @@ export async function generateMetadata(
       publishedTime: project.created
         ? new Date(project.created).toISOString()
         : undefined,
-      authors: ["Elias1233"],
+      authors: ["Elias Floreteng"],
       images: project.coverUrl
         ? [project.coverUrl, ...previousImages]
         : previousImages,

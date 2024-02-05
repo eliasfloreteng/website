@@ -9,12 +9,12 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://elias1233.se"),
   title: "Elias Floreteng",
-  description: "Portfolio for Elias1233",
-  applicationName: "Elias1233",
+  description:
+    "I am an enthusiastic software developer with a passion for creating high-quality, maintainable, and readable code. I am currently pursuing a Master's Degree in Computer Science at KTH Royal Institute of Technology in Stockholm, I bring with me over 6 years of prior programming experience and I am always eager to learn new new things.",
+  applicationName: "Elias Floreteng",
   appleWebApp: {
-    title: "Elias1233",
+    title: "Elias Floreteng",
     statusBarStyle: "black-translucent",
   },
   icons: {
@@ -25,18 +25,18 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://elias1233.se",
-    title: "Elias1233",
-    description: "Portfolio for Elias1233",
-    siteName: "Elias1233",
+    url: "/",
+    title: "Elias Floreteng",
+    description: "Portfolio for Elias Floreteng",
+    siteName: "Elias Floreteng",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Elias1233",
-    description: "Portfolio for Elias1233",
+    title: "Elias Floreteng",
+    description: "Portfolio for Elias Floreteng",
   },
   category: "technology",
-  keywords: ["elias1233", "portfolio", "projects", "blog", "resume"],
+  keywords: ["portfolio", "projects", "blog", "resume"],
   manifest: "/manifest.json",
 }
 

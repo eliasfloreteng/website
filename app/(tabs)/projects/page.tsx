@@ -6,7 +6,7 @@ import { Metadata } from "next"
 export const revalidate = 10
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "Projects - Elias Floreteng",
 }
 
 const isFeatured = (project: Project) => project.featured

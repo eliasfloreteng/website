@@ -1,3 +1,3 @@
-# Elias1233 personal website
+# Elias Floreteng personal website
 
 The personal website/portfolio of Elias Floreteng

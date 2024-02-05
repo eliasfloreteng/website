@@ -16,7 +16,7 @@ export default function Knocking() {
         className="object-contain"
         src={khat}
         fill
-      ></Image>
+      />
       <CookieModal />
     </>
   )
