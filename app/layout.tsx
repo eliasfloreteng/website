@@ -3,6 +3,7 @@ import "styles/global.css"
 import { Merriweather, Montserrat } from "next/font/google"
 import { Viewport } from "next"
 import NextTopLoader from "nextjs-toploader"
+import { CalendarProvider } from "./(tabs)/calendar/Context"
 
 export const viewport: Viewport = {
   themeColor: "#f8fafc",
@@ -67,7 +68,7 @@ export default function RootLayout({
       <body className="h-full">
         <NextTopLoader color="#38bdf8" />
 
-        {children}
+        <CalendarProvider>{children}</CalendarProvider>
       </body>
     </html>
   )
