@@ -9,7 +9,18 @@ export const viewport: Viewport = {
   themeColor: "#f8fafc",
 }
 
+if (!process.env.VERCEL_URL && process.env.NODE_ENV === "production") {
+  console.warn(
+    "The environment variable VERCEL_URL is not set and this is a production deployment. This is required for the metadata to work correctly."
+  )
+}
+
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : `http://localhost:${process.env.PORT || 3000}`
+  ),
   title: "Elias Floreteng",
   description:
     "I am an enthusiastic software developer with a passion for creating high-quality, maintainable, and readable code. I am currently pursuing a Master's Degree in Computer Science at KTH Royal Institute of Technology in Stockholm, I bring with me over 6 years of prior programming experience and I am always eager to learn new new things.",
