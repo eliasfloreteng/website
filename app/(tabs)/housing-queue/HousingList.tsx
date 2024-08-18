@@ -9,7 +9,7 @@ import {
 const HOUSING_QUEUE_BASE_URL = "https://bostad.stockholm.se"
 const MAPS_BASE_URL = "https://maps.googleapis.com/maps/api/distancematrix/json"
 
-const MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY as string
+const MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY
 
 interface Housing {
   LägenhetId: number
@@ -107,13 +107,13 @@ export default async function HousingList({
   maxRent,
   maxRooms,
   destinations,
-}: HousingListProps): Promise<JSX.Element> {
+}: HousingListProps) {
   const housingQueueResponse = await fetch(
     `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`
   )
   const housing: Housing[] = await housingQueueResponse.json()
 
-  const filteredHousing: Housing[] = housing
+  const filteredHousing = housing
     .sort((a, b) => ((a.Hyra ?? Infinity) < (b.Hyra ?? Infinity) ? 1 : -1))
     .filter(
       (house) =>
@@ -130,45 +130,42 @@ export default async function HousingList({
           ))
     )
 
-  const origins: string[] = filteredHousing.map(
+  const origins = filteredHousing.map(
     (house) => `${house.Gatuadress}, Stockholm, Sweden`
   )
 
   const departure_datetime = new Date()
   departure_datetime.setHours(8)
   departure_datetime.setMinutes(0)
-  const departure_time: string = Math.floor(
+  const departure_time = Math.floor(
     departure_datetime.getTime() / 1000
   ).toString()
 
   // Split the origins into chunks of 25
   const chunkSize = 25
-  const originChunks: string[][] = []
+  const originChunks = []
   for (let i = 0; i < origins.length; i += chunkSize) {
     originChunks.push(origins.slice(i, i + chunkSize))
   }
 
-  const distancePromises: Promise<Distance>[] = originChunks.map(
-    (originChunk) => {
-      const params = new URLSearchParams({
-        origins: originChunk.join("|"),
-        destinations: destinations.join("|"),
-        mode: "transit",
-        units: "metric",
-        departure_time,
-        key: MAPS_API_KEY,
-      } as Record<string, string>)
+  const distancePromises = originChunks.map(async (originChunk) => {
+    const params = new URLSearchParams({
+      origins: originChunk.join("|"),
+      destinations: destinations.join("|"),
+      mode: "transit",
+      units: "metric",
+      departure_time,
+      key: MAPS_API_KEY,
+    } as Record<string, string>)
 
-      return fetch(`${MAPS_BASE_URL}?${params.toString()}`).then((res) =>
-        res.json()
-      )
-    }
-  )
+    const res = await fetch(`${MAPS_BASE_URL}?${params.toString()}`)
+    return (await res.json()) as Distance
+  })
 
-  const distanceResults: Distance[] = await Promise.all(distancePromises)
+  const distanceResults = await Promise.all(distancePromises)
 
   // Combine all the distance results
-  const distancesMap: Record<number, DistanceMap[]> = distanceResults.reduce(
+  const distancesMap = distanceResults.reduce(
     (acc, distances, chunkIndex) => {
       distances.rows.forEach((row, rowIndex) => {
         const originIndex = chunkIndex * chunkSize + rowIndex
@@ -186,7 +183,7 @@ export default async function HousingList({
     {} as Record<number, DistanceMap[]>
   )
 
-  const sortedHousing: Housing[] = filteredHousing.sort((a, b) =>
+  const sortedHousing = filteredHousing.sort((a, b) =>
     distancesMap[a.LägenhetId]?.[0]?.duration.value >
     distancesMap[b.LägenhetId]?.[0]?.duration.value
       ? 1
