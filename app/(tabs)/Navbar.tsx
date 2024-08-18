@@ -10,7 +10,6 @@ import Socials from "app/Socials"
 
 export default function Navbar() {
   const pathname = usePathname() || ""
-  const [kthUrl, setKthUrl] = useCalendar()
 
   const ActiveLink = ({
     href,
