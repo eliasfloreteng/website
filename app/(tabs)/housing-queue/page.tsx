@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import HousingFilter from "./HousingFilter"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "Housing Queue",
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function HousingQueuePage() {
-  return <HousingFilter />
+  return (
+    <Suspense>
+      <HousingFilter />
+    </Suspense>
+  )
 }
