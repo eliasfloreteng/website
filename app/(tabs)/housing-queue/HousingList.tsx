@@ -231,11 +231,17 @@ export default async function HousingList({
                       key={index}
                       className="flex items-start text-sm text-gray-600"
                     >
-                      <MapPinIcon className="mr-1 mt-1 h-4 w-4 flex-shrink-0" />
-                      <span>
-                        {loc.duration.text} ({loc.distance.text}) to{" "}
-                        {loc.location}
-                      </span>
+                      <a
+                        href={`https://www.google.com/maps?daddr=${encodeURIComponent(loc.location)}&saddr=${encodeURIComponent(house.Gatuadress)}, Stockholm, Sweden`}
+                        target="_blank"
+                        className="flex flex-wrap items-center gap-1"
+                      >
+                        <MapPinIcon className="h-4 w-4 flex-shrink-0" />
+                        <span>
+                          {loc.duration.text} ({loc.distance.text}) to{" "}
+                          {loc.location}
+                        </span>
+                      </a>
                     </li>
                   ))}
                 </ul>
