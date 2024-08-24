@@ -11,32 +11,31 @@
     "@notion-render/client": "^0.0.2",
     "@notionhq/client": "^2.2.15",
     "gsap": "^3.12.5",
-    "next": "15.0.0-rc.0",
+    "next": "^15.0.0-rc.0",
     "next-pwa": "^5.6.0",
     "nextjs-toploader": "^1.6.12",
-    "react": "19.0.0-rc-b57d2823-20240822",
-    "react-dom": "19.0.0-rc-b57d2823-20240822",
+    "react": "^19.0.0-rc-b57d2823-20240822",
+    "react-dom": "^19.0.0-rc-b57d2823-20240822",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
     "swr": "^2.2.5",
-    "three": "^0.124.0"
+    "three": "^0.167.1"
   },
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.7",
     "@tailwindcss/typography": "^0.5.14",
-    "@types/node": "^20.15.0",
-    "@types/react": "^18.3.3",
+    "@types/node": "^22.5.0",
+    "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.20",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "15.0.0-rc.0",
+    "eslint": "^9.9.1",
+    "eslint-config-next": "^15.0.0-rc.0",
     "eslint-config-prettier": "^9.1.0",
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-tailwindcss": "^0.6.6",
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4"
   },
-  "packageManager": "pnpm@9.7.1"
+  "packageManager": "bun@1.1.26"
 }

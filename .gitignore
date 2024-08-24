@@ -3,9 +3,6 @@
 # dependencies
 /.pnp
 .pnp.js
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
 
 # pnpm Dependency directory
 **/node_modules/**
