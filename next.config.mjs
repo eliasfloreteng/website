@@ -1,16 +1,9 @@
-// @ts-ignore
-const runtimeCaching = require("next-pwa/cache")
-/** @type {(config: import('next').NextConfig) => any} */
-// @ts-ignore
-const withPWA = require("next-pwa")({
-  dest: "public",
-  runtimeCaching,
-  disable: process.env.EXPORTING || process.env.NODE_ENV === "development",
-})
+// @ts-check
 
-/** @type {import('next').NextConfig} */
-let config = {
-  swcMinify: true,
+/**
+ * @type {import('next').NextConfig}
+ */
+const nextConfig = {
   reactStrictMode: true,
   staticPageGenerationTimeout: 300,
   images: {
@@ -27,4 +20,4 @@ let config = {
   },
 }
 
-module.exports = withPWA(config)
+export default nextConfig
