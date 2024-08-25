@@ -159,6 +159,9 @@ export default async function HousingList({
     } as Record<string, string>)
 
     const res = await fetch(`${MAPS_BASE_URL}?${params.toString()}`)
+    if (!res.ok) {
+      throw new Error("Failed to fetch distance data: " + res.text())
+    }
     return (await res.json()) as Distance
   })
 
@@ -234,9 +237,8 @@ export default async function HousingList({
                       <a
                         href={`https://www.google.com/maps?daddr=${encodeURIComponent(loc.location)}&saddr=${encodeURIComponent(house.Gatuadress)}, Stockholm, Sweden`}
                         target="_blank"
-                        className="flex flex-wrap items-center gap-1"
                       >
-                        <MapPinIcon className="h-4 w-4 flex-shrink-0" />
+                        <MapPinIcon className="mr-1 inline h-4 w-4" />
                         <span>
                           {loc.duration.text} ({loc.distance.text}) to{" "}
                           {loc.location}
