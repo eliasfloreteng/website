@@ -68,7 +68,11 @@ export default async function HousingList({
       agencyType: "agency" as const,
       ...house,
     })),
-  ]
+  ].sort((a, b) => {
+    const rentA = a.agencyType === "agency" ? a.Hyra : a.rent
+    const rentB = b.agencyType === "agency" ? b.Hyra : b.rent
+    return (rentA ?? Infinity) - (rentB ?? Infinity)
+  })
 
   const origins = housing.map((house) => {
     if (house.agencyType === "agency") {

@@ -104,7 +104,6 @@ export async function fetchSSSBHousing({
     .get()
 
   const filteredHousing = housing
-    .sort((a, b) => ((a.rent ?? Infinity) < (b.rent ?? Infinity) ? 1 : -1))
     .filter(
       (house) =>
         (!noCorridors || !house.title?.includes("korridor")) &&

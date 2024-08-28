@@ -21,24 +21,22 @@ export async function fetchFilteredHousing({
   }
   const housing: Housing[] = await housingQueueResponse.json()
 
-  const filteredHousing = housing
-    .sort((a, b) => ((a.Hyra ?? Infinity) < (b.Hyra ?? Infinity) ? 1 : -1))
-    .filter(
-      (house) =>
-        (!hasSchool || house.Student) &&
-        (!noCorridors ||
-          !(house.Student && house.Lagenhetstyp === "Studentkorridor")) &&
-        (!city || house.Kommun === city) &&
-        (!district || house.Stadsdel === district) &&
-        (!maxRent || (house.Hyra && house.Hyra <= maxRent)) &&
-        (!maxRooms || house.AntalRum <= maxRooms) &&
-        (!query ||
-          Object.values(house).some(
-            (value) =>
-              typeof value === "string" &&
-              value.toLowerCase().includes(query.toLowerCase())
-          ))
-    )
+  const filteredHousing = housing.filter(
+    (house) =>
+      (!hasSchool || house.Student) &&
+      (!noCorridors ||
+        !(house.Student && house.Lagenhetstyp === "Studentkorridor")) &&
+      (!city || house.Kommun === city) &&
+      (!district || house.Stadsdel === district) &&
+      (!maxRent || (house.Hyra && house.Hyra <= maxRent)) &&
+      (!maxRooms || house.AntalRum <= maxRooms) &&
+      (!query ||
+        Object.values(house).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(query.toLowerCase())
+        ))
+  )
   return filteredHousing
 }
 
