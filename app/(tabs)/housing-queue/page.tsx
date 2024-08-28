@@ -6,8 +6,6 @@ export const metadata: Metadata = {
   description: "A page for filtering housing queue listings",
 }
 
-const destinations = ["KTH, Stockholm, Sweden", "Vega station, Haninge, Sweden"]
-
 export default function HousingQueuePage({
   searchParams,
 }: {
@@ -26,10 +24,30 @@ export default function HousingQueuePage({
       ? parseInt(maxRoomsParam[0])
       : parseInt(maxRoomsParam)
     : undefined
+  const agencyType = searchParams["agencyType"]
+  const agency = Array.isArray(agencyType) ? agencyType[0] : agencyType
+  const noCorridors = searchParams["noCorridors"] === "on"
+
+  const schoolParam = searchParams["school"]
+  const school = Array.isArray(schoolParam) ? schoolParam[0] : schoolParam
+  const destinationParam = searchParams["destination"]
+  const destination = Array.isArray(destinationParam)
+    ? destinationParam[0]
+    : destinationParam
 
   return (
     <form className="container mx-auto flex flex-col gap-4 rounded-lg bg-white p-6 shadow-md">
-      <h1 className="mb-8 text-3xl font-bold text-gray-900">Housing Queue</h1>
+      <h1 className="text-3xl font-bold text-gray-900">
+        Stockholm Housing Queue
+      </h1>
+
+      <p className="mb-8 text-gray-700">
+        Search for available housing that can be rented in Stockholm. The filter
+        fields are optional and sorting is done by distance to the school,
+        otherwise by rent. The location fields are smartly parsed so just write
+        the name of the school or destination. Only student housing is shown if
+        school field is filled in.
+      </p>
 
       <input
         type="text"
@@ -41,10 +59,28 @@ export default function HousingQueuePage({
 
       <div className="flex gap-6">
         <input
+          type="text"
+          placeholder="School"
+          defaultValue={school}
+          name="school"
+          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="text"
+          placeholder="Other destination"
+          defaultValue={destination}
+          name="destination"
+          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      <div className="flex gap-6">
+        <input
           type="number"
           placeholder="Max rent"
           defaultValue={maxRent}
           name="maxRent"
+          step={500}
           className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
@@ -54,6 +90,28 @@ export default function HousingQueuePage({
           name="maxRooms"
           className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        <select
+          name="agencyType"
+          defaultValue={agencyType}
+          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="all">All agencies</option>
+          <option value="agency">Swedish Housing Agency</option>
+          <option value="sssb">SSSB</option>
+        </select>
+        <label
+          htmlFor="noCorridors"
+          className="flex cursor-pointer items-center gap-2 whitespace-nowrap"
+        >
+          <input
+            type="checkbox"
+            id="noCorridors"
+            name="noCorridors"
+            defaultChecked={noCorridors}
+            className="rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <span>No student corridors</span>
+        </label>
       </div>
 
       <button
@@ -64,11 +122,16 @@ export default function HousingQueuePage({
       </button>
 
       <HousingList
+        agencyType={
+          agency === "all" ? null : (agency as "agency" | "sssb" | undefined)
+        }
         query={Array.isArray(query) ? query[0] : query}
         city="Stockholm"
         maxRent={maxRent}
         maxRooms={maxRooms}
-        destinations={destinations}
+        noCorridors={noCorridors}
+        hasSchool={Boolean(school)}
+        destinations={[school, destination].filter((d) => d !== undefined)}
       />
     </form>
   )
