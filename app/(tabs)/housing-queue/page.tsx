@@ -51,7 +51,7 @@ export default function HousingQueuePage({
 
       <input
         type="text"
-        placeholder="Search for housing"
+        placeholder="Search for location, address, housing type and more..."
         defaultValue={query}
         name="q"
         className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -81,6 +81,7 @@ export default function HousingQueuePage({
           defaultValue={maxRent}
           name="maxRent"
           step={500}
+          min={0}
           className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
@@ -88,6 +89,7 @@ export default function HousingQueuePage({
           placeholder="Max rooms"
           defaultValue={maxRooms}
           name="maxRooms"
+          min={1}
           className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
@@ -108,7 +110,7 @@ export default function HousingQueuePage({
             id="noCorridors"
             name="noCorridors"
             defaultChecked={noCorridors}
-            className="rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="cursor-pointer rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <span>No student corridors</span>
         </label>
