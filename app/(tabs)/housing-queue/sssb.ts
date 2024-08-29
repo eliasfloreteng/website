@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio"
 import "server-only"
+import { safeParseJSON } from "~/helpers"
 
 const SSSB_BASE_URL = "https://sssb.se/"
 
@@ -26,8 +27,11 @@ export async function fetchSSSBHousing({
     content.startsWith("(") && content.endsWith(");")
       ? content.slice(1, -2)
       : content
-  const data = JSON.parse(datastring) as {
+  const data = await safeParseJSON<{
     html: { "objektlistabilder@lagenheter": string }
+  }>(datastring)
+  if (!data) {
+    return []
   }
   const html = data.html["objektlistabilder@lagenheter"]
   const $ = cheerio.load(

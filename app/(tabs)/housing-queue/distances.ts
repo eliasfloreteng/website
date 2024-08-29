@@ -1,4 +1,5 @@
 import "server-only"
+import { safeParseJSONResponse } from "~/helpers"
 
 export const MAPS_BASE_URL =
   "https://maps.googleapis.com/maps/api/distancematrix/json"
@@ -37,7 +38,8 @@ export async function fetchDistances(
     if (!res.ok) {
       throw new Error("Failed to fetch distance data: " + (await res.text()))
     }
-    return (await res.json()) as Distance
+    const data = await safeParseJSONResponse<Distance>(res)
+    return data
   })
 
   const distanceResults = await Promise.all(distancePromises)
@@ -45,19 +47,21 @@ export async function fetchDistances(
   // Combine all the distance results
   const distancesMap = distanceResults.reduce(
     (acc, distances, chunkIndex) => {
-      distances.rows.forEach((row, rowIndex) => {
-        const originIndex = chunkIndex * chunkSize + rowIndex
-        const originId = filteredHousing[originIndex]
-        const mappedDistances: DistanceMap[] = row.elements.map(
-          (element, elementIndex) => ({
-            ...element,
-            location: destinations[elementIndex],
-          })
-        )
-        if (originId) {
-          acc[originId] = mappedDistances
-        }
-      })
+      if (distances?.rows) {
+        distances.rows.forEach((row, rowIndex) => {
+          const originIndex = chunkIndex * chunkSize + rowIndex
+          const originId = filteredHousing[originIndex]
+          const mappedDistances: DistanceMap[] = row.elements.map(
+            (element, elementIndex) => ({
+              ...element,
+              location: destinations[elementIndex],
+            })
+          )
+          if (originId) {
+            acc[originId] = mappedDistances
+          }
+        })
+      }
       return acc
     },
     {} as Record<number, DistanceMap[]>

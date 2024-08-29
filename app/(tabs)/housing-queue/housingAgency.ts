@@ -1,3 +1,4 @@
+import { safeParseJSONResponse } from "app/helpers"
 import { type SearchProps } from "./HousingList"
 import "server-only"
 
@@ -20,8 +21,8 @@ export async function fetchFilteredHousing({
       "Failed to fetch housing data: " + (await housingQueueResponse.text())
     )
   }
-  const housing = (await housingQueueResponse.json()) as Housing[]
-
+  const housing =
+    (await safeParseJSONResponse<Housing[]>(housingQueueResponse)) ?? []
   const filteredHousing = housing.filter(
     (house) =>
       (!hasSchool || house.Student) &&
