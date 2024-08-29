@@ -1,4 +1,5 @@
 import { SearchProps } from "./HousingList"
+import "server-only"
 
 export const HOUSING_QUEUE_BASE_URL = "https://bostad.stockholm.se"
 

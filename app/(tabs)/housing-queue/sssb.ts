@@ -1,5 +1,5 @@
 import * as cheerio from "cheerio"
-import { SearchProps } from "./HousingList"
+import "server-only"
 
 const SSSB_BASE_URL = "https://sssb.se/"
 
