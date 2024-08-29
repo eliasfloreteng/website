@@ -1,4 +1,4 @@
-import { SearchProps } from "./HousingList"
+import { type SearchProps } from "./HousingList"
 import "server-only"
 
 export const HOUSING_QUEUE_BASE_URL = "https://bostad.stockholm.se"
@@ -17,10 +17,10 @@ export async function fetchFilteredHousing({
   )
   if (!housingQueueResponse.ok) {
     throw new Error(
-      "Failed to fetch housing data: " + housingQueueResponse.text()
+      "Failed to fetch housing data: " + (await housingQueueResponse.text())
     )
   }
-  const housing: Housing[] = await housingQueueResponse.json()
+  const housing = (await housingQueueResponse.json()) as Housing[]
 
   const filteredHousing = housing.filter(
     (house) =>

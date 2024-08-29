@@ -35,7 +35,7 @@ export async function fetchDistances(
 
     const res = await fetch(`${MAPS_BASE_URL}?${params.toString()}`)
     if (!res.ok) {
-      throw new Error("Failed to fetch distance data: " + res.text())
+      throw new Error("Failed to fetch distance data: " + (await res.text()))
     }
     return (await res.json()) as Distance
   })
@@ -54,7 +54,9 @@ export async function fetchDistances(
             location: destinations[elementIndex],
           })
         )
-        acc[originId] = mappedDistances
+        if (originId) {
+          acc[originId] = mappedDistances
+        }
       })
       return acc
     },
@@ -79,7 +81,7 @@ export interface Distance {
       status: string
     }[]
   }[]
-  status: "OK" | string
+  status: string
 }
 
 export interface DistanceMap {
