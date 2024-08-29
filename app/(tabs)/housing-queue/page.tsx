@@ -57,7 +57,7 @@ export default function HousingQueuePage({
         className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
-      <div className="flex gap-6">
+      <div className="flex flex-wrap gap-6 *:flex-1">
         <input
           type="text"
           placeholder="School"
@@ -74,28 +74,30 @@ export default function HousingQueuePage({
         />
       </div>
 
-      <div className="flex gap-6">
-        <input
-          type="number"
-          placeholder="Max rent"
-          defaultValue={maxRent}
-          name="maxRent"
-          step={500}
-          min={0}
-          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="number"
-          placeholder="Max rooms"
-          defaultValue={maxRooms}
-          name="maxRooms"
-          min={1}
-          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <div className="flex flex-wrap gap-6">
+        <div className="flex flex-[2] gap-6 *:flex-1">
+          <input
+            type="number"
+            placeholder="Max rent"
+            defaultValue={maxRent}
+            name="maxRent"
+            step={500}
+            min={0}
+            className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            placeholder="Max rooms"
+            defaultValue={maxRooms}
+            name="maxRooms"
+            min={1}
+            className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
         <select
           name="agencyType"
           defaultValue={agencyType}
-          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 md:flex-1"
         >
           <option value="all">All agencies</option>
           <option value="agency">Swedish Housing Agency</option>
@@ -103,7 +105,7 @@ export default function HousingQueuePage({
         </select>
         <label
           htmlFor="noCorridors"
-          className="flex cursor-pointer items-center gap-2 whitespace-nowrap"
+          className="flex cursor-pointer items-center gap-2 whitespace-nowrap md:flex-1"
         >
           <input
             type="checkbox"
