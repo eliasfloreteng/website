@@ -40,18 +40,18 @@ export default async function HousingList({
   hasSchool,
   destinations,
 }: HousingListProps) {
-  const sssbHousing =
+  const sssbHousingPromise =
     agencyType === "sssb" || !agencyType
-      ? await fetchSSSBHousing({
+      ? fetchSSSBHousing({
           query,
           maxRent,
           noCorridors,
         })
-      : []
+      : Promise.resolve([])
 
-  const agencyHousing =
+  const agencyHousingPromise =
     agencyType === "agency" || !agencyType
-      ? await fetchHousingAgency({
+      ? fetchHousingAgency({
           query,
           city,
           district,
@@ -60,7 +60,12 @@ export default async function HousingList({
           noCorridors,
           hasSchool,
         })
-      : []
+      : Promise.resolve([])
+
+  const [sssbHousing, agencyHousing] = await Promise.all([
+    sssbHousingPromise,
+    agencyHousingPromise,
+  ])
 
   const housing = [
     ...sssbHousing.map((house) => ({ agencyType: "sssb" as const, ...house })),
@@ -163,7 +168,12 @@ export default async function HousingList({
                     title="Floor number"
                   >
                     <ArrowsUpDownIcon className="mr-2 h-5 w-5" />
-                    <span>Floor {floor}</span>
+                    <span>
+                      {floor === undefined ||
+                      (typeof floor === "string" && isNaN(parseInt(floor, 10)))
+                        ? floor
+                        : `Floor ${floor}`}
+                    </span>
                   </div>
                   {house.agencyType === "agency" ? (
                     <div
