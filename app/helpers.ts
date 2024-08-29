@@ -1,17 +1,14 @@
-export async function safeParseJSONResponse<T = unknown>(response: Response) {
+export async function safeParseJSON<T = unknown>(json: string) {
   try {
-    return (await response.json()) as T
+    return JSON.parse(json) as T
   } catch (e) {
+    console.log(json)
     console.error(e)
     return null
   }
 }
 
-export async function safeParseJSON<T = unknown>(json: string) {
-  try {
-    return JSON.parse(json) as T
-  } catch (e) {
-    console.error(e)
-    return null
-  }
+export async function safeParseJSONResponse<T = unknown>(response: Response) {
+  const text = await response.text()
+  return safeParseJSON<T>(text)
 }
