@@ -1,5 +1,6 @@
-// https://codepen.io/alphardex/pen/dyOQyPJ
+/* eslint-disable */
 // @ts-nocheck
+// https://codepen.io/alphardex/pen/dyOQyPJ
 
 import * as THREE from "three"
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"

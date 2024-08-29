@@ -14,7 +14,7 @@ export default function Input() {
           id="kthUrl"
           name="kthUrl"
           type="url"
-          value={kthUrl || ""}
+          value={kthUrl ?? ""}
           onChange={(e) => {
             setKthUrl(e.target.value)
           }}

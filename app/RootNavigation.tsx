@@ -3,7 +3,10 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-const ChevronRight = ({ strokeWidth = 1.5, ...props }: any) => (
+const ChevronRight = ({
+  strokeWidth = 1.5,
+  ...props
+}: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"

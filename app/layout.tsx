@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import "styles/global.css"
 import { Merriweather, Montserrat } from "next/font/google"
-import { Viewport } from "next"
+import { type Viewport } from "next"
 import NextTopLoader from "nextjs-toploader"
 import { CalendarProvider } from "./(tabs)/calendar/Context"
 
@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : `http://localhost:${process.env.PORT || 3000}`
+      : // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        `http://localhost:${process.env.PORT || 3000}`
   ),
   title: "Elias Floreteng",
   description:

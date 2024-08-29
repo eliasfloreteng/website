@@ -1,4 +1,4 @@
-import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
+import { type PageObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 import { NOTION_COLORS, fetchBlockChildren, fetchPages } from "app/_notion/lib"
 import { GRADIENTS } from "app/gradients"
 import Image from "next/image"
@@ -37,7 +37,7 @@ function TableRow({
           return <td key={key}></td>
         }
         const prop = properties[key]
-        if (prop.type === "url") {
+        if (prop?.type === "url") {
           return (
             <td key={key} className="align-middle">
               {prop.url && (
@@ -47,25 +47,25 @@ function TableRow({
               )}
             </td>
           )
-        } else if (prop.type === "rich_text") {
+        } else if (prop?.type === "rich_text") {
           return (
             <td key={key} className="align-middle">
-              {prop.rich_text[0].plain_text}
+              {prop.rich_text[0]?.plain_text}
             </td>
           )
-        } else if (prop.type === "created_time") {
+        } else if (prop?.type === "created_time") {
           return (
             <td key={key} className="align-middle">
               {prop.created_time}
             </td>
           )
-        } else if (prop.type === "date") {
+        } else if (prop?.type === "date") {
           return (
             <td key={key} className="align-middle">
               {prop.date?.start}
             </td>
           )
-        } else if (prop.type === "multi_select") {
+        } else if (prop?.type === "multi_select") {
           return (
             <td key={key} className="align-middle">
               {prop.multi_select.map((option) => {
@@ -83,7 +83,7 @@ function TableRow({
               })}
             </td>
           )
-        } else if (prop.type === "select") {
+        } else if (prop?.type === "select") {
           return (
             <td key={key} className="align-middle">
               <span className="mr-2 inline-block rounded-full bg-gray-200 px-2 py-1 text-sm font-semibold text-gray-700">
@@ -112,7 +112,7 @@ export default async function DatabaseTable({
   if (!block) return <></>
 
   const pages = await fetchPages(block.id)
-  let items = (pages.results as PageObjectResponse[]).map((page) => ({
+  const items = (pages.results as PageObjectResponse[]).map((page) => ({
     cover_url: page.cover,
     props: page.properties,
     url: page.url,
@@ -122,11 +122,19 @@ export default async function DatabaseTable({
   items.sort((a, b) => {
     const nameA = a.props.Name
     const nameB = b.props.Name
-    if (nameA.type !== "title" || nameB.type !== "title") return 0
-    if (nameA.title[0].plain_text < nameB.title[0].plain_text) {
+    if (nameA?.type !== "title" || nameB?.type !== "title") return 0
+    if (
+      nameA.title[0] &&
+      nameB.title[0] &&
+      nameA.title[0].plain_text < nameB.title[0].plain_text
+    ) {
       return -1
     }
-    if (nameA.title[0].plain_text > nameB.title[0].plain_text) {
+    if (
+      nameA.title[0] &&
+      nameB.title[0] &&
+      nameA.title[0].plain_text > nameB.title[0].plain_text
+    ) {
       return 1
     }
     return 0
@@ -136,8 +144,8 @@ export default async function DatabaseTable({
     const createdA = a.props.Created
     const createdB = b.props.Created
     if (
-      createdA.type !== "date" ||
-      createdB.type !== "date" ||
+      createdA?.type !== "date" ||
+      createdB?.type !== "date" ||
       !createdA.date ||
       !createdB.date
     )
@@ -151,7 +159,9 @@ export default async function DatabaseTable({
     return 0
   })
 
-  const columns = Object.keys(items[0].props).filter((key) => key !== "Name")
+  const columns = items[0]?.props
+    ? Object.keys(items[0]?.props).filter((key) => key !== "Name")
+    : []
 
   return (
     <div className="prose mt-6 max-w-full overflow-x-auto">
@@ -168,8 +178,8 @@ export default async function DatabaseTable({
         <tbody>
           {items.map((item, index) => {
             const title =
-              item.props.Name.type === "title"
-                ? item.props.Name.title[0].plain_text
+              item.props.Name?.type === "title"
+                ? item.props.Name.title[0]?.plain_text
                 : null
             const cover_url = item.cover_url
               ? item.cover_url.type === "file"
@@ -179,11 +189,11 @@ export default async function DatabaseTable({
             return (
               <TableRow
                 key={index}
-                title={title || ""}
-                cover_url={cover_url || GRADIENTS[index]}
+                title={title ?? ""}
+                cover_url={cover_url ?? GRADIENTS[index] ?? ""}
                 properties={item.props}
                 columns={columns}
-                highlight={slugs.includes(item.slug)}
+                highlight={item.slug !== undefined && slugs.includes(item.slug)}
               />
             )
           })}

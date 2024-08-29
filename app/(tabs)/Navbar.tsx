@@ -2,10 +2,9 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ReactNode } from "react"
+import { type ReactNode } from "react"
 import Logo from "@/public/logo.svg"
 import Image from "next/image"
-import { useCalendar } from "./calendar/Context"
 import Socials from "app/Socials"
 
 export default function Navbar() {
@@ -39,6 +38,7 @@ export default function Navbar() {
         <div className="flex flex-col">
           <Link href="/" className="group flex items-center gap-4">
             <Image
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
               src={Logo}
               alt="Logotype for Elias Floreteng"
               className="transition-transform group-hover:rotate-[30deg]"

@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import { fetchProjectBySlug } from "../lib"
 import Image from "next/image"
-import { Metadata, ResolvingMetadata } from "next"
+import { type Metadata, type ResolvingMetadata } from "next"
 import NotionPage from "app/_notion/NotionPage"
 import Link from "next/link"
 import { NOTION_COLORS } from "app/_notion/lib"
@@ -15,10 +15,10 @@ export async function generateMetadata(
   { params: { slug } }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const project = await fetchProjectBySlug(slug[0])
+  const project = slug[0] && (await fetchProjectBySlug(slug[0]))
   if (!project) return notFound()
 
-  const previousImages = parent ? (await parent).openGraph?.images || [] : []
+  const previousImages = (await parent).openGraph?.images ?? []
 
   return {
     title: `${project.title} – Projects`,
@@ -47,7 +47,7 @@ export async function generateMetadata(
 }
 
 export default async function ProjectPage({ params: { slug } }: Props) {
-  const project = await fetchProjectBySlug(slug[0])
+  const project = slug[0] && (await fetchProjectBySlug(slug[0]))
   if (!project) return notFound()
 
   return (

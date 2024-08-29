@@ -5,16 +5,16 @@ import { useEffect, useRef, useState } from "react"
 export function CookieModal() {
   const [cookies, setCookies] = useState(true)
 
-  const audio = useRef(null)
+  const audio = useRef<HTMLAudioElement | null>(null)
   useEffect(() => {
-    let playAttempt = setInterval(() => {
+    const playAttempt = setInterval(() => {
       audio?.current
-        // @ts-ignore
         ?.play()
         .then(() => {
           clearInterval(playAttempt)
         })
-        .catch(() => {}) // Try again if it can't be played
+        // eslint-disable-next-line @typescript-eslint/no-empty-function -- Try again if it can't be played
+        .catch(() => {})
     }, 500)
   }, [])
 

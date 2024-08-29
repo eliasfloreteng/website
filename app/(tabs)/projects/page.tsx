@@ -1,7 +1,7 @@
 import { GRADIENTS } from "app/gradients"
 import ProjectCard from "./ProjectCard"
-import { Project, fetchProjects } from "./lib"
-import { Metadata } from "next"
+import { type Project, fetchProjects } from "./lib"
+import { type Metadata } from "next"
 
 export const revalidate = 10
 
@@ -45,7 +45,7 @@ export default async function ProjectsPage() {
               title={project.title}
               description={project.description}
               href={`/projects/${project.slug}`}
-              image={project.coverUrl || GRADIENTS[index]}
+              image={project.coverUrl ?? GRADIENTS[index] ?? ""}
             />
           ))}
         </div>
@@ -67,7 +67,7 @@ export default async function ProjectsPage() {
               title={project.title}
               description={project.description}
               href={`/projects/${project.slug}`}
-              image={project.coverUrl || GRADIENTS[index]}
+              image={project.coverUrl ?? GRADIENTS[index] ?? ""}
             />
           ))}
         </div>

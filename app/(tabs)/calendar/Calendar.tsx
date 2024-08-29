@@ -1,19 +1,13 @@
 "use client"
 
-import {
-  getWeekdays,
-  HideShowRule,
-  proxiedUrl,
-  weekNumber,
-  fetcher,
-} from "./lib"
+import { getWeekdays, proxiedUrl, weekNumber, fetcher } from "./lib"
 import { useState } from "react"
-import useSWR, { mutate as globalMutate } from "swr"
+import useSWR from "swr"
 import LoadingSpinner from "./LoadingSpinner"
 import { useCalendar } from "./Context"
-import CalendarEvent, { RawEvent, Event } from "./CalendarEvent"
+import CalendarEvent, { type RawEvent, type Event } from "./CalendarEvent"
 
-let colors = [
+const colors = [
   "bg-amber-500",
   "bg-sky-500",
   "bg-rose-500",
@@ -34,7 +28,7 @@ let colors = [
   "bg-violet-500",
   "bg-pink-500",
 ]
-let courseColors: { [key: string]: string } = {}
+const courseColors: Record<string, string> = {}
 
 /**
  * Assign each coursecode to a color in order from array `colors`
@@ -89,12 +83,18 @@ export default function Calendar() {
   const [eventModal, setEventModal] = useState<Event | null>(null)
   const [eventModalLoading, setEventModalLoading] = useState(false)
 
-  const [kthUrl, setKthUrl] = useCalendar()
+  const [kthUrl] = useCalendar()
 
-  const weekStart = weekdays[0].toLocaleDateString("sv-SE")
-  const weekEnd = weekdays[weekdays.length - 1].toLocaleDateString("sv-SE")
+  const weekStart = weekdays[0]?.toLocaleDateString("sv-SE")
+  const weekEnd = weekdays[weekdays.length - 1]?.toLocaleDateString("sv-SE")
 
-  const { data, error, mutate } = useSWR<RawEvent[]>(
+  const { data, error, mutate } = useSWR<
+    RawEvent[],
+    Error & {
+      status?: number
+      info?: unknown
+    }
+  >(
     kthUrl ? `${proxiedUrl(kthUrl)}/start/${weekStart}/end/${weekEnd}` : null,
     fetcher
   )
@@ -103,9 +103,9 @@ export default function Calendar() {
     return null
   }
 
-  const events: Event[] = (data || []).map((e) => ({
+  const events: Event[] = (data ?? []).map((e) => ({
     ...e,
-    description: (e.description || "").trim().replace(/&amp;/g, "&") || null,
+    description: (e.description ?? "").trim().replace(/&amp;/g, "&") || null,
     startDate: new Date(e.startDate),
     endDate: new Date(e.endDate),
     overlapCount: 0, // Added property for how many events overlap
@@ -115,24 +115,30 @@ export default function Calendar() {
   // Calculate overlap count for each event
   for (let i = 0; i < events.length; i++) {
     for (let j = i + 1; j < events.length; j++) {
+      const eventI = events[i]
+      const eventJ = events[j]
       if (
-        events[i].startDate < events[j].endDate &&
-        events[i].endDate > events[j].startDate
+        eventI?.startDate &&
+        eventJ?.endDate &&
+        eventI.startDate < eventJ.endDate &&
+        eventI.endDate > eventJ.startDate
       ) {
+        // @ts-expect-error overlapCount is checked above
         events[i].overlapCount++
+        // @ts-expect-error overlapCount is checked above
         events[j].overlapCount++
       }
     }
   }
   // add index (number) where each overlaping event gets a unique index
-  for (let i = 0; i < events.length; i++) {
+  for (const event of events) {
     let overlapIndex = 0
-    for (let j = 0; j < events.length; j++) {
+    for (const otherEvent of events) {
       if (
-        events[i].startDate < events[j].endDate &&
-        events[i].endDate > events[j].startDate
+        event.startDate < otherEvent.endDate &&
+        event.endDate > otherEvent.startDate
       ) {
-        events[j].overlapIndex = overlapIndex++
+        otherEvent.overlapIndex = overlapIndex++
       }
     }
   }
@@ -238,11 +244,11 @@ export default function Calendar() {
 
           <div className="grid flex-auto grid-flow-col divide-x border-t">
             {weekdays.map((day) => {
-              let weekday = day.toLocaleDateString("sv", {
+              const weekday = day.toLocaleDateString("sv", {
                 weekday: "short",
               })
               const today = new Date()
-              let isToday =
+              const isToday =
                 day.getDate() === today.getDate() &&
                 day.getMonth() === today.getMonth() &&
                 day.getFullYear() === today.getFullYear()
@@ -293,12 +299,12 @@ export default function Calendar() {
                           day.toLocaleDateString()
                       )
                       .map((event) => {
-                        let fromTop =
+                        const fromTop =
                           event.startDate.getHours() -
                           startHour +
                           event.startDate.getMinutes() / 60
 
-                        let eventHeight =
+                        const eventHeight =
                           event.endDate.getHours() +
                           event.endDate.getMinutes() -
                           event.startDate.getHours() -

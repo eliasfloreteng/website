@@ -7,7 +7,7 @@ import { HomeIcon } from "@heroicons/react/24/solid"
 export default function Socials({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const [kthUrl, setKthUrl] = useCalendar()
+  const [kthUrl] = useCalendar()
 
   return (
     <div {...props}>

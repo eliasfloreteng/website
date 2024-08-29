@@ -1,4 +1,4 @@
-import React, { Fragment, RefObject, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 
 export interface RawEvent {
   summary: string | null
@@ -28,7 +28,7 @@ export default function CalendarEvent({
   onClose: () => void
   onHide: (event: Event) => void
 }) {
-  const ref: RefObject<HTMLDivElement> = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -47,8 +47,8 @@ export default function CalendarEvent({
       <div className="flex items-center justify-between rounded-t border-b p-5">
         <a
           className="line-clamp-2 flex-1 text-lg font-semibold text-slate-900"
-          title={event.summary || ""}
-          href={event.url || "#"}
+          title={event.summary ?? ""}
+          href={event.url ?? "#"}
           target="_blank"
           rel="noreferrer"
         >
@@ -135,7 +135,7 @@ export default function CalendarEvent({
               </svg>
               <div>
                 <div className="text-slate-600">Location: </div>
-                {(event.location || "").split(/,\s+/).map((part, idx) => (
+                {(event.location ?? "").split(/,\s+/).map((part, idx) => (
                   <React.Fragment key={idx}>
                     {Boolean(idx) && ", "}
                     <a

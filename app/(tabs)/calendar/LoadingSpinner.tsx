@@ -3,11 +3,11 @@ export default function LoadingSpinner({
   ...props
 }: {
   className?: string
-  props?: any[]
+  props?: React.SVGProps<SVGSVGElement>
 }) {
   return (
     <svg
-      className={`animate-spin ${className || ""}`}
+      className={`animate-spin ${className ?? ""}`}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"

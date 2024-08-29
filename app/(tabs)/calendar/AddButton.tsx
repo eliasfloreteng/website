@@ -5,7 +5,7 @@ import { useCalendar } from "./Context"
 import { proxiedUrl } from "./lib"
 
 export default function AddButton() {
-  const [kthUrl, setKthUrl] = useCalendar()
+  const [kthUrl] = useCalendar()
   const proxy = proxiedUrl(kthUrl)
 
   return (

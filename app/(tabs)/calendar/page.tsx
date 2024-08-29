@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import kthLogo from "@/public/ical/kth.svg"
-import { CalendarProvider } from "./Context"
 import Input from "./Input"
 import AddButton from "./AddButton"
 import Calendar from "./Calendar"
@@ -49,6 +48,7 @@ export default function CalendarPage() {
                   className="button whitespace-nowrap"
                 >
                   <span className="mr-2 h-4 w-4 flex-shrink-0">
+                    {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
                     <Image src={kthLogo} alt="KTH logotype" />
                   </span>{" "}
                   KTH calendar settings

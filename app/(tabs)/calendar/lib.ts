@@ -30,9 +30,8 @@ export function getRelativeTime(d1: Date, d2 = new Date()) {
       return rtf.format(Math.round(elapsed / value), key)
 }
 
-export async function fetcher(...args: Parameters<typeof fetch>) {
-  const res = await fetch(...args)
-
+export async function fetcher<JSON>(input: RequestInfo, init?: RequestInit) {
+  const res = await fetch(input, init)
   // If the status code is not in the range 200-299,
   // we still try to parse and throw it.
   if (!res.ok) {
@@ -43,8 +42,7 @@ export async function fetcher(...args: Parameters<typeof fetch>) {
     error.status = res.status
     throw error
   }
-
-  return res.json() as unknown
+  return res.json() as Promise<JSON>
 }
 
 /**

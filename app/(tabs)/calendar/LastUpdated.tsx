@@ -5,9 +5,9 @@ import { useCalendar } from "./Context"
 import { fetcher, getRelativeTime, proxiedUrl } from "./lib"
 
 export default function LastUpdated() {
-  const [kthUrl, setKthUrl] = useCalendar()
+  const [kthUrl] = useCalendar()
 
-  const { data, error } = useSWR<{ lastUpdated: string | null }>(
+  const { data, error } = useSWR<{ lastUpdated: string | null }, unknown>(
     kthUrl ? `${proxiedUrl(kthUrl)}/last-updated` : null,
     fetcher,
     // Milliseconds between refreshes: 120_000 = 2 minutes

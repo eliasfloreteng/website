@@ -1,5 +1,5 @@
 import NotionPage from "app/_notion/NotionPage"
-import { Metadata } from "next"
+import { type Metadata } from "next"
 
 export const revalidate = 10
 

@@ -1,6 +1,6 @@
 import {
-  MultiSelectPropertyItemObjectResponse,
-  PageObjectResponse,
+  type MultiSelectPropertyItemObjectResponse,
+  type PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints"
 import { fetchPages } from "app/_notion/lib"
 
@@ -12,7 +12,7 @@ export interface Project {
   featured: boolean
   language: MultiSelectPropertyItemObjectResponse["multi_select"]
   coverUrl: string | null
-  slug: string
+  slug?: string
   created: string | undefined
   link: string | null
 }
@@ -30,12 +30,12 @@ export function pageToProject(project: PageObjectResponse): Project | null {
         : null
 
   if (
-    Name.type === "title" &&
-    Tags.type === "multi_select" &&
-    Description.type === "rich_text" &&
-    Language.type === "multi_select" &&
-    Created.type === "date" &&
-    Link.type === "url"
+    Name?.type === "title" &&
+    Tags?.type === "multi_select" &&
+    Description?.type === "rich_text" &&
+    Language?.type === "multi_select" &&
+    Created?.type === "date" &&
+    Link?.type === "url"
   ) {
     return {
       id: project.id,
@@ -58,7 +58,7 @@ export function pageToProject(project: PageObjectResponse): Project | null {
 export function urlToSlug(url: string) {
   const parts = url.split("/")
   const id = parts[parts.length - 1]
-  return id.split("-").slice(0, -1).join("-").toLowerCase()
+  return id?.split("-").slice(0, -1).join("-").toLowerCase()
 }
 
 export async function fetchProjects() {

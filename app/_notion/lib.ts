@@ -1,7 +1,7 @@
 import "server-only"
 
 import { Client } from "@notionhq/client"
-import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints"
+import { type BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints"
 
 export const notion = new Client({
   auth: process.env.NOTION_TOKEN,
