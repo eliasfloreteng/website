@@ -202,7 +202,7 @@ export default async function HousingList({
                     <ArrowsPointingOutIcon className="mr-2 h-5 w-5" />
                     <span>{area} m²</span>
                   </div>
-                  {house.agencyType === "sssb" && house.queueTime && (
+                  {house.agencyType === "sssb" && house.queueTime ? (
                     <div
                       className="flex items-center text-gray-600"
                       title="Queue time in days"
@@ -213,7 +213,7 @@ export default async function HousingList({
                         {house.queueSize && ` (${house.queueSize} applicants)`}
                       </span>
                     </div>
-                  )}
+                  ) : null}
                 </div>
                 {distances.length > 0 &&
                   distances.some(

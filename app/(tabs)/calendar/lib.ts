@@ -1,12 +1,14 @@
 export const currentLang =
   typeof window !== "undefined"
-    ? navigator?.languages?.[0] || navigator?.language
+    ? (navigator?.languages?.[0] ?? navigator?.language)
     : undefined
+
 export const rtf = (() => {
-  return new Intl.RelativeTimeFormat(currentLang || "sv-SE", {
+  return new Intl.RelativeTimeFormat(currentLang ?? "sv-SE", {
     numeric: "auto",
   })
 })()
+
 // in milliseconds
 const units = {
   year: 24 * 60 * 60 * 1000 * 365,
@@ -16,6 +18,7 @@ const units = {
   minute: 60 * 1000,
   second: 1000,
 }
+
 export function getRelativeTime(d1: Date, d2 = new Date()) {
   const elapsed = d1.getTime() - d2.getTime()
   // "Math.abs" accounts for both "past" & "future" scenarios
@@ -27,21 +30,21 @@ export function getRelativeTime(d1: Date, d2 = new Date()) {
       return rtf.format(Math.round(elapsed / value), key)
 }
 
-export async function fetcher(url: any, ...args: any) {
-  const res = await fetch(url, ...args)
+export async function fetcher(...args: Parameters<typeof fetch>) {
+  const res = await fetch(...args)
 
   // If the status code is not in the range 200-299,
   // we still try to parse and throw it.
   if (!res.ok) {
     const error = new Error("An error occurred while fetching the data.")
-    // @ts-ignore
-    error.info = await res.json()
-    // @ts-ignore
+    // @ts-expect-error info is not defined in error type
+    error.info = (await res.json()) as unknown
+    // @ts-expect-error status is not defined in error type
     error.status = res.status
     throw error
   }
 
-  return res.json()
+  return res.json() as unknown
 }
 
 /**
@@ -51,9 +54,9 @@ export async function fetcher(url: any, ...args: any) {
  * @param date input date to get week of
  */
 export function weekNumber(date: string | number | Date) {
-  let yearStart = new Date(date)
+  const yearStart = new Date(date)
   yearStart.setDate(yearStart.getDate() + 4 - (yearStart.getDay() || 7))
-  let time = yearStart.getTime()
+  const time = yearStart.getTime()
   yearStart.setMonth(0)
   yearStart.setDate(1)
   return Math.floor(Math.round((time - yearStart.getTime()) / 86400000) / 7) + 1
@@ -66,11 +69,11 @@ export function weekNumber(date: string | number | Date) {
  */
 export function getWeekdays(inputDay: string | number | Date) {
   // start date
-  let firstOfWeek = new Date(inputDay)
+  const firstOfWeek = new Date(inputDay)
   // this weeks monday
   firstOfWeek.setDate(firstOfWeek.getDate() - firstOfWeek.getDay() + 1)
 
-  let weekdays = []
+  const weekdays = []
   for (let i = 0; i < 5; i++) {
     weekdays.push(new Date(firstOfWeek))
     firstOfWeek.setDate(firstOfWeek.getDate() + 1)
@@ -85,10 +88,10 @@ export function parseCalendarPath(rawUrl: string | null) {
   if (!rawUrl) return null
   try {
     const url = new URL(rawUrl)
-    let res = RegExp(/social\/user\/(\d{6})\/icalendar\/([\da-f]{40})$/).exec(
+    const res = RegExp(/social\/user\/(\d{6})\/icalendar\/([\da-f]{40})$/).exec(
       url.pathname
     )
-    if (!res || !res[1] || !res[2]) return null
+    if (!res?.[1] || !res[2]) return null
     return { user: parseInt(res[1], 10), icalendar: res[2] }
   } catch (error) {
     if (error instanceof TypeError) {
