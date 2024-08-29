@@ -1,5 +1,5 @@
 import HousingList from "./HousingList"
-import { Metadata } from "next"
+import { type Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Housing Queue",
@@ -9,28 +9,28 @@ export const metadata: Metadata = {
 export default function HousingQueuePage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Record<string, string | string[] | undefined>
 }) {
-  const query = searchParams["q"]
-  const maxRentParam = searchParams["maxRent"]
+  const query = searchParams.q
+  const maxRentParam = searchParams.maxRent
   const maxRent = maxRentParam
     ? Array.isArray(maxRentParam)
-      ? parseInt(maxRentParam[0])
+      ? parseInt(maxRentParam[0] ?? "")
       : parseInt(maxRentParam)
     : undefined
-  const maxRoomsParam = searchParams["maxRooms"]
+  const maxRoomsParam = searchParams.maxRooms
   const maxRooms = maxRoomsParam
     ? Array.isArray(maxRoomsParam)
-      ? parseInt(maxRoomsParam[0])
+      ? parseInt(maxRoomsParam[0] ?? "")
       : parseInt(maxRoomsParam)
     : undefined
-  const agencyType = searchParams["agencyType"]
+  const agencyType = searchParams.agencyType
   const agency = Array.isArray(agencyType) ? agencyType[0] : agencyType
-  const noCorridors = searchParams["noCorridors"] === "on"
+  const noCorridors = searchParams.noCorridors === "on"
 
-  const schoolParam = searchParams["school"]
+  const schoolParam = searchParams.school
   const school = Array.isArray(schoolParam) ? schoolParam[0] : schoolParam
-  const destinationParam = searchParams["destination"]
+  const destinationParam = searchParams.destination
   const destination = Array.isArray(destinationParam)
     ? destinationParam[0]
     : destinationParam

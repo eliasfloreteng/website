@@ -19,7 +19,7 @@ export async function fetchSSSBHousing({
   const url = `${SSSB_BASE_URL}widgets/?${params.toString()}`
   const response = await fetch(url)
   if (!response.ok) {
-    throw new Error("Failed to fetch SSSB data: " + response.text())
+    throw new Error("Failed to fetch SSSB data: " + (await response.text()))
   }
   const content = await response.text()
   const datastring =
@@ -89,16 +89,14 @@ export async function fetchSSSBHousing({
         properties,
         housingComplex: $housingComplex.text().trim() || undefined,
         housingComplexLink: `${SSSB_BASE_URL}${$housingComplex.attr("href")}`,
-        floor: floorText ? parseInt(floorText, 10) : undefined,
+        floor: floorText,
         area: areaText ? parseInt(areaText, 10) : undefined,
         rent: rentText ? parseInt(rentText, 10) : undefined,
         contractStart: contractStartText
           ? new Date(contractStartText)
           : undefined,
-        queueTime:
-          queueTime && queueTime[1] ? parseInt(queueTime[1], 10) : undefined,
-        queueSize:
-          queueSize && queueSize[1] ? parseInt(queueSize[1], 10) : undefined,
+        queueTime: queueTime?.[1] ? parseInt(queueTime[1], 10) : undefined,
+        queueSize: queueSize?.[1] ? parseInt(queueSize[1], 10) : undefined,
       }
     })
     .get()
