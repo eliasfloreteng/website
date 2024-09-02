@@ -34,6 +34,12 @@ export default function HousingQueuePage({
   const destination = Array.isArray(destinationParam)
     ? destinationParam[0]
     : destinationParam
+  const maxQueueDaysParam = searchParams.maxQueueDays
+  const maxQueueDays = maxQueueDaysParam
+    ? Array.isArray(maxQueueDaysParam)
+      ? parseInt(maxQueueDaysParam[0] ?? "")
+      : parseInt(maxQueueDaysParam)
+    : undefined
 
   return (
     <form className="container mx-auto flex flex-col gap-4 rounded-lg bg-white p-6 shadow-md">
@@ -75,24 +81,49 @@ export default function HousingQueuePage({
       </div>
 
       <div className="flex flex-wrap gap-6">
-        <div className="flex flex-[2] gap-6 *:flex-1">
-          <input
-            type="number"
-            placeholder="Max rent"
-            defaultValue={maxRent}
-            name="maxRent"
-            step={500}
-            min={0}
-            className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="number"
-            placeholder="Max rooms"
-            defaultValue={maxRooms}
-            name="maxRooms"
-            min={1}
-            className="w-full rounded border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="flex flex-[2] flex-wrap gap-6">
+          <div className="relative min-w-32 flex-1">
+            <input
+              type="number"
+              placeholder="Max rent"
+              defaultValue={maxRent}
+              name="maxRent"
+              step={500}
+              min={0}
+              className="block w-full rounded border border-gray-300 p-2 pr-7 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pl-3 pr-2">
+              <span className="text-gray-500 sm:text-sm">kr</span>
+            </div>
+          </div>
+
+          <div className="relative min-w-32 flex-1">
+            <input
+              type="number"
+              placeholder="Max rooms"
+              defaultValue={maxRooms}
+              name="maxRooms"
+              min={1}
+              className="block w-full rounded border border-gray-300 p-2 pr-16 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pl-3 pr-2">
+              <span className="text-gray-500 sm:text-sm">rooms</span>
+            </div>
+          </div>
+
+          <div className="relative min-w-32 flex-1">
+            <input
+              type="number"
+              placeholder="Max queue days"
+              defaultValue={maxQueueDays}
+              name="maxQueueDays"
+              min={1}
+              className="block w-full rounded border border-gray-300 p-2 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pl-3 pr-2">
+              <span className="text-gray-500 sm:text-sm">days</span>
+            </div>
+          </div>
         </div>
         <select
           name="agencyType"
@@ -132,6 +163,7 @@ export default function HousingQueuePage({
         query={Array.isArray(query) ? query[0] : query}
         maxRent={maxRent}
         maxRooms={maxRooms}
+        maxQueueDays={maxQueueDays}
         noCorridors={noCorridors}
         isStudent={Boolean(school)}
         destinations={[school, destination].filter((d) => d !== undefined)}

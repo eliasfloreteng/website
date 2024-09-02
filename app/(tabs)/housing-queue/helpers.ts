@@ -6,6 +6,7 @@ export interface SearchProps {
   maxRent?: number | null
   maxRooms?: number | null
   noCorridors?: boolean
+  maxQueueDays?: number | null
   isStudent?: boolean
   agencyType?: "sssb" | "agency" | null
 }
@@ -14,6 +15,7 @@ export async function fetchHousing({
   query,
   maxRent,
   noCorridors,
+  maxQueueDays,
   isStudent,
   maxRooms,
   agencyType,
@@ -23,6 +25,7 @@ export async function fetchHousing({
       ? fetchSSSBHousing({
           query,
           maxRent,
+          maxQueueDays,
           noCorridors,
         })
       : Promise.resolve([])

@@ -7,10 +7,12 @@ const SSSB_BASE_URL = "https://sssb.se/"
 export async function fetchSSSBHousing({
   query,
   maxRent,
+  maxQueueDays,
   noCorridors,
 }: {
   query?: string | null
   maxRent?: number | null
+  maxQueueDays?: number | null
   noCorridors?: boolean
 }) {
   const params = new URLSearchParams({
@@ -110,6 +112,8 @@ export async function fetchSSSBHousing({
       (house) =>
         (!noCorridors || !house.title?.includes("korridor")) &&
         (!maxRent || (house.rent && house.rent <= maxRent)) &&
+        (!maxQueueDays ||
+          (house.queueTime && house.queueTime <= maxQueueDays)) &&
         (!query ||
           Object.values(house).some(
             (value) =>
