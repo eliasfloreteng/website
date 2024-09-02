@@ -23,17 +23,9 @@ export async function GET(_request: NextRequest) {
     .join(",")
   const oldHousing = await kv.get<string>("housing")
   if (oldHousing === housingHash) {
-    return new NextResponse(
-      JSON.stringify({
-        message: "No new housing",
-      }),
-      {
-        status: 204,
-        headers: {
-          "content-type": "application/json",
-        },
-      }
-    )
+    return new NextResponse(null, {
+      status: 204,
+    })
   }
   console.log("oldHousing", oldHousing)
   console.log("housingHash", housingHash)
