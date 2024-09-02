@@ -2,9 +2,7 @@ import { fetchHousing } from "../../helpers"
 import { kv } from "@vercel/kv"
 import { type NextRequest, NextResponse } from "next/server"
 
-export const config = {
-  runtime: "edge",
-}
+export const runtime = "edge"
 
 export const dynamic = "force-dynamic" // static by default, unless reading the request
 
