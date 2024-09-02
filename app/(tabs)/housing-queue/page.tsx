@@ -130,11 +130,10 @@ export default function HousingQueuePage({
           agency === "all" ? null : (agency as "agency" | "sssb" | undefined)
         }
         query={Array.isArray(query) ? query[0] : query}
-        city="Stockholm"
         maxRent={maxRent}
         maxRooms={maxRooms}
         noCorridors={noCorridors}
-        hasSchool={Boolean(school)}
+        isStudent={Boolean(school)}
         destinations={[school, destination].filter((d) => d !== undefined)}
       />
     </form>

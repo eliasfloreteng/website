@@ -1,17 +1,15 @@
 import { safeParseJSONResponse } from "app/helpers"
-import { type SearchProps } from "./HousingList"
+import { type SearchProps } from "./helpers"
 import "server-only"
 
 export const HOUSING_QUEUE_BASE_URL = "https://bostad.stockholm.se"
 
 export async function fetchFilteredHousing({
   query,
-  city,
-  district,
   maxRent,
   maxRooms,
   noCorridors,
-  hasSchool,
+  isStudent,
 }: SearchProps) {
   const housingQueueResponse = await fetch(
     `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`
@@ -25,11 +23,9 @@ export async function fetchFilteredHousing({
     (await safeParseJSONResponse<Housing[]>(housingQueueResponse)) ?? []
   const filteredHousing = housing.filter(
     (house) =>
-      (!hasSchool || house.Student) &&
+      (!isStudent || house.Student) &&
       (!noCorridors ||
         !(house.Student && house.Lagenhetstyp === "Studentkorridor")) &&
-      (!city || house.Kommun === city) &&
-      (!district || house.Stadsdel === district) &&
       (!maxRent || (house.Hyra && house.Hyra <= maxRent)) &&
       (!maxRooms || house.AntalRum <= maxRooms) &&
       (!query ||

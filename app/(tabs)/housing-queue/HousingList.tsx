@@ -7,77 +7,19 @@ import {
   InformationCircleIcon,
   ClockIcon,
 } from "@heroicons/react/24/solid"
-import {
-  fetchFilteredHousing as fetchHousingAgency,
-  HOUSING_QUEUE_BASE_URL,
-} from "./housingAgency"
-import { fetchSSSBHousing } from "./sssb"
+import { HOUSING_QUEUE_BASE_URL } from "./housingAgency"
 import { fetchDistances } from "./distances"
-
-export interface SearchProps {
-  city?: string | null
-  district?: string | null
-  maxRent?: number | null
-  maxRooms?: number | null
-  query?: string | null
-  noCorridors?: boolean
-  hasSchool?: boolean
-}
+import { fetchHousing, type SearchProps } from "./helpers"
 
 interface HousingListProps extends SearchProps {
-  agencyType?: "sssb" | "agency" | null
   destinations: string[]
 }
 
 export default async function HousingList({
-  agencyType,
-  query,
-  district,
-  city,
-  maxRent,
-  maxRooms,
-  noCorridors,
-  hasSchool,
   destinations,
+  ...searchProps
 }: HousingListProps) {
-  const sssbHousingPromise =
-    agencyType === "sssb" || !agencyType
-      ? fetchSSSBHousing({
-          query,
-          maxRent,
-          noCorridors,
-        })
-      : Promise.resolve([])
-
-  const agencyHousingPromise =
-    agencyType === "agency" || !agencyType
-      ? fetchHousingAgency({
-          query,
-          city,
-          district,
-          maxRent,
-          maxRooms,
-          noCorridors,
-          hasSchool,
-        })
-      : Promise.resolve([])
-
-  const [sssbHousing, agencyHousing] = await Promise.all([
-    sssbHousingPromise,
-    agencyHousingPromise,
-  ])
-
-  const housing = [
-    ...sssbHousing.map((house) => ({ agencyType: "sssb" as const, ...house })),
-    ...agencyHousing.map((house) => ({
-      agencyType: "agency" as const,
-      ...house,
-    })),
-  ].sort((a, b) => {
-    const rentA = a.agencyType === "agency" ? a.Hyra : a.rent
-    const rentB = b.agencyType === "agency" ? b.Hyra : b.rent
-    return (rentA ?? Infinity) - (rentB ?? Infinity)
-  })
+  const housing = await fetchHousing(searchProps)
 
   const origins = housing.map((house) => {
     if (house.agencyType === "agency") {
