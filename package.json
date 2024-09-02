@@ -11,6 +11,7 @@
     "@heroicons/react": "^2.1.5",
     "@notion-render/client": "^0.0.2",
     "@notionhq/client": "^2.2.15",
+    "@vercel/kv": "^2.0.0",
     "cheerio": "^1.0.0",
     "gsap": "^3.12.5",
     "next": "^15.0.0-rc.0",
