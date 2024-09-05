@@ -1,15 +1,6 @@
 import { fetchSSSBHousing } from "./sssb"
 import { fetchFilteredHousing as fetchHousingAgency } from "./housingAgency"
-
-export interface SearchProps {
-  query?: string | null
-  maxRent?: number | null
-  maxRooms?: number | null
-  noCorridors?: boolean
-  maxQueueDays?: number | null
-  isStudent?: boolean
-  agencyType?: "sssb" | "agency" | null
-}
+import { type SearchOptions } from "./schemas"
 
 export async function fetchHousing({
   query,
@@ -18,10 +9,10 @@ export async function fetchHousing({
   maxQueueDays,
   isStudent,
   maxRooms,
-  agencyType,
-}: SearchProps) {
+  housingAgency,
+}: SearchOptions) {
   const sssbHousingPromise =
-    agencyType === "sssb" || !agencyType
+    housingAgency === "sssb" || !housingAgency
       ? fetchSSSBHousing({
           query,
           maxRent,
@@ -31,13 +22,13 @@ export async function fetchHousing({
       : Promise.resolve([])
 
   const agencyHousingPromise =
-    agencyType === "agency" || !agencyType
+    housingAgency === "swedishHousingAgency" || !housingAgency
       ? fetchHousingAgency({
           query,
           maxRent,
           maxRooms,
           noCorridors,
-          isStudent: isStudent,
+          isStudent,
         })
       : Promise.resolve([])
 
@@ -46,15 +37,7 @@ export async function fetchHousing({
     agencyHousingPromise,
   ])
 
-  return [
-    ...sssbHousing.map((house) => ({ agencyType: "sssb" as const, ...house })),
-    ...agencyHousing.map((house) => ({
-      agencyType: "agency" as const,
-      ...house,
-    })),
-  ].sort((a, b) => {
-    const rentA = a.agencyType === "agency" ? a.Hyra : a.rent
-    const rentB = b.agencyType === "agency" ? b.Hyra : b.rent
-    return (rentA ?? Infinity) - (rentB ?? Infinity)
+  return [...sssbHousing, ...agencyHousing].sort((a, b) => {
+    return (a.rent ?? Infinity) - (b.rent ?? Infinity)
   })
 }

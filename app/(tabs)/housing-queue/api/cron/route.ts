@@ -1,36 +1,122 @@
 import { fetchHousing } from "../../helpers"
 import { kv } from "@vercel/kv"
 import { type NextRequest, NextResponse } from "next/server"
-
-export const runtime = "edge"
+import nodemailer, { type SendMailOptions } from "nodemailer"
+import { z } from "zod"
+import config from "~/config"
+import { searchSchema } from "../../schemas"
+import { SSSB_BASE_URL } from "../../sssb"
 
 export const dynamic = "force-dynamic" // static by default, unless reading the request
 
-export async function GET(_request: NextRequest) {
-  const housing = await fetchHousing({
-    maxRent: 7000,
-    maxRooms: 1,
-    noCorridors: true,
-    isStudent: true,
-  })
+const transporter = nodemailer.createTransport({
+  host: config.email.host,
+  port: config.email.port,
+  secure: config.email.secure, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: config.email.auth.user,
+    pass: config.email.auth.pass,
+  },
+})
 
-  const firstHousing = housing.slice(0, 12)
-  const housingHash = firstHousing
-    .map((house) => {
-      return `${house.agencyType}-${house.agencyType === "agency" ? house.LägenhetId : house.objectNumber}`
-    })
-    .sort()
-    .join(",")
-  const oldHousing = await kv.get<string>("housing")
-  if (oldHousing === housingHash) {
-    return new NextResponse(null, {
-      status: 204,
-    })
+const housingHashesSchema = z.string().array()
+
+export async function GET(_request: NextRequest) {
+  const searchKeys = await kv.keys("housing-queue:*:search")
+  console.log("Search keys:", searchKeys)
+
+  const housingLinks = [] as string[][]
+
+  for (const searchKey of searchKeys) {
+    console.log("Searching for new housing for:", searchKey)
+    const housingKey = searchKey.replace("search", "housing")
+    const searchData = await kv.json.get(searchKey)
+    const parsedsearch = searchSchema.safeParse(searchData)
+    if (!parsedsearch.success) {
+      console.error(parsedsearch.error)
+      continue
+    }
+    const pref = parsedsearch.data
+    console.log("Search preferences:", pref)
+
+    const housing = await fetchHousing(pref)
+    const housingHashes = housing.map((house) => house.id)
+
+    const oldHousingHashesData = await kv.lrange(housingKey, 0, -1)
+    const oldHousingHashesParsed =
+      housingHashesSchema.safeParse(oldHousingHashesData)
+    if (!oldHousingHashesParsed.success) {
+      console.error(oldHousingHashesParsed.error)
+    }
+    const oldHousingHashes = oldHousingHashesParsed.data
+    console.log("Old housing hashes:", oldHousingHashes)
+
+    await kv.del(housingKey)
+    if (housingHashes?.length) {
+      await kv.lpush(housingKey, ...housingHashes)
+    }
+
+    const newHousing = housing.filter(
+      (house) => !oldHousingHashes?.includes(house.id)
+    )
+    console.log(
+      "New housing:",
+      newHousing.map((house) => house.id)
+    )
+
+    if (newHousing.length) {
+      const newHousingLinks = newHousing.map((house) => house.link)
+      housingLinks.push(newHousingLinks)
+
+      const mailOptions = {
+        from: config.email.from,
+        to: config.email.to,
+        subject: "New housing available",
+        text: `Check out the new housing: https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue\n\nNew housing available: ${newHousingLinks.join(", ")}`,
+        html: `
+          <p>Check out the new housing: <a href="https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue">here</a></p>
+          <p>New housing available:</p>
+          <ul>
+            ${newHousing
+              .map(
+                // styled list items with metadata
+                (house) => `
+                <li>
+                  <a href="${house.link}">
+                    ${house.address}
+                  </a>
+                  <small>${house.housingAgency === "swedishHousingAgency" ? house.district : `<a href="${house.housingComplexLink ?? SSSB_BASE_URL}" target="_blank">${house.housingComplex}</a>`}</small>
+                  <div>
+                    ${house.rent} kr/month
+                  </div>
+                  <div>
+                    ${house.size} m²
+                  </div>
+                  <div>
+                    ${house.floor ? `Floor ${house.floor}` : ""}
+                  </div>
+                </li>
+              `
+              )
+              .join("")}
+          </ul>
+        `,
+      } satisfies SendMailOptions
+
+      const responseInfo = await transporter
+        .sendMail(mailOptions)
+        .catch((e) => {
+          console.error(e)
+        })
+      console.log("Email sent:", responseInfo)
+    } else {
+      console.log("No new housing available")
+    }
   }
-  console.log("oldHousing", oldHousing)
-  console.log("housingHash", housingHash)
-  await kv.set("housing", housingHash)
-  return new NextResponse(JSON.stringify(firstHousing), {
+
+  console.log("New housing links:", housingLinks)
+
+  return new NextResponse(JSON.stringify(housingLinks), {
     headers: {
       "content-type": "application/json",
     },

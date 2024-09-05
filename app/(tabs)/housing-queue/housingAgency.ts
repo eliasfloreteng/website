@@ -1,6 +1,11 @@
 import { safeParseJSONResponse } from "app/helpers"
-import { type SearchProps } from "./helpers"
 import "server-only"
+import {
+  swedishHousingAgencyHousingSchema,
+  type SwedishHousingAgencyHousing,
+  type SwedishHousingAgencyOptions,
+} from "./schemas"
+import { type z } from "zod"
 
 export const HOUSING_QUEUE_BASE_URL = "https://bostad.stockholm.se"
 
@@ -10,7 +15,7 @@ export async function fetchFilteredHousing({
   maxRooms,
   noCorridors,
   isStudent,
-}: SearchProps) {
+}: SwedishHousingAgencyOptions): Promise<SwedishHousingAgencyHousing[]> {
   const housingQueueResponse = await fetch(
     `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`
   )
@@ -20,7 +25,8 @@ export async function fetchFilteredHousing({
     )
   }
   const housing =
-    (await safeParseJSONResponse<Housing[]>(housingQueueResponse)) ?? []
+    (await safeParseJSONResponse<RawHousing[]>(housingQueueResponse)) ?? []
+
   const filteredHousing = housing.filter(
     (house) =>
       (!isStudent || house.Student) &&
@@ -35,19 +41,36 @@ export async function fetchFilteredHousing({
             value.toLowerCase().includes(query.toLowerCase())
         ))
   )
-  return filteredHousing
+  return filteredHousing.flatMap((house) => {
+    const parsed = swedishHousingAgencyHousingSchema.safeParse({
+      housingAgency: "swedishHousingAgency",
+      id: `swedishHousingAgency-${house.LägenhetId}`,
+      address: house.Gatuadress,
+      size: house.Yta,
+      rent: house.Hyra,
+      link: `${HOUSING_QUEUE_BASE_URL}${house.Url}`,
+      district: house.Stadsdel,
+      rooms: house.AntalRum,
+      rawHousing: house,
+      floor: house.Vaning,
+    } satisfies z.input<typeof swedishHousingAgencyHousingSchema>)
+    if (!parsed.success) {
+      console.error(parsed.error)
+    }
+    return parsed.success ? [parsed.data] : []
+  })
 }
 
-export interface Housing {
+export interface RawHousing {
   LägenhetId: number
   AnnonsId: number
   Stadsdel: string
   Gatuadress: string
   Kommun: string
-  Vaning: number
+  Vaning?: number | null
   AntalRum: number
-  Yta: number
-  Hyra?: number
+  Yta?: number | null
+  Hyra?: number | null
   AnnonseradTill: string
   AnnonseradFran: string
   KoordinatLongitud: number

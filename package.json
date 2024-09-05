@@ -11,17 +11,20 @@
     "@heroicons/react": "^2.1.5",
     "@notion-render/client": "^0.0.2",
     "@notionhq/client": "^2.2.15",
+    "@types/nodemailer": "^6.4.15",
     "@vercel/kv": "^2.0.0",
     "cheerio": "^1.0.0",
     "gsap": "^3.12.5",
     "next": "^15.0.0-rc.0",
     "nextjs-toploader": "^1.6.12",
+    "nodemailer": "^6.9.14",
     "react": "^19.0.0-rc-b57d2823-20240822",
     "react-dom": "^19.0.0-rc-b57d2823-20240822",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
     "swr": "^2.2.5",
-    "three": "~0.124.0"
+    "three": "~0.124.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.7",

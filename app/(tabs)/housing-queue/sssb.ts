@@ -1,20 +1,27 @@
 import * as cheerio from "cheerio"
 import "server-only"
 import { safeParseJSON } from "~/helpers"
+import {
+  type SSSBHousing,
+  sssbHousingSchema,
+  type SSSBOptions,
+} from "./schemas"
+import { type z } from "zod"
 
-const SSSB_BASE_URL = "https://sssb.se/"
+export const SSSB_BASE_URL = "https://sssb.se/"
 
 export async function fetchSSSBHousing({
   query,
   maxRent,
   maxQueueDays,
   noCorridors,
-}: {
-  query?: string | null
-  maxRent?: number | null
-  maxQueueDays?: number | null
-  noCorridors?: boolean
-}) {
+  minSize,
+  isStudent,
+}: SSSBOptions): Promise<SSSBHousing[]> {
+  if (!isStudent) {
+    return []
+  }
+
   const params = new URLSearchParams({
     callback: "",
     "widgets[]": "objektlistabilder@lagenheter",
@@ -80,54 +87,62 @@ export async function fetchSSSBHousing({
         $details.find("dd.ObjektInflytt").text().trim() || undefined
       const queueTimeText =
         $details.find("dd.ObjektAntalIntresse").text().trim() || undefined
-      const queueTime = queueTimeText?.match(/^\s*(\d+)\s*/)
-      const queueSize = queueTimeText?.match(/\(\s*(\d+)\s*st\s*\)\s*$/)
+      const queueTime = queueTimeText?.match(/^\s*(\d+)\s*/)?.[1]
+      const queueSize = queueTimeText?.match(/\(\s*(\d+)\s*st\s*\)\s*$/)?.[1]
+
+      const link = $title.attr("href")
+      const address = $element.find(".ObjektAdress a").text().trim()
+
+      if (!link || !address || !areaText || !rentText || !objectNumberText) {
+        return null
+      }
 
       return {
-        objectNumber: objectNumberText
-          ? parseInt(objectNumberText, 10)
-          : undefined,
+        housingAgency: "sssb",
+        id: `sssb-${objectNumberText}`,
         image: $element.find("img").attr("data-src"),
-        title: $title.text().trim() || undefined,
-        link: $title.attr("href"),
-        address: $element.find(".ObjektAdress a").text().trim() || undefined,
+        title: $title.text().trim() || null,
+        link,
+        address,
         freetext: $element.find(".ObjektFritext").text().trim() || undefined,
         properties,
         housingComplex: $housingComplex.text().trim() || undefined,
         housingComplexLink: `${SSSB_BASE_URL}${$housingComplex.attr("href")}`,
         floor: floorText,
-        area: areaText ? parseInt(areaText, 10) : undefined,
-        rent: rentText ? parseInt(rentText, 10) : undefined,
+        size: areaText,
+        rent: rentText,
         contractStart: contractStartText
           ? new Date(contractStartText)
           : undefined,
-        queueTime: queueTime?.[1] ? parseInt(queueTime[1], 10) : undefined,
-        queueSize: queueSize?.[1] ? parseInt(queueSize[1], 10) : undefined,
-      }
+        queueTime,
+        queueSize,
+      } satisfies z.input<typeof sssbHousingSchema>
     })
     .get()
-
-  const filteredHousing = housing
-    .filter(
-      (house) =>
-        (!noCorridors || !house.title?.includes("korridor")) &&
-        (!maxRent || (house.rent && house.rent <= maxRent)) &&
-        (!maxQueueDays ||
-          (house.queueTime && house.queueTime <= maxQueueDays)) &&
-        (!query ||
-          Object.values(house).some(
-            (value) =>
-              typeof value === "string" &&
-              value.toLowerCase().includes(query.toLowerCase())
-          ))
-    )
     .flatMap((house) => {
-      const address = house.address
-      const objectNumber = house.objectNumber
-      return address && objectNumber
-        ? [{ ...house, address, objectNumber }]
-        : []
+      if (!house) {
+        return []
+      }
+      const parsed = sssbHousingSchema.safeParse(house)
+      if (!parsed.success) {
+        console.error(parsed.error)
+      }
+      return parsed.success ? [parsed.data] : []
     })
+
+  const filteredHousing = housing.filter(
+    (house) =>
+      (!noCorridors || !house.title?.includes("korridor")) &&
+      (!maxRent || (house.rent && house.rent <= maxRent)) &&
+      (!maxQueueDays || (house.queueTime && house.queueTime <= maxQueueDays)) &&
+      (!minSize || (house.size && house.size >= minSize)) &&
+      (!query ||
+        Object.values(house).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(query.toLowerCase())
+        ))
+  )
 
   return filteredHousing
 }

@@ -8,7 +8,7 @@ export const MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY
 export async function fetchDistances(
   origins: string[],
   destinations: string[],
-  filteredHousing: number[]
+  filteredHousing: string[]
 ) {
   const departure_datetime = new Date()
   departure_datetime.setHours(8)
@@ -64,7 +64,7 @@ export async function fetchDistances(
       }
       return acc
     },
-    {} as Record<number, DistanceMap[]>
+    {} as Record<(typeof filteredHousing)[number], DistanceMap[]>
   )
   return distancesMap
 }

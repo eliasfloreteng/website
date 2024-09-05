@@ -1,5 +1,6 @@
 import HousingList from "./HousingList"
 import { type Metadata } from "next"
+import { z } from "zod"
 
 export const metadata: Metadata = {
   title: "Housing Queue",
@@ -26,6 +27,11 @@ export default function HousingQueuePage({
     : undefined
   const agencyType = searchParams.agencyType
   const agency = Array.isArray(agencyType) ? agencyType[0] : agencyType
+  const housingAgency = z
+    .enum(["swedishHousingAgency", "sssb"])
+    .nullable()
+    .catch(null)
+    .parse(agency)
   const noCorridors = searchParams.noCorridors === "on"
 
   const schoolParam = searchParams.school
@@ -157,16 +163,24 @@ export default function HousingQueuePage({
       </button>
 
       <HousingList
-        agencyType={
-          agency === "all" ? null : (agency as "agency" | "sssb" | undefined)
-        }
+        housingAgency={housingAgency}
+        sortBy={"distance"}
         query={Array.isArray(query) ? query[0] : query}
-        maxRent={maxRent}
-        maxRooms={maxRooms}
-        maxQueueDays={maxQueueDays}
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        maxRent={maxRent || undefined}
+        // TODO: Implement minSize
+        // minSize={minSize}
+        // TODO: Implement minRooms
+        // minRooms={minRooms}
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        maxRooms={maxRooms || undefined}
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        maxQueueDays={maxQueueDays || undefined}
         noCorridors={noCorridors}
         isStudent={Boolean(school)}
-        destinations={[school, destination].filter((d) => d !== undefined)}
+        destinations={[school, destination]
+          .filter((d) => d !== undefined)
+          .filter(Boolean)}
       />
     </form>
   )
