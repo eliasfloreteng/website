@@ -9,8 +9,8 @@ export const configSchema = z.object({
       user: z.string(),
       pass: z.string(),
     }),
-    to: z.string().email(),
-    from: z.string().email(),
+    to: z.string(),
+    from: z.string(),
   }),
 })
 
