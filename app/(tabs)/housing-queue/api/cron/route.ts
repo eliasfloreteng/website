@@ -65,7 +65,9 @@ export async function GET(_request: NextRequest) {
     )
 
     if (newHousing.length) {
-      const newHousingLinks = newHousing.map((house) => house.link)
+      const newHousingLinks = newHousing
+        .map((house) => house.link)
+        .filter((link) => link !== null)
       housingLinks.push(newHousingLinks)
 
       const mailOptions = {

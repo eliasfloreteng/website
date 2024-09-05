@@ -56,9 +56,15 @@ export type SearchOptions = z.infer<typeof searchSchema>
 export const commonHousingSchema = z.object({
   id: z.string(),
   address: z.string(),
-  size: numOrString.pipe(z.coerce.number().nonnegative()),
-  rent: numOrString.pipe(z.coerce.number().nonnegative()),
-  link: z.string().url(),
+  size: numOrString
+    .pipe(z.coerce.number().nonnegative())
+    .nullable()
+    .default(null),
+  rent: numOrString
+    .pipe(z.coerce.number().nonnegative())
+    .nullable()
+    .default(null),
+  link: z.string().url().nullable().default(null),
 })
 
 export const sssbHousingSchema = commonHousingSchema.extend({

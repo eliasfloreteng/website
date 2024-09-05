@@ -160,7 +160,7 @@ export default async function HousingList(searchProps: SearchOptions) {
 
               <div className="bg-gray-50 px-6 py-4">
                 <a
-                  href={house.link}
+                  href={house.link ?? "#"}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block w-full rounded bg-blue-600 px-4 py-2 text-center font-semibold text-white transition duration-300 hover:bg-blue-700"
