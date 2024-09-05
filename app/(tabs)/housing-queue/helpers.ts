@@ -18,7 +18,7 @@ export async function fetchHousing({
           maxRent,
           maxQueueDays,
           noCorridors,
-          isStudent,
+          isStudent: true,
         })
       : Promise.resolve([])
 
