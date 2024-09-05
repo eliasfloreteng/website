@@ -19,6 +19,7 @@ export async function fetchSSSBHousing({
   isStudent,
 }: SSSBOptions): Promise<SSSBHousing[]> {
   if (!isStudent) {
+    console.log("SSSB only has student housing")
     return []
   }
 
@@ -93,7 +94,8 @@ export async function fetchSSSBHousing({
       const link = $title.attr("href")
       const address = $element.find(".ObjektAdress a").text().trim()
 
-      if (!link || !address || !areaText || !rentText || !objectNumberText) {
+      if (!address || !objectNumberText) {
+        console.log("Missing data for SSSB housing:", $details.html())
         return null
       }
 
