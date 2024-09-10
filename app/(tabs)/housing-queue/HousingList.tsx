@@ -7,39 +7,17 @@ import {
   InformationCircleIcon,
   ClockIcon,
 } from "@heroicons/react/24/solid"
-import { fetchDistances } from "./distances"
 import { fetchHousing } from "./helpers"
 import { type SearchOptions } from "./schemas"
 import { SSSB_BASE_URL } from "./sssb"
 
 export default async function HousingList(searchProps: SearchOptions) {
-  const destinations = searchProps.destinations
-
   const housing = await fetchHousing(searchProps)
-
-  const origins = housing.map((house) => ({
-    address: `${house.address}, Stockholm, Sweden`,
-    id: house.id,
-  }))
-
-  const distancesMap = await fetchDistances(
-    origins.map(({ address }) => address),
-    destinations,
-    origins.map(({ id }) => id)
-  )
-
-  const sortedHousing = housing.sort((a, b) => {
-    const valueA = distancesMap[a.id]?.[0]?.distance?.value
-    const valueB = distancesMap[b.id]?.[0]?.distance?.value
-    return valueA && valueB ? valueA - valueB : 0
-  })
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {sortedHousing.map((house) => {
-          const distances = distancesMap[house.id] ?? []
-
+        {housing.map((house) => {
           return (
             <div
               key={house.id}
@@ -122,8 +100,8 @@ export default async function HousingList(searchProps: SearchOptions) {
                     </div>
                   ) : null}
                 </div>
-                {distances.length > 0 &&
-                  distances.some(
+                {house.destinations.length > 0 &&
+                  house.destinations.some(
                     (loc) => loc.distance && loc.duration && loc.location
                   ) && (
                     <div className="mt-4">
@@ -131,7 +109,7 @@ export default async function HousingList(searchProps: SearchOptions) {
                         Travel times:
                       </h3>
                       <ul className="space-y-1">
-                        {distances.map(
+                        {house.destinations.map(
                           (loc, index) =>
                             loc.distance &&
                             loc.duration &&

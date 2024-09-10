@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-const housingHashesSchema = z.string().array()
+const housingHashesSchema = z.array(z.string())
 
 export async function GET(_request: NextRequest) {
   const searchKeys = await kv.keys("housing-queue:*:search")
@@ -39,9 +39,6 @@ export async function GET(_request: NextRequest) {
     const pref = parsedsearch.data
     console.log("Search preferences:", pref)
 
-    const housing = await fetchHousing(pref)
-    const housingHashes = housing.map((house) => house.id)
-
     const oldHousingHashesData = await kv.lrange(housingKey, 0, -1)
     const oldHousingHashesParsed =
       housingHashesSchema.safeParse(oldHousingHashesData)
@@ -51,14 +48,45 @@ export async function GET(_request: NextRequest) {
     const oldHousingHashes = oldHousingHashesParsed.data
     console.log("Old housing hashes:", oldHousingHashes)
 
-    await kv.del(housingKey)
+    const housing = await fetchHousing(pref)
+    const housingHashes = housing.map((house) => house.id)
+
+    const hasDistances = housing.some(
+      (house) => house.destinations[0]?.distance !== null
+    )
+    const hasSSSBHousing = housing.some(
+      (house) => house.housingAgency === "sssb"
+    )
+    const hasSwedishHousingAgencyHousing = housing.some(
+      (house) => house.housingAgency === "swedishHousingAgency"
+    )
+    console.log("Has distances:", hasDistances)
+    console.log("Has SSSB housing:", hasSSSBHousing)
+    console.log(
+      "Has Swedish Housing Agency housing:",
+      hasSwedishHousingAgencyHousing
+    )
+    if (
+      pref.housingAgency === null &&
+      pref.isStudent &&
+      !hasSSSBHousing &&
+      !hasSwedishHousingAgencyHousing &&
+      !hasDistances
+    ) {
+      console.log(
+        "Fetching failed: both SSSB and Swedish Housing Agency housing must be available"
+      )
+      continue
+    }
+
     if (housingHashes?.length) {
+      await kv.del(housingKey)
       await kv.lpush(housingKey, ...housingHashes)
     }
 
-    const newHousing = housing.filter(
-      (house) => !oldHousingHashes?.includes(house.id)
-    )
+    const newHousing = housing
+      .slice(0, 12)
+      .filter((house) => !oldHousingHashes?.includes(house.id))
     console.log(
       "New housing:",
       newHousing.map((house) => house.id)
@@ -76,6 +104,7 @@ export async function GET(_request: NextRequest) {
         subject: "New housing available",
         text: `Check out the new housing: https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue\n\nNew housing available: ${newHousingLinks.join(", ")}`,
         html: `
+
           <p>Check out the new housing: <a href="https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue">here</a></p>
           <p>New housing available:</p>
           <ul>
@@ -96,6 +125,9 @@ export async function GET(_request: NextRequest) {
                   </div>
                   <div>
                     ${house.floor ? `Floor ${house.floor}` : ""}
+                  </div>
+                  <div>
+                    ${house.destinations[0]?.location} ${house.destinations[0]?.distance?.text}
                   </div>
                 </li>
               `

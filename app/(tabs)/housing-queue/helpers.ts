@@ -1,6 +1,7 @@
 import { fetchSSSBHousing } from "./sssb"
 import { fetchFilteredHousing as fetchHousingAgency } from "./housingAgency"
 import { type SearchOptions } from "./schemas"
+import { fetchDistances } from "./distances"
 
 export async function fetchHousing({
   query,
@@ -10,12 +11,17 @@ export async function fetchHousing({
   isStudent,
   maxRooms,
   housingAgency,
+  destinations,
+  sortBy,
+  minRooms,
+  minSize,
 }: SearchOptions) {
   const sssbHousingPromise =
     housingAgency === "sssb" || !housingAgency
       ? fetchSSSBHousing({
           query,
           maxRent,
+          minSize,
           maxQueueDays,
           noCorridors,
           isStudent: true,
@@ -27,6 +33,8 @@ export async function fetchHousing({
       ? fetchHousingAgency({
           query,
           maxRent,
+          minSize,
+          minRooms,
           maxRooms,
           noCorridors,
           isStudent,
@@ -38,7 +46,37 @@ export async function fetchHousing({
     agencyHousingPromise,
   ])
 
-  return [...sssbHousing, ...agencyHousing].sort((a, b) => {
-    return (a.rent ?? Infinity) - (b.rent ?? Infinity)
-  })
+  const combinedHousing = [...sssbHousing, ...agencyHousing]
+
+  const origins = combinedHousing.map((house) => ({
+    address: `${house.address}, Stockholm, Sweden`,
+    id: house.id,
+  }))
+
+  const distancesMap = await fetchDistances(
+    origins.map(({ address }) => address),
+    destinations,
+    origins.map(({ id }) => id)
+  )
+
+  return combinedHousing
+    .map((house) => ({
+      ...house,
+      destinations: distancesMap[house.id] ?? [],
+    }))
+    .sort((a, b) => (a.rent ?? Infinity) - (b.rent ?? Infinity))
+    .sort((a, b) => {
+      const distanceA = a.destinations[0]?.distance?.value
+      const distanceB = b.destinations[0]?.distance?.value
+      const travelTimeA = a.destinations[0]?.duration?.value
+      const travelTimeB = b.destinations[0]?.duration?.value
+
+      return sortBy === "distance"
+        ? distanceA && distanceB
+          ? distanceA - distanceB
+          : 0
+        : travelTimeA && travelTimeB
+          ? travelTimeA - travelTimeB
+          : 0
+    })
 }
