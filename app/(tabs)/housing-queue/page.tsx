@@ -166,16 +166,13 @@ export default function HousingQueuePage({
         housingAgency={housingAgency}
         sortBy={"distance"}
         query={Array.isArray(query) ? query[0] : query}
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        maxRent={maxRent || undefined}
-        // TODO: Implement minSize
+        maxRent={maxRent}
+        // TODO: Implement minSize input
         // minSize={minSize}
-        // TODO: Implement minRooms
+        // TODO: Implement minRooms input
         // minRooms={minRooms}
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        maxRooms={maxRooms || undefined}
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        maxQueueDays={maxQueueDays || undefined}
+        maxRooms={maxRooms}
+        maxQueueDays={maxQueueDays}
         noCorridors={noCorridors}
         isStudent={Boolean(school)}
         destinations={[school, destination]

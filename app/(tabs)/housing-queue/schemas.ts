@@ -17,24 +17,19 @@ export const commonSearchSchema = z
     query: z.string(),
     maxRent: z.number().positive(),
     minSize: z.number().positive(),
+    minRooms: z.number().positive(),
+    maxRooms: z.number().positive(),
     isStudent: z.boolean(),
     noCorridors: z.boolean(),
   })
   .partial()
 
-export const sssbSearchSchema = commonSearchSchema
-  .extend({
-    maxQueueDays: z.number().positive(),
+export const sssbSearchSchema = commonSearchSchema.extend({
+  maxQueueDays: z.number().positive().optional(),
   })
-  .partial()
 export type SSSBOptions = z.infer<typeof sssbSearchSchema>
 
-export const swedishHousingAgencySearchSchema = commonSearchSchema
-  .extend({
-    minRooms: z.number().positive(),
-    maxRooms: z.number().positive(),
-  })
-  .partial()
+export const swedishHousingAgencySearchSchema = commonSearchSchema.extend({})
 export type SwedishHousingAgencyOptions = z.infer<
   typeof swedishHousingAgencySearchSchema
 >
@@ -64,6 +59,10 @@ export const commonHousingSchema = z.object({
     .pipe(z.coerce.number().nonnegative())
     .nullable()
     .default(null),
+  rooms: numOrString
+    .pipe(z.coerce.number().nonnegative())
+    .nullable()
+    .default(null),
   link: z.string().url().nullable().default(null),
 })
 
@@ -84,17 +83,16 @@ export const sssbHousingSchema = commonHousingSchema.extend({
   floor: z.string().nullable().default(null),
   contractStart: z.coerce.date().nullable().default(null),
   queueTime: nullishString.pipe(
-    z.coerce.number().positive().nullable().default(null)
+    z.coerce.number().nonnegative().nullable().default(null)
   ),
   queueSize: nullishString.pipe(
-    z.coerce.number().positive().nullable().default(null)
+    z.coerce.number().nonnegative().nullable().default(null)
   ),
 })
 export type SSSBHousing = z.infer<typeof sssbHousingSchema>
 
 export const swedishHousingAgencyHousingSchema = commonHousingSchema.extend({
   housingAgency: z.literal("swedishHousingAgency"),
-  rooms: z.coerce.number().positive(),
   floor: z.coerce.number().nullable().default(null),
   district: z.string(),
   rawHousing: z.unknown(),

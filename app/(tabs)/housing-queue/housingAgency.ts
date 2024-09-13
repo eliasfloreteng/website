@@ -9,13 +9,18 @@ import {
 import { type z } from "zod"
 import { HOUSING_QUEUE_BASE_URL } from "./constants"
 
-export async function fetchFilteredHousing({
+export async function fetchHousingAgency({
   query,
   maxRent,
+  minSize,
+  minRooms,
   maxRooms,
   noCorridors,
   isStudent,
+  ..._rest
 }: SwedishHousingAgencyOptions): Promise<SwedishHousingAgencyHousing[]> {
+  _rest satisfies Record<string, never> // ensure all input is consumed
+
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
   const housingQueueResponse = await fetch(
     `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`
@@ -34,8 +39,10 @@ export async function fetchFilteredHousing({
       (!isStudent || house.Student) &&
       (!noCorridors ||
         !(house.Student && house.Lagenhetstyp === "Studentkorridor")) &&
-      (!maxRent || (house.Hyra && house.Hyra <= maxRent)) &&
+      (!maxRent || !house.Hyra || house.Hyra <= maxRent) &&
+      (!minSize || !house.Yta || house.Yta >= minSize) &&
       (!maxRooms || house.AntalRum <= maxRooms) &&
+      (!minRooms || house.AntalRum >= minRooms) &&
       (!query ||
         Object.values(house).some(
           (value) =>
@@ -58,8 +65,9 @@ export async function fetchFilteredHousing({
     } satisfies z.input<typeof swedishHousingAgencyHousingSchema>)
     if (!parsed.success) {
       console.error(parsed.error)
+      return []
     }
-    return parsed.success ? [parsed.data] : []
+    return [parsed.data]
   })
 }
 

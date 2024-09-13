@@ -15,9 +15,14 @@ export async function fetchSSSBHousing({
   maxRent,
   maxQueueDays,
   noCorridors,
+  minRooms,
+  maxRooms,
   minSize,
   isStudent,
+  ..._rest
 }: SSSBOptions): Promise<SSSBHousing[]> {
+  _rest satisfies Record<string, never> // ensure all input is consumed
+
   if (!isStudent) {
     console.log("SSSB only has student housing")
     return []
@@ -77,15 +82,15 @@ export async function fetchSSSBHousing({
       const $details = $element.find(".ObjektDetaljer")
       const $housingComplex = $details.find("dd.ObjektOmrade a")
 
+      const title = $title.text().trim() || null
       const objectNumberText = (
         $details.find("dd.ObjektNummer").text().trim() || undefined
       )?.replace(/\D/g, "")
-      const floorText =
-        $details.find("dd.ObjektVaning").text().trim() || undefined
-      const areaText = (
+      const floor = $details.find("dd.ObjektVaning").text().trim() || undefined
+      const size = (
         $details.find("dd.ObjektYta").text().trim() || undefined
       )?.replace(/\D/g, "")
-      const rentText = (
+      const rent = (
         $details.find("dd.ObjektHyra").text().trim() || undefined
       )?.replace(/\D/g, "")
       const contractStartText =
@@ -107,21 +112,22 @@ export async function fetchSSSBHousing({
         housingAgency: "sssb",
         id: `sssb-${objectNumberText}`,
         image: $element.find("img").attr("data-src"),
-        title: $title.text().trim() || null,
+        title,
         link,
         address,
-        freetext: $element.find(".ObjektFritext").text().trim() || undefined,
+        freetext: $element.find(".ObjektFritext").text(),
         properties,
-        housingComplex: $housingComplex.text().trim() || undefined,
+        housingComplex: $housingComplex.text(),
         housingComplexLink: `${SSSB_BASE_URL}${$housingComplex.attr("href")}`,
-        floor: floorText,
-        size: areaText,
-        rent: rentText,
+        floor,
+        size,
+        rent,
         contractStart: contractStartText
           ? new Date(contractStartText)
           : undefined,
         queueTime,
         queueSize,
+        rooms: title?.match(/(\d+)\s+rum/i)?.[1],
       } satisfies z.input<typeof sssbHousingSchema>
     })
     .get()
@@ -138,10 +144,14 @@ export async function fetchSSSBHousing({
 
   const filteredHousing = housing.filter(
     (house) =>
-      (!noCorridors || !house.title?.includes("korridor")) &&
-      (!maxRent || (house.rent && house.rent <= maxRent)) &&
-      (!maxQueueDays || (house.queueTime && house.queueTime <= maxQueueDays)) &&
-      (!minSize || (house.size && house.size >= minSize)) &&
+      (!noCorridors ||
+        (!house.title?.includes("korridor") &&
+          !house.title?.includes("kollektiv"))) &&
+      (!maxRent || !house.rent || house.rent <= maxRent) &&
+      (!maxQueueDays || !house.queueTime || house.queueTime <= maxQueueDays) &&
+      (!minSize || !house.size || house.size >= minSize) &&
+      (!maxRooms || !house.rooms || house.rooms <= maxRooms) &&
+      (!minRooms || !house.rooms || house.rooms >= minRooms) &&
       (!query ||
         Object.values(house).some(
           (value) =>

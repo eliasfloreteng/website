@@ -1,46 +1,27 @@
 "use server"
 
 import { fetchSSSBHousing } from "./sssb"
-import { fetchFilteredHousing as fetchHousingAgency } from "./housingAgency"
+import { fetchHousingAgency } from "./housingAgency"
 import { type SearchOptions } from "./schemas"
 import { fetchDistances } from "./distances"
 
 export async function fetchHousing({
-  query,
-  maxRent,
-  noCorridors,
-  maxQueueDays,
-  isStudent,
-  maxRooms,
   housingAgency,
-  destinations,
   sortBy,
-  minRooms,
-  minSize,
+  destinations,
+  ...search
 }: SearchOptions) {
   const sssbHousingPromise =
     housingAgency === "sssb" || !housingAgency
       ? fetchSSSBHousing({
-          query,
-          maxRent,
-          minSize,
-          maxQueueDays,
-          noCorridors,
+          ...search,
           isStudent: true,
         })
       : Promise.resolve([])
 
   const agencyHousingPromise =
     housingAgency === "swedishHousingAgency" || !housingAgency
-      ? fetchHousingAgency({
-          query,
-          maxRent,
-          minSize,
-          minRooms,
-          maxRooms,
-          noCorridors,
-          isStudent,
-        })
+      ? fetchHousingAgency(search)
       : Promise.resolve([])
 
   const [sssbHousing, agencyHousing] = await Promise.all([
