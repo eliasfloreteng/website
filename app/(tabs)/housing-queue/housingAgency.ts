@@ -16,9 +16,11 @@ export async function fetchFilteredHousing({
   noCorridors,
   isStudent,
 }: SwedishHousingAgencyOptions): Promise<SwedishHousingAgencyHousing[]> {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
   const housingQueueResponse = await fetch(
     `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`
   )
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1"
   if (!housingQueueResponse.ok) {
     throw new Error(
       "Failed to fetch housing data: " + (await housingQueueResponse.text())
