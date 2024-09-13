@@ -1,4 +1,5 @@
-import "server-only"
+"use server"
+
 import { safeParseJSONResponse } from "~/helpers"
 
 export const MAPS_BASE_URL =

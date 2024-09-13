@@ -1,5 +1,6 @@
+"use server"
+
 import { safeParseJSONResponse } from "app/helpers"
-import "server-only"
 import {
   swedishHousingAgencyHousingSchema,
   type SwedishHousingAgencyHousing,

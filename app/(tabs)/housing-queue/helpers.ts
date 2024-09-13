@@ -1,3 +1,5 @@
+"use server"
+
 import { fetchSSSBHousing } from "./sssb"
 import { fetchFilteredHousing as fetchHousingAgency } from "./housingAgency"
 import { type SearchOptions } from "./schemas"

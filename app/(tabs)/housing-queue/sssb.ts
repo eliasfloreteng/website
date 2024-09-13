@@ -1,5 +1,6 @@
+"use server"
+
 import * as cheerio from "cheerio"
-import "server-only"
 import { safeParseJSON } from "~/helpers"
 import {
   type SSSBHousing,
