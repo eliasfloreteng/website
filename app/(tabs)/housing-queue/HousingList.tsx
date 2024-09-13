@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid"
 import { fetchHousing } from "./helpers"
 import { type SearchOptions } from "./schemas"
-import { SSSB_BASE_URL } from "./sssb"
+import { SSSB_BASE_URL } from "./constants"
 
 export default async function HousingList(searchProps: SearchOptions) {
   const housing = await fetchHousing(searchProps)

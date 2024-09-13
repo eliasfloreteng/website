@@ -5,9 +5,7 @@ import nodemailer, { type SendMailOptions } from "nodemailer"
 import { z } from "zod"
 import config from "~/config"
 import { searchSchema } from "../../schemas"
-import { SSSB_BASE_URL } from "../../sssb"
-
-export const dynamic = "force-dynamic" // static by default, unless reading the request
+import { SSSB_BASE_URL } from "../../constants"
 
 const transporter = nodemailer.createTransport({
   host: config.email.host,

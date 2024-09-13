@@ -8,8 +8,7 @@ import {
   type SSSBOptions,
 } from "./schemas"
 import { type z } from "zod"
-
-export const SSSB_BASE_URL = "https://sssb.se/"
+import { SSSB_BASE_URL } from "./constants"
 
 export async function fetchSSSBHousing({
   query,

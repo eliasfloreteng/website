@@ -7,8 +7,7 @@ import {
   type SwedishHousingAgencyOptions,
 } from "./schemas"
 import { type z } from "zod"
-
-export const HOUSING_QUEUE_BASE_URL = "https://bostad.stockholm.se"
+import { HOUSING_QUEUE_BASE_URL } from "./constants"
 
 export async function fetchFilteredHousing({
   query,

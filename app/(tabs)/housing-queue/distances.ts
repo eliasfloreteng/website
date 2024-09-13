@@ -1,10 +1,7 @@
 "use server"
 
 import { safeParseJSONResponse } from "~/helpers"
-
-export const MAPS_BASE_URL =
-  "https://maps.googleapis.com/maps/api/distancematrix/json"
-export const MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY
+import { MAPS_API_KEY, MAPS_BASE_URL } from "./constants"
 
 export async function fetchDistances(
   origins: string[],
