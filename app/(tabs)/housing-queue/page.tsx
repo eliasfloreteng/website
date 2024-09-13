@@ -173,6 +173,10 @@ export default function HousingQueuePage({
         // minRooms={minRooms}
         maxRooms={maxRooms}
         maxQueueDays={maxQueueDays}
+        // TODO: Implement maxDistance input
+        maxDistance={null}
+        // TODO: Implement maxTravelTime input
+        maxTravelTime={null}
         noCorridors={noCorridors}
         isStudent={Boolean(school)}
         destinations={[school, destination]

@@ -7,6 +7,8 @@ import { fetchDistances } from "./distances"
 
 export async function fetchHousing({
   housingAgency,
+  maxDistance,
+  maxTravelTime,
   sortBy,
   destinations,
   ...search
@@ -42,11 +44,22 @@ export async function fetchHousing({
     origins.map(({ id }) => id)
   )
 
-  return combinedHousing
-    .map((house) => ({
-      ...house,
-      destinations: distancesMap[house.id] ?? [],
-    }))
+  const housingWithDistances = combinedHousing.map((house) => ({
+    ...house,
+    destinations: distancesMap[house.id] ?? [],
+  }))
+
+  const filteredHousing = housingWithDistances.filter((house) => {
+    const distance = house.destinations[0]?.distance?.value
+    const travelTime = house.destinations[0]?.duration?.value
+
+    return (
+      (!maxDistance || !distance || distance <= maxDistance) &&
+      (!maxTravelTime || !travelTime || travelTime <= maxTravelTime)
+    )
+  })
+
+  const sortedHousing = filteredHousing
     .sort((a, b) => (a.rent ?? Infinity) - (b.rent ?? Infinity))
     .sort((a, b) => {
       const distanceA = a.destinations[0]?.distance?.value
@@ -62,4 +75,6 @@ export async function fetchHousing({
           ? travelTimeA - travelTimeB
           : 0
     })
+
+  return sortedHousing
 }

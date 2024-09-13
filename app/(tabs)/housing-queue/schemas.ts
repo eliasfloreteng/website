@@ -26,7 +26,7 @@ export const commonSearchSchema = z
 
 export const sssbSearchSchema = commonSearchSchema.extend({
   maxQueueDays: z.number().positive().optional(),
-  })
+})
 export type SSSBOptions = z.infer<typeof sssbSearchSchema>
 
 export const swedishHousingAgencySearchSchema = commonSearchSchema.extend({})
@@ -44,6 +44,8 @@ export const searchSchema = sssbSearchSchema
       .union([z.literal("distance"), z.literal("travelTime")])
       .nullable(),
     destinations: z.array(z.string()),
+    maxDistance: z.number().positive().nullable(),
+    maxTravelTime: z.number().positive().nullable(),
   })
 
 export type SearchOptions = z.infer<typeof searchSchema>
