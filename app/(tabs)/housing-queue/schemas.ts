@@ -44,8 +44,8 @@ export const searchSchema = sssbSearchSchema
       .union([z.literal("distance"), z.literal("travelTime")])
       .nullable(),
     destinations: z.array(z.string()),
-    maxDistance: z.number().positive().nullish(),
-    maxTravelTime: z.number().positive().nullish(),
+    maxDistanceMeters: z.number().positive().nullish(),
+    maxTravelTimeSeconds: z.number().positive().nullish(),
   })
 
 export type SearchOptions = z.infer<typeof searchSchema>

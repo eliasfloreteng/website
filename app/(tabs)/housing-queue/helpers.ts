@@ -7,8 +7,8 @@ import { fetchDistances } from "./distances"
 
 export async function fetchHousing({
   housingAgency,
-  maxDistance,
-  maxTravelTime,
+  maxDistanceMeters,
+  maxTravelTimeSeconds,
   sortBy,
   destinations,
   ...search
@@ -54,8 +54,10 @@ export async function fetchHousing({
     const travelTime = house.destinations[0]?.duration?.value
 
     return (
-      (!maxDistance || !distance || distance <= maxDistance) &&
-      (!maxTravelTime || !travelTime || travelTime <= maxTravelTime)
+      (!maxDistanceMeters || !distance || distance <= maxDistanceMeters) &&
+      (!maxTravelTimeSeconds ||
+        !travelTime ||
+        travelTime <= maxTravelTimeSeconds)
     )
   })
 
