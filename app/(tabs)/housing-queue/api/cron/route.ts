@@ -2,10 +2,49 @@ import { fetchHousing } from "../../helpers"
 import { kv } from "@vercel/kv"
 import { type NextRequest, NextResponse } from "next/server"
 import nodemailer, { type SendMailOptions } from "nodemailer"
-import { z } from "zod"
 import config from "~/config"
 import { searchSchema } from "../../schemas"
-import { SSSB_BASE_URL } from "../../constants"
+import { type z } from "zod"
+
+const KV_PREFIX = "housing-queue:"
+const KV_SEARCH_SUFFIX = ":search"
+const KV_HOUSING_SUFFIX = ":housing"
+
+export type ResultError =
+  | {
+      name: "FailedSearchParameterParsing"
+      message: z.inferFlattenedErrors<typeof searchSchema>
+    }
+  | {
+      name: "FailedHousingFetch"
+      message: string
+      failedHousingAgency: "sssb" | "swedishHousingAgency" | null
+    }
+  | {
+      name: "NoHousingAvailable"
+      message: string
+    }
+
+export type NewHousing = {
+  hash: string
+  address: string
+  location: string | null
+  locationLink: string | null
+  summary: string
+  link: string | null
+}
+
+export type Result =
+  | {
+      type: "success"
+      id: string
+      newHousing: NewHousing[] | null
+    }
+  | {
+      type: "error"
+      id: string
+      error: ResultError
+    }
 
 const transporter = nodemailer.createTransport({
   host: config.email.host,
@@ -17,115 +56,30 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-const housingHashesSchema = z.array(z.string())
-
-export async function GET(_request: NextRequest) {
-  const searchKeys = await kv.keys("housing-queue:*:search")
-  console.log("Search keys:", searchKeys)
-
-  const housingLinks = [] as string[][]
-
-  for (const searchKey of searchKeys) {
-    console.log("Searching for new housing for:", searchKey)
-    const housingKey = searchKey.replace("search", "housing")
-    const searchData = await kv.json.get(searchKey)
-    const parsedsearch = searchSchema.safeParse(searchData)
-    if (!parsedsearch.success) {
-      console.error(parsedsearch.error)
-      continue
-    }
-    const pref = parsedsearch.data
-    console.log("Search preferences:", pref)
-
-    const oldHousingHashesData = await kv.lrange(housingKey, 0, -1)
-    const oldHousingHashesParsed =
-      housingHashesSchema.safeParse(oldHousingHashesData)
-    if (!oldHousingHashesParsed.success) {
-      console.error(oldHousingHashesParsed.error)
-    }
-    const oldHousingHashes = oldHousingHashesParsed.data
-    console.log("Old housing hashes:", oldHousingHashes)
-
-    const housing = await fetchHousing(pref)
-    const housingHashes = housing.map((house) => house.id)
-
-    const hasDistances = housing.some(
-      (house) => house.destinations[0]?.distance !== null
-    )
-    const hasSSSBHousing = housing.some(
-      (house) => house.housingAgency === "sssb"
-    )
-    const hasSwedishHousingAgencyHousing = housing.some(
-      (house) => house.housingAgency === "swedishHousingAgency"
-    )
-    console.log("Has distances:", hasDistances)
-    console.log("Has SSSB housing:", hasSSSBHousing)
-    console.log(
-      "Has Swedish Housing Agency housing:",
-      hasSwedishHousingAgencyHousing
-    )
-    if (
-      pref.housingAgency === null &&
-      pref.isStudent &&
-      !hasSSSBHousing &&
-      !hasSwedishHousingAgencyHousing &&
-      !hasDistances
-    ) {
-      console.log(
-        "Fetching failed: both SSSB and Swedish Housing Agency housing must be available"
-      )
-      continue
-    }
-
-    if (housingHashes?.length) {
-      await kv.del(housingKey)
-      await kv.lpush(housingKey, ...housingHashes)
-    }
-
-    const newHousing = housing
-      .slice(0, 12)
-      .filter((house) => !oldHousingHashes?.includes(house.id))
-    console.log(
-      "New housing:",
-      newHousing.map((house) => house.id)
-    )
-
-    if (newHousing.length) {
-      const newHousingLinks = newHousing
-        .map((house) => house.link)
-        .filter((link) => link !== null)
-      housingLinks.push(newHousingLinks)
-
-      const mailOptions = {
-        from: config.email.from,
-        to: config.email.to,
-        subject: "New housing available",
-        text: `Check out the new housing: https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue\n\nNew housing available: ${newHousingLinks.join(", ")}`,
-        html: `
-
+async function sendEmail(to: string, housing: NewHousing[]) {
+  const mailOptions = {
+    from: config.email.from,
+    to,
+    subject: "New housing available",
+    text: `Check out the new housing: https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue`,
+    html: `
           <p>Check out the new housing: <a href="https://${process.env.VERCEL_URL ?? "www.floreteng.se"}/housing-queue">here</a></p>
           <p>New housing available:</p>
           <ul>
-            ${newHousing
+            ${housing
               .map(
-                // styled list items with metadata
                 (house) => `
                 <li>
-                  <a href="${house.link}">
-                    ${house.address}
-                  </a>
-                  <small>${house.housingAgency === "swedishHousingAgency" ? house.district : `<a href="${house.housingComplexLink ?? SSSB_BASE_URL}" target="_blank">${house.housingComplex}</a>`}</small>
                   <div>
-                    ${house.rent} kr/month
+                    <a href="${house.link}">
+                      ${house.address}
+                    </a>
                   </div>
                   <div>
-                    ${house.size} m²
+                    <small>${house.locationLink ? `<a href="${house.locationLink}" target="_blank">${house.location}</a>` : house.location}</small>
                   </div>
                   <div>
-                    ${house.floor ? `Floor ${house.floor}` : ""}
-                  </div>
-                  <div>
-                    ${house.destinations[0]?.location} ${house.destinations[0]?.distance?.text}
+                    ${house.summary}
                   </div>
                 </li>
               `
@@ -133,22 +87,167 @@ export async function GET(_request: NextRequest) {
               .join("")}
           </ul>
         `,
-      } satisfies SendMailOptions
+  } satisfies SendMailOptions
 
-      const responseInfo = await transporter
-        .sendMail(mailOptions)
-        .catch((e) => {
-          console.error(e)
-        })
-      console.log("Email sent:", responseInfo)
-    } else {
-      console.log("No new housing available")
+  return await transporter.sendMail(mailOptions)
+}
+
+async function searchHousing(
+  searchKey: string,
+  housingKey: string
+): Promise<Result> {
+  const id = searchKey.replace(KV_PREFIX, "").replace(KV_SEARCH_SUFFIX, "")
+  const searchData = await kv.json.get(searchKey)
+  const parsedsearch = searchSchema.safeParse(searchData)
+  if (!parsedsearch.success) {
+    return {
+      type: "error",
+      id,
+      error: {
+        name: "FailedSearchParameterParsing",
+        message: parsedsearch.error.flatten(),
+      },
+    }
+  }
+  const searchPref = parsedsearch.data
+  console.log("Searching for housing with search preferences:\n", searchPref)
+
+  const housing = await fetchHousing(searchPref)
+
+  const hasSSSBHousing = housing.some((house) => house.housingAgency === "sssb")
+  const hasSwedishHousingAgencyHousing = housing.some(
+    (house) => house.housingAgency === "swedishHousingAgency"
+  )
+  if (
+    searchPref.housingAgency === null &&
+    searchPref.isStudent &&
+    !hasSSSBHousing &&
+    !hasSwedishHousingAgencyHousing
+  ) {
+    return {
+      type: "error",
+      id,
+      error: {
+        name: "FailedHousingFetch",
+        message:
+          "Either SSSB or Swedish Housing Agency housing failed to fetch",
+        failedHousingAgency: !hasSSSBHousing
+          ? "sssb"
+          : !hasSwedishHousingAgencyHousing
+            ? "swedishHousingAgency"
+            : null,
+      },
     }
   }
 
-  console.log("New housing links:", housingLinks)
+  const hasDistances = housing.some(
+    (house) => house.destinations[0]?.distance !== null
+  )
+  if (!hasDistances) {
+    return {
+      type: "error",
+      id,
+      error: {
+        name: "FailedHousingFetch",
+        message: "Failed to fetch distances for housing",
+        failedHousingAgency: null,
+      },
+    }
+  }
 
-  return new NextResponse(JSON.stringify(housingLinks), {
+  if (!housing?.length) {
+    return {
+      type: "error",
+      id,
+      error: {
+        name: "NoHousingAvailable",
+        message: "No housing available for search preferences",
+      },
+    }
+  }
+
+  const housingHashes = housing.map((house) => house.id)
+  const isMembers = await kv.smismember(housingKey, housingHashes)
+  const newHousing = housing.filter((_house, i) => isMembers[i] === 0)
+  await kv.sadd(housingKey, ...housingHashes)
+
+  if (housing.length && !newHousing.length) {
+    return {
+      type: "success",
+      id,
+      newHousing: null,
+    }
+  }
+
+  return {
+    type: "success",
+    id,
+    newHousing: newHousing.map((house) => {
+      const location =
+        house.housingAgency === "swedishHousingAgency"
+          ? house.district
+          : house.housingComplex
+      const nearestDestination = house.destinations[0]
+      const summary = [
+        house.rent !== null && `${house.rent} kr/month`,
+        house.size !== null && `${house.size} m²`,
+        house.rooms !== null && `${house.rooms} rooms`,
+        house.floor !== null && `Floor ${house.floor}`,
+        nearestDestination?.location &&
+          nearestDestination?.distance?.text &&
+          `${nearestDestination.location} ${nearestDestination.distance.text}`,
+      ]
+        .filter(Boolean)
+        .join(" - ")
+      return {
+        hash: house.id,
+        address: house.address,
+        location,
+        locationLink:
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+          (house.housingAgency === "sssb" && house.housingComplexLink) || null,
+        summary,
+        link: house.link,
+      }
+    }),
+  }
+}
+
+export async function GET(_request: NextRequest) {
+  const searchKeys = await kv.keys(`${KV_PREFIX}*${KV_SEARCH_SUFFIX}`)
+
+  const housingResults = await Promise.all(
+    searchKeys.map(async (searchKey) => {
+      const housingKey = searchKey.replace(KV_SEARCH_SUFFIX, KV_HOUSING_SUFFIX)
+      let result = await searchHousing(searchKey, housingKey)
+      if (
+        result.type === "error" &&
+        result.error.name === "FailedHousingFetch"
+      ) {
+        console.error(result.error)
+        console.log("Failed to fetch housing, retrying...")
+        result = await searchHousing(searchKey, housingKey)
+      }
+      return result
+    })
+  )
+
+  console.log("Results:\n", housingResults)
+
+  const emailResults = await Promise.all(
+    housingResults.flatMap((result) =>
+      result.type === "success" && result.newHousing?.length
+        ? sendEmail(config.email.to, result.newHousing)
+        : []
+    )
+  )
+
+  console.log("Email results:\n", emailResults)
+
+  return new NextResponse(JSON.stringify(housingResults), {
+    status: housingResults.every((result) => result.type === "error")
+      ? 500
+      : 200,
     headers: {
       "content-type": "application/json",
     },
