@@ -6,6 +6,8 @@ import config from "~/config"
 import { searchSchema } from "../../schemas"
 import { type z } from "zod"
 
+export const dynamic = "force-dynamic"
+
 const KV_PREFIX = "housing-queue:"
 const KV_SEARCH_SUFFIX = ":search"
 const KV_HOUSING_SUFFIX = ":housing"
