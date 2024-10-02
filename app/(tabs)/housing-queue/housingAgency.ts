@@ -23,7 +23,13 @@ export async function fetchHousingAgency({
 
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
   const housingQueueResponse = await fetch(
-    `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`
+    `${HOUSING_QUEUE_BASE_URL}/AllaAnnonser`,
+    {
+      next: {
+        revalidate: 60,
+        tags: ["housing-queue", "swedishHousingAgency"],
+      },
+    }
   )
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1"
   if (!housingQueueResponse.ok) {

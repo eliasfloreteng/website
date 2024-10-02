@@ -34,7 +34,12 @@ export async function fetchSSSBHousing({
   })
   const url = `${SSSB_BASE_URL}widgets/?${params.toString()}`
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
-  const response = await fetch(url)
+  const response = await fetch(url, {
+    next: {
+      revalidate: 60,
+      tags: ["housing-queue", "sssb"],
+    },
+  })
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "1"
   if (!response.ok) {
     throw new Error("Failed to fetch SSSB data: " + (await response.text()))
