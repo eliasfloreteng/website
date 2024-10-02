@@ -151,7 +151,8 @@ export async function fetchSSSBHousing({
     (house) =>
       (!noCorridors ||
         (!house.title?.includes("korridor") &&
-          !house.title?.includes("kollektiv"))) &&
+          !house.title?.includes("kollektiv") &&
+          !house.title?.includes("dubblettlägenhet"))) &&
       (!maxRent || !house.rent || house.rent <= maxRent) &&
       (!maxQueueDays || !house.queueTime || house.queueTime <= maxQueueDays) &&
       (!minSize || !house.size || house.size >= minSize) &&
