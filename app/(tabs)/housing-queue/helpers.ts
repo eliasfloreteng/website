@@ -33,10 +33,18 @@ export async function fetchHousing({
 
   const combinedHousing = [...sssbHousing, ...agencyHousing]
 
-  const origins = combinedHousing.map((house) => ({
-    address: `${house.address}, Stockholm, Sweden`,
-    id: house.id,
-  }))
+  const origins = combinedHousing.map((house) => {
+    const address =
+      house.housingAgency === "sssb"
+        ? `${house.address}, Stockholm, Sweden`
+        : [house.address, house.district, house.municipality, "Sweden"]
+            .filter((e) => e !== null)
+            .join(", ")
+    return {
+      address,
+      id: house.id,
+    }
+  })
 
   const distancesMap = await fetchDistances(
     origins.map(({ address }) => address),
