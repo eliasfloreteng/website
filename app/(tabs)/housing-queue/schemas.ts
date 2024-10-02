@@ -96,7 +96,8 @@ export type SSSBHousing = z.infer<typeof sssbHousingSchema>
 export const swedishHousingAgencyHousingSchema = commonHousingSchema.extend({
   housingAgency: z.literal("swedishHousingAgency"),
   floor: z.coerce.number().nullable().default(null),
-  district: z.string(),
+  district: nullishString.nullable().default(null),
+  municipality: nullishString.nullable().default(null),
   rawHousing: z.unknown(),
 })
 export type SwedishHousingAgencyHousing = z.infer<

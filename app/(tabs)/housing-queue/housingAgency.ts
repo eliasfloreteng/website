@@ -65,6 +65,7 @@ export async function fetchHousingAgency({
       rent: house.Hyra,
       link: `${HOUSING_QUEUE_BASE_URL}${house.Url}`,
       district: house.Stadsdel,
+      municipality: house.Kommun,
       rooms: house.AntalRum,
       rawHousing: house,
       floor: house.Vaning,
@@ -80,7 +81,7 @@ export async function fetchHousingAgency({
 export interface RawHousing {
   LägenhetId: number
   AnnonsId: number
-  Stadsdel: string
+  Stadsdel?: string
   Gatuadress: string
   Kommun: string
   Vaning?: number | null
