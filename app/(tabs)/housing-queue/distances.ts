@@ -32,7 +32,13 @@ export async function fetchDistances(
       key: MAPS_API_KEY,
     } as Record<string, string>)
 
-    const res = await fetch(`${MAPS_BASE_URL}?${params.toString()}`)
+    const res = await fetch(`${MAPS_BASE_URL}?${params.toString()}`, {
+      cache: "force-cache",
+      next: {
+        revalidate: false,
+        tags: ["distances"],
+      },
+    })
     if (!res.ok) {
       throw new Error("Failed to fetch distance data: " + (await res.text()))
     }
