@@ -35,7 +35,6 @@ export async function fetchDistances(
     const res = await fetch(`${MAPS_BASE_URL}?${params.toString()}`, {
       cache: "force-cache",
       next: {
-        revalidate: false,
         tags: ["distances"],
       },
     })
