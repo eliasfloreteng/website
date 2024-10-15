@@ -3,7 +3,7 @@ import "styles/global.css"
 import { Merriweather, Montserrat } from "next/font/google"
 import { type Viewport } from "next"
 import NextTopLoader from "nextjs-toploader"
-import { CalendarProvider } from "./(tabs)/calendar/Context"
+import { CalendarProvider } from "./calendar/Context"
 
 export const viewport: Viewport = {
   themeColor: "#f8fafc",

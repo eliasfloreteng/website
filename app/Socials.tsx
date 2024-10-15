@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { useCalendar } from "./(tabs)/calendar/Context"
 import { HomeIcon } from "@heroicons/react/24/solid"
+import { useCalendar } from "./calendar/Context"
 
 export default function Socials({
   ...props
