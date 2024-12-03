@@ -63,7 +63,7 @@ export default function Socials({
         </>
       )}
 
-      <a href="https://github.com/elias123tre" className="text-slate-600">
+      <a href="https://github.com/eliasfloreteng" className="text-slate-600">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="2 2 20 20"
