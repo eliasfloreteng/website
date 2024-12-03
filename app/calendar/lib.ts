@@ -108,7 +108,7 @@ export function proxiedUrl(rawUrl: string | null) {
   const { user, icalendar } = parsed
   const path = generateCalendarPath(user, icalendar)
 
-  return `https://kth-calendar-proxy.elias1233.workers.dev/${path}`
+  return `https://kth-calendar-proxy.eliasfloreteng.workers.dev/${path}`
 }
 
 export interface Rule {
