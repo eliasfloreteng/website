@@ -1,9 +1,6 @@
-// @ts-check
+import { type NextConfig } from "next"
 
-/**
- * @type {import('next').NextConfig}
- */
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   staticPageGenerationTimeout: 300,
   images: {
@@ -16,6 +13,7 @@ const nextConfig = {
       { hostname: "**.s3.us-west-2.amazonaws.com", protocol: "https" },
       { hostname: "i.imgur.com", protocol: "https" },
       { hostname: "products.ls.graphics", protocol: "https" },
+      { hostname: "images.squarespace-cdn.com", protocol: "https" },
     ],
   },
 }
