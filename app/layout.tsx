@@ -1,8 +1,7 @@
 import type { Metadata } from "next"
 import "styles/global.css"
-import { Merriweather, Montserrat } from "next/font/google"
+import { Merriweather, Montserrat, Quicksand } from "next/font/google"
 import { type Viewport } from "next"
-import NextTopLoader from "nextjs-toploader"
 import { CalendarProvider } from "./calendar/Context"
 
 export const viewport: Viewport = {
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
   ),
   title: "Elias Floreteng",
   description:
-    "I have been programming for over 7 years and I am currently taking a Master's Degree in Computer Science at KTH Royal Institute of Technology in Stockholm. Parallel with this I co-founded and I am currently the CTO of the app Accord.",
+    "CTO, Co-founder at Accord • MSc computer science student at KTH",
   applicationName: "Elias Floreteng",
   appleWebApp: {
     title: "Elias Floreteng",
@@ -60,6 +59,13 @@ const montserrat = Montserrat({
   variable: "--font-montserrat",
 })
 
+const quicksand = Quicksand({
+  weight: ["500", "700"],
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-quicksand",
+})
+
 const merriweather = Merriweather({
   weight: ["400", "700"],
   subsets: ["latin"],
@@ -75,11 +81,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${montserrat.variable} ${merriweather.variable} h-full scroll-smooth antialiased`}
+      className={`${montserrat.variable} ${quicksand.variable} ${merriweather.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="h-full">
-        <NextTopLoader color="#38bdf8" />
-
+      <body className="min-h-full bg-gray-950 text-white">
         <CalendarProvider>{children}</CalendarProvider>
       </body>
     </html>

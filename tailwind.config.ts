@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-require-imports */
 import type { Config } from "tailwindcss"
 import defaultTheme from "tailwindcss/defaultTheme"
 import colors from "tailwindcss/colors"
@@ -8,6 +10,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-montserrat)", ...defaultTheme.fontFamily.sans],
+        soft: ["var(--font-quicksand)", ...defaultTheme.fontFamily.sans],
         serif: ["var(--font-merriweather)", ...defaultTheme.fontFamily.serif],
       },
       backgroundImage: {
