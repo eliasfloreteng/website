@@ -1,6 +1,6 @@
 import Link from "next/link"
-import Image from "next/image"
-import nextjs from "@/public/nextjs.ico"
+// import Image from "next/image"
+// import nextjs from "@/public/nextjs.ico"
 
 export default function Footer() {
   return (
@@ -14,7 +14,7 @@ export default function Footer() {
             rel="noreferrer"
             className="link inline-flex items-baseline gap-1"
           >
-            <Image src={nextjs} height={14} width={14} alt="next.js logo" />
+            {/* <Image src={nextjs} height={14} width={14} alt="next.js logo" /> */}
             Next.js
           </a>
         </div>
