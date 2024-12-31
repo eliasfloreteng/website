@@ -21,7 +21,7 @@ export default async function NotionPage({
   return (
     <div
       className={
-        "notion-render prose prose-slate prose-invert max-w-none prose-blockquote:font-normal prose-blockquote:not-italic " +
+        "notion-render prose prose-slate max-w-none prose-blockquote:font-normal prose-blockquote:not-italic " +
           className || ""
       }
       dangerouslySetInnerHTML={{ __html: html }}
