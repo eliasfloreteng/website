@@ -7,11 +7,12 @@ export const metadata: Metadata = {
   description: "A page for filtering housing queue listings",
 }
 
-export default function HousingQueuePage({
-  searchParams,
-}: {
-  searchParams: Record<string, string | string[] | undefined>
-}) {
+export default async function HousingQueuePage(
+  props: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>
+  }
+) {
+  const searchParams = await props.searchParams;
   const query = searchParams.q
   const maxRentParam = searchParams.maxRent
   const maxRent = maxRentParam

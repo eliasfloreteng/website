@@ -9,13 +9,16 @@ import DatabaseTable from "./DatabaseTable"
 import { type PageProps } from ".next/types/app/page"
 
 interface ProjectsProps extends PageProps {
-  params: { slug: string[] }
+  params: Promise<{ slug: string[] }>
 }
 
-export async function generateMetadata(
-  { params: { slug } }: ProjectsProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata(props: ProjectsProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const project = slug[0] && (await fetchProjectBySlug(slug[0]))
   if (!project) return notFound()
 
@@ -47,7 +50,13 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProjectPage({ params: { slug } }: ProjectsProps) {
+export default async function ProjectPage(props: ProjectsProps) {
+  const params = await props.params;
+
+  const {
+    slug
+  } = params;
+
   const project = slug[0] && (await fetchProjectBySlug(slug[0]))
   if (!project) return notFound()
 
