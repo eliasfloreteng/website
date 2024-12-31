@@ -258,6 +258,24 @@ export default function HomePage() {
             <p className="font-soft text-lg">Node.js, Python, Rust</p>
           </div>
         </section>
+
+        <section className="flex flex-col items-center justify-center space-y-4 border-t border-gray-900 py-16">
+          <h2 className="text-2xl font-bold">Want to see more?</h2>
+          <div className="flex space-x-6">
+            <Link
+              href="/projects"
+              className="rounded-lg border border-gray-800 px-6 py-3 transition-colors hover:bg-gray-900"
+            >
+              View all projects
+            </Link>
+            <Link
+              href="/experience"
+              className="rounded-lg border border-gray-800 px-6 py-3 transition-colors hover:bg-gray-900"
+            >
+              Work experience
+            </Link>
+          </div>
+        </section>
       </main>
 
       <footer className="mx-auto flex w-full max-w-6xl flex-col items-center justify-center space-y-3 border-t border-gray-900 py-6">
