@@ -29,8 +29,8 @@ export default async function ProjectsPage() {
         </h1>
       </div>
 
-      <div className="container mx-auto bg-white px-2 py-0 text-slate-800 sm:px-[calc(min(96px,8vw))] sm:py-8 2xl:max-w-[2048px]">
-        <h2 className="mb-1 text-3xl font-semibold text-slate-800">
+      <div className="container mx-auto bg-slate-950 px-2 py-0 text-white sm:px-[calc(min(96px,8vw))] sm:py-8 2xl:max-w-[2048px]">
+        <h2 className="mb-1 text-3xl font-semibold text-white">
           Featured projects
         </h2>
         <p className="py-2">
@@ -52,7 +52,7 @@ export default async function ProjectsPage() {
 
         <hr className="my-10" />
 
-        <h2 className="mb-1 text-3xl font-semibold text-slate-800">
+        <h2 className="mb-1 text-3xl font-semibold text-white">
           Other projects
         </h2>
         <p className="py-2">

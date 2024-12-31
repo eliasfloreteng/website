@@ -48,7 +48,7 @@ export default function HousingQueuePage({
     : undefined
 
   return (
-    <form className="container mx-auto flex flex-col gap-4 rounded-lg bg-white p-6 shadow-md">
+    <form className="container mx-auto flex flex-col gap-4 rounded-lg bg-white p-6 text-gray-900 shadow-md">
       <h1 className="text-3xl font-bold text-gray-900">
         Stockholm Housing Queue
       </h1>

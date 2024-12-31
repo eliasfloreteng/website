@@ -25,7 +25,7 @@ export default function CalendarPage() {
       {/* Polyfill Intl.RelativeTimeFormat, its dependencies & `en`, `se` locale data */}
       <Script src="https://polyfill.io/v3/polyfill.min.js?features=Intl.RelativeTimeFormat,Intl.RelativeTimeFormat.~locale.en,Intl.RelativeTimeFormat.~locale.se" />
 
-      <div className="container mx-auto p-4">
+      <div className="container mx-auto bg-white p-4 text-gray-900">
         <header>
           <h1 className="mb-4 text-3xl font-bold md:text-6xl">
             KTH calendar proxy
