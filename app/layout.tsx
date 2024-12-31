@@ -29,11 +29,6 @@ export const metadata: Metadata = {
     title: "Elias Floreteng",
     statusBarStyle: "black-translucent",
   },
-  icons: {
-    icon: "/favicon/favicon-32x32.png",
-    shortcut: "/favicon/favicon.ico",
-    apple: "/favicon/apple-touch-icon.png",
-  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -49,7 +44,6 @@ export const metadata: Metadata = {
   },
   category: "technology",
   keywords: ["portfolio", "projects", "blog", "resume"],
-  manifest: "/manifest.json",
 }
 
 const montserrat = Montserrat({

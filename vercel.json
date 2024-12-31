@@ -1,8 +1,0 @@
-{
-  "crons": [
-    {
-      "path": "/housing-queue/api/cron",
-      "schedule": "0 12 * * *"
-    }
-  ]
-}
