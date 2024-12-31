@@ -14,6 +14,7 @@ import QswapLogo from "./_images/qswapLogo.png"
 import { ChevronDoubleDownIcon } from "@heroicons/react/24/outline"
 import CatIcon from "./k0Hki.jpg/CatIcon"
 import Link from "next/link"
+import Socials from "./Socials"
 
 const mobile_projects = [
   {
@@ -196,6 +197,9 @@ export default function HomePage() {
     <>
       <main>
         <section id="home" className="relative h-screen">
+          {/* Add Socials component */}
+          <Socials className="absolute right-4 top-4 z-10 flex gap-4" />
+
           <Image
             src={Background}
             alt="Elias Floreteng on stage holding a microphone"
