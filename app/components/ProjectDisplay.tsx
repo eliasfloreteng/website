@@ -89,7 +89,7 @@ export function ProjectDisplay({ projects, type }: ProjectDisplayProps) {
         />
         <div
           ref={scrollContainerRef}
-          className="flex space-x-6 overflow-x-auto"
+          className="flex space-x-6 overflow-x-auto pb-2"
         >
           {projects.map((project) => (
             <a

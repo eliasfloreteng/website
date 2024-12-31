@@ -75,13 +75,13 @@ export default function HomePage() {
           <div className="flex space-x-6">
             <Link
               href="/projects"
-              className="rounded-lg border border-gray-800 px-6 py-3 transition-colors hover:bg-gray-900"
+              className="rounded-lg border border-gray-800 px-6 py-3 text-center transition-colors hover:bg-gray-900"
             >
               View all projects
             </Link>
             <Link
               href="/experience"
-              className="rounded-lg border border-gray-800 px-6 py-3 transition-colors hover:bg-gray-900"
+              className="rounded-lg border border-gray-800 px-6 py-3 text-center transition-colors hover:bg-gray-900"
             >
               Work experience
             </Link>
