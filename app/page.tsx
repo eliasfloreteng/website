@@ -88,6 +88,9 @@ export default function HomePage() {
               Work experience
             </Link>
           </div>
+          <p className="text-sm text-gray-500">
+            For inquiries: elias (at) floreteng (dot) se
+          </p>
         </section>
       </main>
 
