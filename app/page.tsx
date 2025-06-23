@@ -6,7 +6,11 @@ import Link from "next/link"
 import Socials from "./Socials"
 import { ProjectDisplay } from "./components/ProjectDisplay"
 import { ProjectSection } from "./components/ProjectSection"
-import { mobile_projects, web_projects } from "./data/projects"
+import {
+  mobile_projects,
+  software_projects,
+  web_projects,
+} from "./data/projects"
 
 export default function HomePage() {
   return (
@@ -65,8 +69,7 @@ export default function HomePage() {
           title="Software"
           subtitle="Node.js, Python, Rust"
         >
-          {/* TODO: Add software projects */}
-          <div></div>
+          <ProjectDisplay projects={software_projects} type="software" />
         </ProjectSection>
 
         <section className="flex flex-col items-center justify-center space-y-4 border-t border-gray-900 py-16">

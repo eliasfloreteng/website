@@ -9,7 +9,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline"
 
 interface ProjectDisplayProps {
   projects: Project[]
-  type: "mobile" | "web"
+  type: "mobile" | "web" | "software"
 }
 
 export function ProjectDisplay({ projects, type }: ProjectDisplayProps) {
