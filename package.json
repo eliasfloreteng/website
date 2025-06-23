@@ -20,6 +20,8 @@
     "nodemailer": "^6.9.14",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
     "swr": "^2.2.5",
