@@ -12,12 +12,13 @@ interface ProjectsProps extends PageProps {
   params: Promise<{ slug: string[] }>
 }
 
-export async function generateMetadata(props: ProjectsProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const params = await props.params;
+export async function generateMetadata(
+  props: ProjectsProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const params = await props.params
 
-  const {
-    slug
-  } = params;
+  const { slug } = params
 
   const project = slug[0] && (await fetchProjectBySlug(slug[0]))
   if (!project) return notFound()
@@ -51,11 +52,9 @@ export async function generateMetadata(props: ProjectsProps, parent: ResolvingMe
 }
 
 export default async function ProjectPage(props: ProjectsProps) {
-  const params = await props.params;
+  const params = await props.params
 
-  const {
-    slug
-  } = params;
+  const { slug } = params
 
   const project = slug[0] && (await fetchProjectBySlug(slug[0]))
   if (!project) return notFound()
@@ -154,7 +153,7 @@ export default async function ProjectPage(props: ProjectsProps) {
         <DatabaseTable pageId={project.id} slugs={slug} />
 
         <NotionPage
-          className="mt-4 border-t pt-4 empty:mt-0 empty:border-t-0 empty:pt-0"
+          className="prose-invert mt-4 border-t pt-4 empty:mt-0 empty:border-t-0 empty:pt-0"
           pageId={project.id}
         />
       </div>

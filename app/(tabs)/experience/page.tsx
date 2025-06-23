@@ -9,16 +9,19 @@ export const metadata: Metadata = {
 
 export default async function ExperiencePage() {
   return (
-    <section className="w-full">
-      <div className="mx-auto max-w-6xl bg-white text-gray-900">
+    <section className="w-full bg-gray-950">
+      <div className="mx-auto max-w-6xl">
         <h1 className="py-10 text-center text-5xl font-bold md:text-left lg:text-7xl">
           Experience &amp; resume
         </h1>
       </div>
 
-      <div className="bg-[#F1F1F1] px-3 sm:px-8">
+      <div className="px-3 sm:px-8">
         <div className="mx-auto max-w-6xl pt-6">
-          <NotionPage pageId="155db39d4a314bc6800d094e23fb535d" />
+          <NotionPage
+            pageId="155db39d4a314bc6800d094e23fb535d"
+            className="prose-invert"
+          />
         </div>
       </div>
     </section>

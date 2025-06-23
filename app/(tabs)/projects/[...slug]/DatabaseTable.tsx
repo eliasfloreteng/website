@@ -164,7 +164,7 @@ export default async function DatabaseTable({
     : []
 
   return (
-    <div className="prose mt-6 max-w-full overflow-x-auto">
+    <div className="prose prose-invert mt-6 max-w-full overflow-x-auto">
       <table className="table-auto">
         <thead>
           <tr>

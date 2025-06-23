@@ -13,7 +13,6 @@ export default function HomePage() {
     <>
       <main>
         <section id="home" className="relative h-screen">
-          {/* Add Socials component */}
           <Socials className="absolute right-4 top-4 z-10 flex gap-4" />
 
           <Image
@@ -56,7 +55,7 @@ export default function HomePage() {
         <ProjectSection
           id="web"
           title="Web"
-          subtitle="React, Next.js, Tailwind CSS"
+          subtitle="React, Next.js, Vue, WordPress"
         >
           <ProjectDisplay projects={web_projects} type="web" />
         </ProjectSection>
