@@ -1,6 +1,6 @@
 import { type Metadata } from "next"
 import Script from "next/script"
-import BackButton from "./components/BackButton"
+import BackButton from "./_components/BackButton"
 
 export const metadata: Metadata = {
   title: "Page not found",

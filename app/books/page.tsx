@@ -1,6 +1,6 @@
 import { type Metadata } from "next"
 import Link from "next/link"
-import Markdown from "~/components/Markdown"
+import Markdown from "~/_components/Markdown"
 
 type Book = {
   emoji: string

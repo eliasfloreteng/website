@@ -3,14 +3,14 @@ import Background from "./background.jpg"
 import { ChevronDoubleDownIcon } from "@heroicons/react/24/outline"
 import CatIcon from "./k0Hki.jpg/CatIcon"
 import Link from "next/link"
-import Socials from "./components/Socials"
-import { ProjectDisplay } from "./components/ProjectDisplay"
-import { ProjectSection } from "./components/ProjectSection"
+import Socials from "./_components/Socials"
+import { ProjectDisplay } from "./_components/ProjectDisplay"
+import { ProjectSection } from "./_components/ProjectSection"
 import {
   mobile_projects,
   software_projects,
   web_projects,
-} from "./data/projects"
+} from "./_data/projects"
 
 export default function HomePage() {
   return (

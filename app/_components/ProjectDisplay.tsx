@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { type Project } from "../data/projects"
+import { type Project } from "../_data/projects"
 import { PhoneFrame } from "./frames/PhoneFrame"
 import { DesktopFrame } from "./frames/DesktopFrame"
 import { useEffect, useRef, useState } from "react"
