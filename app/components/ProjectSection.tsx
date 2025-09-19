@@ -14,7 +14,7 @@ export function ProjectSection({
   return (
     <section
       id={id}
-      className="flex h-screen flex-col items-center justify-center border-t border-gray-900"
+      className="flex h-[85vh] scroll-mt-24 flex-col items-center justify-center border-t border-gray-900"
     >
       <div className="flex flex-col justify-center text-center">
         <h1 className="text-6xl font-bold uppercase">{title}</h1>

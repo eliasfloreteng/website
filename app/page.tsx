@@ -3,7 +3,7 @@ import Background from "./background.jpg"
 import { ChevronDoubleDownIcon } from "@heroicons/react/24/outline"
 import CatIcon from "./k0Hki.jpg/CatIcon"
 import Link from "next/link"
-import Socials from "./Socials"
+import Socials from "./components/Socials"
 import { ProjectDisplay } from "./components/ProjectDisplay"
 import { ProjectSection } from "./components/ProjectSection"
 import {
