@@ -76,16 +76,18 @@ export default function HomePage() {
           <h2 className="text-2xl font-bold">Want to see more?</h2>
           <div className="flex space-x-6">
             <Link
-              href="/projects"
-              className="rounded-lg border border-gray-800 px-6 py-3 text-center transition-colors hover:bg-gray-900"
+              href="https://eliasfloreteng.notion.site/View-projects-fd68966f87864c1e9eadea09c3d0e60c"
+              target="_blank"
+              className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-center text-gray-900 transition-colors hover:border-gray-400 hover:bg-gray-100"
             >
-              View all projects
+              All projects
             </Link>
             <Link
-              href="/experience"
-              className="rounded-lg border border-gray-800 px-6 py-3 text-center transition-colors hover:bg-gray-900"
+              href="https://eliasfloreteng.notion.site/CV-Elias-Floreteng-155db39d4a314bc6800d094e23fb535d"
+              target="_blank"
+              className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-center text-gray-900 transition-colors hover:border-gray-400 hover:bg-gray-100"
             >
-              Work experience
+              CV
             </Link>
           </div>
           <p className="text-sm text-gray-500">
