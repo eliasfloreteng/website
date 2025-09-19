@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import "styles/global.css"
 import { Merriweather, Montserrat, Quicksand } from "next/font/google"
 import { type Viewport } from "next"
-import { CalendarProvider } from "./calendar/Context"
 
 export const viewport: Viewport = {
   themeColor: "#f8fafc",
@@ -10,7 +9,7 @@ export const viewport: Viewport = {
 
 if (!process.env.VERCEL_URL && process.env.NODE_ENV === "production") {
   console.warn(
-    "The environment variable VERCEL_URL is not set and this is a production deployment. This is required for the metadata to work correctly."
+    "The environment variable VERCEL_URL is not set and this is a production deployment. This is required for the metadata to work correctly.",
   )
 }
 
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
     process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
       : // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        `http://localhost:${process.env.PORT || 3000}`
+        `http://localhost:${process.env.PORT || 3000}`,
   ),
   title: "Elias Floreteng",
   description:
@@ -77,9 +76,7 @@ export default function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${quicksand.variable} ${merriweather.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-gray-950 text-white">
-        <CalendarProvider>{children}</CalendarProvider>
-      </body>
+      <body className="min-h-full bg-gray-950 text-white">{children}</body>
     </html>
   )
 }
