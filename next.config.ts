@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/projects",
+        source: "/projects/:path*",
         destination:
           "https://eliasfloreteng.notion.site/View-projects-fd68966f87864c1e9eadea09c3d0e60c",
         permanent: true,
