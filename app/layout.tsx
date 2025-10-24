@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "styles/global.css"
 import { Merriweather, Montserrat, Quicksand } from "next/font/google"
 import { type Viewport } from "next"
+import { Analytics } from "@vercel/analytics/next"
 
 export const viewport: Viewport = {
   themeColor: "#f8fafc",
@@ -76,7 +77,10 @@ export default function RootLayout({
       lang="en"
       className={`${montserrat.variable} ${quicksand.variable} ${merriweather.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-gray-950 text-white">{children}</body>
+      <body className="min-h-full bg-gray-950 text-white">
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
