@@ -2,7 +2,7 @@ import { defineConfig, fontProviders } from "astro/config"
 import tailwindcss from "@tailwindcss/vite"
 
 export default defineConfig({
-  site: "https://elias.eliasf.se",
+  site: "https://www.floreteng.se",
   vite: {
     plugins: [tailwindcss()],
   },
@@ -24,7 +24,7 @@ export default defineConfig({
       fallbacks: ["sans-serif"],
     },
   ],
-  // Wildcard /projects/* redirects live in vercel.json; these cover local preview
+  // Wildcard /projects/* redirects live in public/_redirects; these cover local preview
   redirects: {
     "/projects":
       "https://eliasfloreteng.notion.site/View-projects-fd68966f87864c1e9eadea09c3d0e60c",

@@ -28,9 +28,9 @@ const {
     <meta property="og:site_name" content="Elias Floreteng" />
     <meta property="og:url" content={Astro.url} />
     <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href={Astro.url} />
     <Font cssVariable="--font-montserrat" preload />
     <Font cssVariable="--font-quicksand" />
-    <script is:inline defer src="/_vercel/insights/script.js"></script>
   </head>
   <body class="min-h-full bg-gray-950 text-white">
     <slot />
