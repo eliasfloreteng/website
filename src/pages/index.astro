@@ -6,18 +6,25 @@ import CatIcon from "../components/CatIcon.astro"
 import ProjectSection from "../components/ProjectSection.astro"
 import ProjectCarousel from "../components/ProjectCarousel.astro"
 import background from "../assets/background.jpg"
+import { backgroundPlaceholder } from "../assets/background-placeholder"
 import { mobileProjects, softwareProjects, webProjects } from "../data/projects"
 ---
 
 <Layout>
   <main>
-    <section id="home" class="relative h-screen">
+    <section id="home" class="relative h-screen overflow-hidden">
       <Socials class="absolute top-4 right-4 z-10 flex gap-4" />
 
+      <div
+        aria-hidden="true"
+        class="absolute inset-0 scale-105 bg-cover bg-center blur-lg"
+        style={`background-image: url(${backgroundPlaceholder})`}
+      >
+      </div>
       <Image
         src={background}
         alt="Elias Floreteng on stage holding a microphone"
-        class="h-full w-full object-cover"
+        class="relative h-full w-full object-cover"
         priority
       />
       <div class="absolute inset-0 bg-black/60"></div>
