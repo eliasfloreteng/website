@@ -1,0 +1,37 @@
+---
+import { Image } from "astro:assets"
+import type { ImageMetadata } from "astro"
+
+interface Props {
+  image: ImageMetadata
+  alt: string
+}
+
+const { image, alt } = Astro.props
+---
+
+<div class="flex flex-col items-center">
+  <div
+    class="overflow-hidden rounded-[2rem] border-[3px] border-gray-800 md:rounded-[3rem] md:border-4"
+  >
+    <div
+      class="h-[180px] w-[288px] border-[8px] border-gray-900 bg-gray-900 md:h-[360px] md:w-[576px] md:border-[14px]"
+    >
+      <div
+        class="h-full w-full overflow-hidden rounded-[1.25rem] bg-gray-800 md:rounded-[2rem]"
+      >
+        <Image
+          src={image}
+          alt={alt}
+          width={576}
+          height={360}
+          class="h-full w-full object-cover object-top"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="-mt-1 h-[12px] w-[calc(288px+16px)] rounded-t-md rounded-b-[1.5rem] border-[1.5px] border-gray-800 bg-gray-900 md:h-[24px] md:w-[calc(576px+32px)] md:rounded-b-[3rem] md:border-2"
+  >
+  </div>
+</div>

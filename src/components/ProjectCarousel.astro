@@ -1,0 +1,131 @@
+---
+import { Image } from "astro:assets"
+import type { Project } from "../data/projects"
+import PhoneFrame from "./PhoneFrame.astro"
+import DesktopFrame from "./DesktopFrame.astro"
+
+interface Props {
+  projects: Project[]
+  type: "mobile" | "web" | "software"
+}
+
+const { projects, type } = Astro.props
+const Frame = type === "mobile" ? PhoneFrame : DesktopFrame
+---
+
+<div class="w-full bg-gray-950 p-8">
+  <div class="relative flex items-center justify-center" data-carousel>
+    <button
+      data-scroll-left
+      aria-label="Scroll left"
+      class="absolute left-4 z-20 hidden rounded-full bg-gray-800 p-3 text-white opacity-0 transition-opacity duration-500 hover:bg-gray-800/75"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="h-6 w-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+      </svg>
+    </button>
+    <button
+      data-scroll-right
+      aria-label="Scroll right"
+      class="absolute right-4 z-20 hidden rounded-full bg-gray-800 p-3 text-white transition-opacity duration-500 hover:bg-gray-800/75"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        class="h-6 w-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+      </svg>
+    </button>
+    <div
+      data-gradient-right
+      class="pointer-events-none absolute top-0 right-0 z-10 h-full w-1/5 bg-gradient-to-l from-gray-950/90 to-transparent transition-opacity duration-500"
+    >
+    </div>
+    <div
+      data-gradient-left
+      class="pointer-events-none absolute top-0 left-0 z-10 h-full w-1/5 bg-gradient-to-r from-gray-950/90 to-transparent opacity-0 transition-opacity duration-500"
+    >
+    </div>
+    <div data-scroller class="flex space-x-6 overflow-x-auto pb-2">
+      {
+        projects.map((project) => (
+          <a class="block flex-none" href={project.link} target="_blank">
+            <Frame image={project.image} alt={project.title} />
+            <div class="mt-4 flex items-center justify-center gap-4">
+              <Image
+                src={project.logo}
+                alt={project.title}
+                height={64}
+                class="h-8 w-auto"
+              />
+              <p class="text-center text-gray-400">{project.title}</p>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  function initCarousel(carousel: HTMLElement) {
+    const scroller = carousel.querySelector<HTMLElement>("[data-scroller]")!
+    const leftButton =
+      carousel.querySelector<HTMLElement>("[data-scroll-left]")!
+    const rightButton = carousel.querySelector<HTMLElement>(
+      "[data-scroll-right]",
+    )!
+    const leftGradient = carousel.querySelector<HTMLElement>(
+      "[data-gradient-left]",
+    )!
+    const rightGradient = carousel.querySelector<HTMLElement>(
+      "[data-gradient-right]",
+    )!
+
+    const update = () => {
+      const scrollable = scroller.scrollWidth > scroller.clientWidth
+      leftButton.classList.toggle("hidden", !scrollable)
+      rightButton.classList.toggle("hidden", !scrollable)
+
+      const progress =
+        scroller.scrollLeft / (scroller.scrollWidth - scroller.clientWidth || 1)
+      for (const element of [leftButton, leftGradient]) {
+        element.classList.toggle("opacity-0", progress < 0.01)
+      }
+      for (const element of [rightButton, rightGradient]) {
+        element.classList.toggle("opacity-0", progress > 0.99)
+      }
+    }
+
+    leftButton.addEventListener("click", () =>
+      scroller.scrollBy({ left: -300, behavior: "smooth" }),
+    )
+    rightButton.addEventListener("click", () =>
+      scroller.scrollBy({ left: 300, behavior: "smooth" }),
+    )
+    scroller.addEventListener("scroll", update)
+    window.addEventListener("resize", update)
+    update()
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-carousel]")
+    .forEach(initCarousel)
+</script>

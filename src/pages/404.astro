@@ -1,0 +1,46 @@
+---
+import Layout from "../layouts/Layout.astro"
+---
+
+<Layout
+  title="Page not found"
+  description="The URL you have entered does not lead to a page. Sorry about that."
+>
+  <main class="relative h-screen w-screen bg-black text-center">
+    <canvas id="nCanvasRender" class="h-full w-full"></canvas>
+
+    <script
+      is:inline
+      src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r11/Stats.js"
+    ></script>
+    <script
+      is:inline
+      src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"
+    ></script>
+    <script is:inline defer src="/particlesphere/script.js"></script>
+
+    <div
+      class="animate-fade-in absolute inset-0 flex flex-col items-center justify-center gap-6 px-2 opacity-0 [animation-delay:2.5s]"
+    >
+      <h1 class="text-5xl font-semibold text-white">
+        This page is lost to the void
+      </h1>
+      <p class="text-xl font-medium text-slate-400">
+        404 &ndash; Page not found
+      </p>
+    </div>
+
+    <button
+      id="back-button"
+      class="animate-fade-in absolute right-6 bottom-6 p-2 text-white opacity-0 [animation-delay:2.5s]"
+    >
+      Go back
+    </button>
+  </main>
+</Layout>
+
+<script>
+  document
+    .getElementById("back-button")
+    ?.addEventListener("click", () => history.back())
+</script>

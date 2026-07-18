@@ -1,0 +1,115 @@
+---
+import { Image } from "astro:assets"
+import Layout from "../layouts/Layout.astro"
+import Socials from "../components/Socials.astro"
+import CatIcon from "../components/CatIcon.astro"
+import ProjectSection from "../components/ProjectSection.astro"
+import ProjectCarousel from "../components/ProjectCarousel.astro"
+import background from "../assets/background.jpg"
+import { mobileProjects, softwareProjects, webProjects } from "../data/projects"
+---
+
+<Layout>
+  <main>
+    <section id="home" class="relative h-screen">
+      <Socials class="absolute top-4 right-4 z-10 flex gap-4" />
+
+      <Image
+        src={background}
+        alt="Elias Floreteng on stage holding a microphone"
+        class="h-full w-full object-cover"
+        priority
+      />
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(circle,rgba(0,0,0,0)_50%,rgba(0,0,0,0.5)_100%)]"
+      >
+      </div>
+      <div
+        class="absolute inset-0 flex flex-col justify-center p-4 text-center"
+      >
+        <h1 class="text-5xl font-bold uppercase md:text-8xl">
+          Elias Floreteng
+        </h1>
+        <p class="font-soft text-lg md:text-3xl">
+          CTO, Co-founder at Accord • MSc computer science student at KTH
+        </p>
+      </div>
+
+      <a href="#mobile" class="absolute bottom-4 left-1/2 -translate-x-1/2">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          class="h-8 w-8 animate-bounce text-white"
+        >
+          <title>Scroll down</title>
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5"></path>
+        </svg>
+      </a>
+    </section>
+
+    <ProjectSection
+      id="mobile"
+      title="Mobile"
+      subtitle="React Native & NativeScript"
+    >
+      <ProjectCarousel projects={mobileProjects} type="mobile" />
+    </ProjectSection>
+
+    <ProjectSection
+      id="web"
+      title="Web"
+      subtitle="React, Next.js, Vue, WordPress"
+    >
+      <ProjectCarousel projects={webProjects} type="web" />
+    </ProjectSection>
+
+    <ProjectSection
+      id="software"
+      title="Software"
+      subtitle="Node.js, Python, Rust"
+    >
+      <ProjectCarousel projects={softwareProjects} type="software" />
+    </ProjectSection>
+
+    <section
+      class="flex flex-col items-center justify-center space-y-4 border-t border-gray-900 py-16"
+    >
+      <h2 class="text-2xl font-bold">Want to see more?</h2>
+      <div class="flex space-x-6">
+        <a
+          href="https://eliasfloreteng.notion.site/View-projects-fd68966f87864c1e9eadea09c3d0e60c"
+          target="_blank"
+          class="rounded-lg border border-gray-300 bg-white px-6 py-3 text-center text-gray-900 transition-colors hover:border-gray-400 hover:bg-gray-100"
+        >
+          All projects
+        </a>
+        <a
+          href="https://eliasfloreteng.notion.site/CV-Elias-Floreteng-155db39d4a314bc6800d094e23fb535d"
+          target="_blank"
+          class="rounded-lg border border-gray-300 bg-white px-6 py-3 text-center text-gray-900 transition-colors hover:border-gray-400 hover:bg-gray-100"
+        >
+          CV
+        </a>
+      </div>
+      <p class="text-sm text-gray-500">
+        For inquiries: elias (at) floreteng (dot) se
+      </p>
+    </section>
+  </main>
+
+  <footer
+    class="mx-auto flex w-full max-w-6xl flex-col items-center justify-center space-y-3 border-t border-gray-900 py-6"
+  >
+    <a class="flex items-center justify-center space-x-2" href="/k0Hki.jpg">
+      <CatIcon class="h-8 w-8" />
+      <span>k0Hki.jpg</span>
+    </a>
+  </footer>
+</Layout>

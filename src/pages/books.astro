@@ -1,0 +1,58 @@
+---
+import { getCollection, render } from "astro:content"
+import Layout from "../layouts/Layout.astro"
+
+const description =
+  "A collection of books I've enjoyed, with AI-generated podcast summaries."
+
+const books = (await getCollection("books")).sort(
+  (a, b) => a.data.order - b.data.order,
+)
+---
+
+<Layout title="Books in Podcast Form" description={description}>
+  <main>
+    <div
+      class="relative z-10 flex flex-col items-center justify-center px-4 py-16 text-center"
+    >
+      <h1
+        class="mb-2 text-5xl font-bold text-white uppercase drop-shadow-lg md:text-7xl"
+      >
+        Books in Podcast Form
+      </h1>
+      <p class="font-soft mb-8 text-lg text-gray-200 md:text-2xl">
+        {description}
+      </p>
+      <div class="mx-auto flex max-w-2xl flex-col gap-8">
+        {
+          books.map(async (book) => {
+            const { Content } = await render(book)
+            return (
+              <div class="relative flex w-full max-w-full flex-col items-start rounded-xl border border-gray-800 bg-black/70 p-6 text-left shadow-lg">
+                <span class="mb-2 text-4xl">{book.data.emoji}</span>
+                <h2 class="text-2xl font-bold text-white">{book.data.title}</h2>
+                <h3 class="text-md mb-2 font-semibold text-gray-300">
+                  by {book.data.author}
+                </h3>
+                <div class="mb-2 text-sm text-gray-400">
+                  Duration: {book.data.duration}
+                </div>
+                <div class="prose prose-invert mb-4 max-h-[350px] w-full max-w-none overflow-auto break-words">
+                  <Content />
+                </div>
+                <a
+                  href={book.data.podcastUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-auto inline-block rounded-lg border border-blue-500 bg-blue-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-blue-700"
+                >
+                  🎧 Listen to AI Podcast
+                </a>
+              </div>
+            )
+          })
+        }
+      </div>
+    </div>
+  </main>
+</Layout>
